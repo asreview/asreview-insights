@@ -40,7 +40,7 @@ class PlotEntryPoint(BaseEntryPoint):
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
-                plot.plot_limits()
+                plot.plot_limits(result_format=result_format)
 
 
 def _parse_arguments():

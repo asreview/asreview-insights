@@ -167,14 +167,16 @@ class Plot():
         fig.tight_layout()
         plt.show()
 
-    def plot_limits(self, prob_allow_miss=[0.1, 0.5, 2.0]):
+    def plot_limits(self, prob_allow_miss=[0.1, 0.5, 2.0],
+                    result_format="percentage"):
         legend_plt = []
         legend_name = []
         linestyles = ['-', '--', '-.', ':']
 
         for i, data_key in enumerate(self.analyses):
             res = self.analyses[data_key].limits(
-                prob_allow_miss=prob_allow_miss)
+                prob_allow_miss=prob_allow_miss,
+                result_format=result_format)
             x_range = res["x_range"]
             col = "C"+str(i % 10)
 
@@ -187,6 +189,12 @@ class Plot():
                     legend_name.append(f"{data_key}")
 
         plt.plot(x_range, x_range, color="black", ls='--')
+        if result_format == "percentage":
+            plt.xlabel("% of papers read")
+            plt.ylabel("Estimate of % of papers that need to be read")
+        else:
+            plt.xlabel("# of papers read")
+            plt.ylabel("Estimate of # of papers that need to be read")
         plt.legend(legend_plt, legend_name, loc="upper right")
         plt.title("Articles left to read.")
         plt.grid()
