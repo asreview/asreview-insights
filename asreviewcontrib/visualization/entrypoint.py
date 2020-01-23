@@ -38,7 +38,7 @@ class PlotEntryPoint(BaseEntryPoint):
             if "inclusions" in types:
                 plot.plot_inc_found(result_format=result_format)
             if "discovery" in types:
-                plot.plot_time_to_discovery()
+                plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
                 plot.plot_limits()
 

@@ -69,12 +69,23 @@ class Plot():
         plt.legend()
         plt.show()
 
-    def plot_time_to_discovery(self):
+    def plot_time_to_discovery(self, result_format="percentage"):
         avg_times = []
         for analysis in self.analyses.values():
-            avg_times.append(list(analysis.avg_time_to_discovery().values()))
-        plt.hist(avg_times, 30, histtype='bar', density=False,
-                 label=self.analyses.keys())
+            results = analysis.avg_time_to_discovery(
+                result_format=result_format)
+            avg_times.append(list(results.values()))
+
+        if result_format == "number":
+            plt.hist(avg_times, 30, histtype='bar', density=False,
+                     label=self.analyses.keys())
+            plt.xlabel("# Reviewed")
+            plt.ylabel("# of papers included")
+        else:
+            plt.hist(avg_times, 30, histtype='bar', density=True,
+                     label=self.analyses.keys())
+            plt.xlabel("% Reviewed")
+            plt.ylabel("Fraction of papers included.")
         plt.legend()
         plt.show()
 
