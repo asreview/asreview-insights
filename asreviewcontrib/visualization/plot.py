@@ -63,7 +63,6 @@ class Plot():
     def plot_time_to_inclusion(self, X_fp):
         for data_key, analysis in self.analyses.items():
             results = analysis.time_to_inclusion(X_fp)
-            print(results)
             for key in results["ttd"]:
                 plt.plot(results["x_range"], results["ttd"][key],
                          label=data_key + " - " + key)
@@ -109,6 +108,8 @@ class Plot():
             myplot = plt.errorbar(*inc_found, color=col)
             if abstract_only:
                 legend_name.append(f"{data_key} (abstract)")
+            else:
+                legend_name.append(f"{data_key}")
             legend_plt.append(myplot)
 
             if abstract_only:
