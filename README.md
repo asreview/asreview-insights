@@ -2,7 +2,8 @@
 
 This is a plotting/visualization supplemental package for the 
 [ASReview](https://github.com/msdslab/automated-systematic-review)
-software. It is meant as a fast way to create a visual impression of the ASReview performance.
+software. It is a fast way to create a visual impression of the ASReview with different
+dataset, models and model parameters.
 
 ### Installation
 
@@ -24,7 +25,7 @@ asreview --help
 It should list the 'plot' modus.
 
 Log files that were created with the same ASReview settings can be put together/averaged by putting
-them in the same directory. Log files with different settings/datasets can be put in different 
+them in the same directory. Log files with different settings/datasets should be put in different 
 directories to compare them. It is advised to put these log files in the same directory.
 
 As an example consider the following directory structure, where we have two datasets, called `ace` and
@@ -68,8 +69,8 @@ asreview plot ace ptsd --absolute-values
 ### Plot types
 
 There are currently three plot types implemented: _inclusions_, _discovery_, _limits_. They can be
-individually selected with the `-t` or `--type` switch. Multiple plots can be made by using `,` \
-as a separator:
+individually selected with the `-t` or `--type` switch. Multiple plots can be made by using `,` as
+a separator:
 
 ```bash
 asreview plot ace ptsd --type 'inclusions,discovery'
@@ -103,5 +104,6 @@ seen by the reviewer, if he is using max sampling.". Here, _y_ is shown on the y
 three values of _z_ are plotted as three different lines with the same color. The three values for
 _z_ are 0.1, 0.5 and 2.0.
 
+The quicker the lines touch the black (`y=x`) line, the better.
 
 ![alt text](docs/limits.png?raw=true "Limits")
