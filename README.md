@@ -83,7 +83,7 @@ always starts at (0,0).
 
 The quicker the line goes to a 100%, the better the performance.
 
-[!alt text](docs/inclusions.png?raw=true "Inclusions")
+![alt text](docs/inclusions.png?raw=true "Inclusions")
 
 #### Discovery
 
@@ -92,7 +92,7 @@ each inclusion. Not every paper is equally hard to find.
 
 The closer to the left, the better.
 
-[!alt text](docs/discovery.png?raw=true "Discovery")
+![alt text](docs/discovery.png?raw=true "Discovery")
 
 
 #### Limits
@@ -104,4 +104,4 @@ three values of _z_ are plotted as three different lines with the same color. Th
 _z_ are 0.1, 0.5 and 2.0.
 
 
-[!alt text](docs/limits.png?raw=true "Limits")
+![alt text](docs/limits.png?raw=true "Limits")
