@@ -26,7 +26,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/msdslab/ASReview-visualization',
     author='Utrecht University',
-    author_email='r.d.schram@uu.nl',
+    author_email='asreview@uu.nl',
     classifiers=[
         # How mature is this project? Common values are
         #   3 - Alpha
@@ -35,7 +35,7 @@ setup(
         'Development Status :: 3 - Alpha',
 
         # Pick your license as you wish
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: Apache Software License',
 
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',

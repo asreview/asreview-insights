@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright 2020 The ASReview Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,10 +25,12 @@ PLOT_TYPES = ['inclusions', 'discovery', 'limits']
 class PlotEntryPoint(BaseEntryPoint):
     description = "Plotting functionality for logging files produced by "\
         "ASReview."
+    extension_name = "asreview-visualization"
 
     def __init__(self):
-        super(PlotEntryPoint, self).__init__()
         from asreviewcontrib.visualization.__init__ import __version__
+        super(PlotEntryPoint, self).__init__()
+
         self.version = __version__
 
     def execute(self, argv):
