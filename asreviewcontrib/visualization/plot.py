@@ -85,7 +85,7 @@ class Plot():
             plt.hist(avg_times, 30, histtype='bar', density=True,
                      label=self.analyses.keys())
             plt.xlabel("% Reviewed")
-            plt.ylabel("Fraction of papers included.")
+            plt.ylabel("Fraction of papers included")
         plt.legend()
         plt.show()
 
@@ -196,6 +196,6 @@ class Plot():
             plt.xlabel("# of papers read")
             plt.ylabel("Estimate of # of papers that need to be read")
         plt.legend(legend_plt, legend_name, loc="upper right")
-        plt.title("Articles left to read.")
+        plt.title("Articles left to read")
         plt.grid()
         plt.show()
