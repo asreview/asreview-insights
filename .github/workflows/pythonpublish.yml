@@ -53,8 +53,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/asreview_visualization-${{ steps.get_version.outputs.VERSION }}.tar.gz
-        asset_name: asreview_visualization-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        asset_path: ./dist/asreview-visualization-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        asset_name: asreview-visualization-${{ steps.get_version.outputs.VERSION }}.tar.gz
         asset_content_type: application/zip
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@master
