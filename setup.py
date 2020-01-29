@@ -24,7 +24,7 @@ setup(
     description='Visualization tools for the ASReview project',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/msdslab/ASReview-visualization',
+    url='https://github.com/asreview/asreview-visualization',
     author='Utrecht University',
     author_email='asreview@uu.nl',
     classifiers=[
@@ -59,8 +59,8 @@ setup(
 
     project_urls={
         'Bug Reports':
-            "https://github.com/msdslab/ASReview-visualization/issues",
+            "https://github.com/asreview/asreview-visualization/issues",
         'Source':
-            "https://github.com/msdslab/ASReview-visualization",
+            "https://github.com/asreview/asreview-visualization",
     },
 )
