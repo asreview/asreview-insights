@@ -43,7 +43,6 @@ setup(
     ],
     keywords='asreview plot visualization',
     packages=find_namespace_packages(include=['asreviewcontrib.*']),
-    namespace_package=["asreview"],
     install_requires=[
         "numpy", "matplotlib", "asreview",
     ],
