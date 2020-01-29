@@ -1,5 +1,7 @@
 ## ASReview-visualization
 
+![Deploy and release](https://github.com/msdslab/asreview-visualization/workflows/Deploy%20and%20release/badge.svg)
+
 This is a plotting/visualization supplemental package for the 
 [ASReview](https://github.com/msdslab/automated-systematic-review)
 software. It is a fast way to create a visual impression of the ASReview with different
@@ -10,7 +12,7 @@ dataset, models and model parameters.
 The easiest way to install the visualization package is to use the command line:
 
 ``` bash
-pip install git+https://github.com/msdslab/ASReview-visualization.git
+pip install asreview-visualization
 ```
 
 ### Basic usage
