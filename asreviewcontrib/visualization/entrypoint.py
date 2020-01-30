@@ -14,6 +14,7 @@
 
 import argparse
 
+from asreview.config import LOGGER_EXTENSIONS
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.visualization import Plot
@@ -53,7 +54,14 @@ class PlotEntryPoint(BaseEntryPoint):
         else:
             result_format = "percentage"
 
-        with Plot.from_dirs(args_dict["data_dirs"]) as plot:
+        prefix = "result"
+        with Plot.from_dirs(args_dict["data_dirs"], prefix=prefix) as plot:
+            if len(plot.analyses) == 0:
+                print(f"No log files found in {args_dict['data_dirs']}.\n"
+                      f"To be detected log files have to start with '{prefix}'"
+                      f" and end with one of the following: \n"
+                      f"{', '.join(LOGGER_EXTENSIONS)}.")
+                return
             if "inclusions" in types:
                 plot.plot_inc_found(result_format=result_format)
             if "discovery" in types:

@@ -13,8 +13,6 @@ The easiest way to install the visualization package is to use the command line:
 pip install git+https://github.com/msdslab/ASReview-visualization.git
 ```
 
-### Basic usage
-
 After installation of the visualization package, asreview should automatically detect it.
 Test this by:
 
@@ -23,6 +21,8 @@ asreview --help
 ```
 
 It should list the 'plot' modus.
+
+### Basic usage
 
 Log files that were created with the same ASReview settings can be put together/averaged by putting
 them in the same directory. Log files with different settings/datasets should be put in different 
