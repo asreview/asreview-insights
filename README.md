@@ -84,7 +84,7 @@ always starts at (0,0).
 
 The quicker the line goes to a 100%, the better the performance.
 
-![alt text](https://github.com/asreview/automated-systematic-review/raw/master/docs/inclusions.png "Inclusions")
+![alt text](https://github.com/asreview/asreview-visualization/raw/master/docs/inclusions.png "Inclusions")
 
 #### Discovery
 
@@ -93,7 +93,7 @@ each inclusion. Not every paper is equally hard to find.
 
 The closer to the left, the better.
 
-![alt text](https://github.com/asreview/automated-systematic-review/raw/master/docs/discovery.png "Discovery")
+![alt text](https://github.com/asreview/asreview-visualization/raw/master/docs/discovery.png "Discovery")
 
 
 #### Limits
@@ -106,4 +106,4 @@ _z_ are 0.1, 0.5 and 2.0.
 
 The quicker the lines touch the black (`y=x`) line, the better.
 
-![alt text](https://github.com/asreview/automated-systematic-review/raw/master/docs/limits.png "Limits")
+![alt text](https://github.com/asreview/asreview-visualization/raw/master/docs/limits.png "Limits")
