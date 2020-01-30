@@ -86,7 +86,7 @@ always starts at (0,0).
 
 The quicker the line goes to a 100%, the better the performance.
 
-![alt text](https://github.com/asreview/asreview-visualization/blob/master/docs/inclusions.png?raw=true "Inclusions")
+![alt text](https://github.com/msdslab/asreview-visualization/blob/master/docs/inclusions.png?raw=true "Inclusions")
 
 #### Discovery
 
@@ -108,4 +108,4 @@ _z_ are 0.1, 0.5 and 2.0.
 
 The quicker the lines touch the black (`y=x`) line, the better.
 
-![alt text](https://github.com/asreview/asreview-visualization/blob/master/docs/limits.png?raw=true "Limits")
+![alt text](https://github.com/msdslab/asreview-visualization/blob/master/docs/limits.png?raw=true "Limits")
