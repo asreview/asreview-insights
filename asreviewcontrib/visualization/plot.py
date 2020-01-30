@@ -51,11 +51,11 @@ def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
 
 
 class Plot():
-    def __init__(self, data_dirs):
+    def __init__(self, data_dirs, prefix="result"):
         self.analyses = {}
 
         for data_dir in data_dirs:
-            new_analysis = Analysis.from_dir(data_dir)
+            new_analysis = Analysis.from_dir(data_dir, prefix=prefix)
             if new_analysis is not None:
                 data_key = new_analysis.key
                 self.analyses[data_key] = new_analysis
@@ -68,10 +68,8 @@ class Plot():
             analysis.close()
 
     @classmethod
-    def from_dirs(cls, data_dirs):
-        plot_inst = Plot(data_dirs)
-        if len(plot_inst.analyses) == 0:
-            return None
+    def from_dirs(cls, data_dirs, prefix="result"):
+        plot_inst = Plot(data_dirs, prefix=prefix)
         return plot_inst
 
     def plot_time_to_inclusion(self, X_fp):
