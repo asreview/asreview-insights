@@ -3,7 +3,7 @@
 ![Deploy and release](https://github.com/msdslab/asreview-visualization/workflows/Deploy%20and%20release/badge.svg)
 
 This is a plotting/visualization supplemental package for the 
-[ASReview](https://github.com/msdslab/automated-systematic-review)
+[ASReview](https://github.com/asreview/asreview)
 software. It is a fast way to create a visual impression of the ASReview with different
 dataset, models and model parameters.
 
