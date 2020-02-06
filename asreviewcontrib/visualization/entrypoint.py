@@ -63,7 +63,8 @@ class PlotEntryPoint(BaseEntryPoint):
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusions" in types:
-                plot.plot_inc_found(result_format=result_format)
+                plot.plot_inc_found(result_format=result_format,
+                                    abstract_only=args_dict["abstract_only"])
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
@@ -97,5 +98,11 @@ def _parse_arguments():
         default="",
         help='Filter files in the data directory to only contain files'
              'starting with a prefix.'
+    )
+    parser.add_argument(
+        "--abstract_only",
+        default=False,
+        action="store_true",
+        help="Use after abstract screening as the inclusions/exclusions."
     )
     return parser
