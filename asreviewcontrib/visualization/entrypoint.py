@@ -76,10 +76,10 @@ def _parse_arguments():
     parser = argparse.ArgumentParser(prog='asreview plot')
     parser.add_argument(
         'data_dirs',
-        metavar='N',
+        metavar='DATA_FP',
         type=str,
         nargs='+',
-        help='Data directories.'
+        help='A combination of data directories or files.'
     )
     parser.add_argument(
         "-t", "--type",
