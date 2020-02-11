@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections import OrderedDict
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -29,7 +32,8 @@ def _add_WSS(WSS, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
 
     text_pos_x = WSS_x[0] + box_dist
     text_pos_y = (WSS_y[0] + WSS_y[1])/2
-    plt.plot(WSS_x, WSS_y, color=col)
+    plt.plot(WSS_x, WSS_y, color=col, ls="--")
+    plt.plot(WSS_x, (0, WSS_y[0]), color=col, ls=":")
     bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
     ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
 
@@ -43,22 +47,30 @@ def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
     if RRF_x is None or RRF_y is None:
         return
 
+    RRF_x = 0, RRF_x[0]
+    RRF_y = RRF_y[1], RRF_y[1]
     text_pos_x = RRF_x[0] + box_dist
-    text_pos_y = (RRF_y[0] + RRF_y[1])/2
-    plt.plot(RRF_x, RRF_y, color=col)
+    text_pos_y = RRF_y[0] + box_dist + 2
+    plt.plot(RRF_x, RRF_y, color=col, ls="--")
     bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
     ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
 
 
 class Plot():
     def __init__(self, data_dirs, prefix="result"):
-        self.analyses = {}
+        self.analyses = OrderedDict()
+        self.is_file = OrderedDict()
 
         for data_dir in data_dirs:
             new_analysis = Analysis.from_dir(data_dir, prefix=prefix)
             if new_analysis is not None:
+
                 data_key = new_analysis.key
                 self.analyses[data_key] = new_analysis
+                if os.path.isfile(data_dir):
+                    self.is_file[data_key] = True
+                else:
+                    self.is_file[data_key] = False
 
     def __enter__(self):
         return self
@@ -101,7 +113,8 @@ class Plot():
         plt.legend()
         plt.show()
 
-    def plot_inc_found(self, result_format="percentage", abstract_only=False):
+    def plot_inc_found(self, result_format="percentage", abstract_only=False,
+                       legend=True):
         """
         Plot the number of queries that turned out to be included
         in the final review.
@@ -112,7 +125,7 @@ class Plot():
         fig, ax = plt.subplots()
 
         max_len = 0
-        for i, data_key in enumerate(self.analyses):
+        for i, data_key in enumerate(reversed(self.analyses)):
             analysis = self.analyses[data_key]
 
             inc_found = analysis.inclusions_found(result_format=result_format)
@@ -122,18 +135,27 @@ class Plot():
                 box_dist = 0.5
             else:
                 box_dist = 100
-            col = "C"+str(i % 10)
-            _add_WSS(95, analysis, ax, col, result_format, box_dist)
-            _add_WSS(100, analysis, ax, col, result_format, box_dist)
-            _add_RRF(10, analysis, ax, col, result_format, box_dist)
-            _add_RRF(5, analysis, ax, col, result_format, box_dist)
+            col = "C"+str((len(self.analyses)-1-i) % 10)
+            if legend or i == len(self.analyses)-1:
+                _add_WSS(95, analysis, ax, col, result_format, box_dist)
+                _add_WSS(100, analysis, ax, col, result_format, box_dist)
+                _add_RRF(10, analysis, ax, col, result_format, box_dist)
+#                 _add_RRF(5, analysis, ax, col, result_format, box_dist)
 
-            myplot = plt.errorbar(*inc_found, color=col)
+            if self.is_file[data_key]:
+                line_width = 0.7
+            else:
+                line_width = 2
+
+            myplot = plt.errorbar(*inc_found, color=col, lw=line_width)
             if abstract_only:
                 legend_name.append(f"{data_key} (abstract)")
             else:
                 legend_name.append(f"{data_key}")
             legend_plt.append(myplot)
+
+            if result_format == "percentage":
+                plt.plot(inc_found[0], inc_found[0], color='black', ls="--")
 
             if abstract_only:
                 col = "red"
@@ -152,13 +174,15 @@ class Plot():
                         y_vals.append(inc_found[1][i])
                         prev_value = inc_found_final[1][i]
                         if inc_found_final[0][i] >= WSS100_x[0] - 1e-4 and not WSS_added:
-                            ax.text(WSS100_x[0]+300, inc_found[1][i], "WSS@100%", color="white", bbox=bbox)
+                            ax.text(WSS100_x[0]+300, inc_found[1][i],
+                                    "WSS@100%", color="white", bbox=bbox)
                             WSS_added = True
                 myplot = plt.scatter(x_vals, y_vals, color=col)
                 legend_name.append(f"{data_key} (final)")
                 legend_plt.append(myplot)
 
-        plt.legend(legend_plt, legend_name, loc="lower right")
+        if legend:
+            plt.legend(legend_plt, legend_name, loc="lower right")
 
         if result_format == "number":
             ax2 = ax.twiny()

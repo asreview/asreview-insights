@@ -55,6 +55,7 @@ class PlotEntryPoint(BaseEntryPoint):
             result_format = "percentage"
 
         prefix = args_dict["prefix"]
+        legend = not args_dict["no_legend"]
         with Plot.from_dirs(args_dict["data_dirs"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_dirs']}.\n"
@@ -63,7 +64,7 @@ class PlotEntryPoint(BaseEntryPoint):
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusions" in types:
-                plot.plot_inc_found(result_format=result_format,
+                plot.plot_inc_found(result_format=result_format, legend=legend,
                                     abstract_only=args_dict["abstract_only"])
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
@@ -104,5 +105,11 @@ def _parse_arguments():
         default=False,
         action="store_true",
         help="Use after abstract screening as the inclusions/exclusions."
+    )
+    parser.add_argument(
+        "--no_legend",
+        default=False,
+        action="store_true",
+        help="Don't show a legend with the plot."
     )
     return parser
