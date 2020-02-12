@@ -21,21 +21,24 @@ import numpy as np
 from asreview.analysis.analysis import Analysis
 
 
-def _add_WSS(WSS, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
+def _add_WSS(WSS, analysis, ax, col, result_format, box_dist=0.5,
+             add_value=False, **kwargs):
     if WSS is None:
         return
 
     text = f"WSS@{WSS}%"
-    _, WSS_x, WSS_y = analysis.wss(WSS, x_format=result_format, **kwargs)
+    WSS_val, WSS_x, WSS_y = analysis.wss(WSS, x_format=result_format, **kwargs)
     if WSS_x is None or WSS_y is None:
         return
 
+    if add_value:
+        text += r"$\approx" + f" {round(WSS_val, 2)}" + r"$"
     text_pos_x = WSS_x[0] + box_dist
     text_pos_y = (WSS_y[0] + WSS_y[1])/2
     plt.plot(WSS_x, WSS_y, color=col, ls="--")
     plt.plot(WSS_x, (0, WSS_y[0]), color=col, ls=":")
     bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
-    ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
+    ax.text(text_pos_x, text_pos_y, text, color="black", bbox=bbox)
 
 
 def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
@@ -53,7 +56,7 @@ def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
     text_pos_y = RRF_y[0] + box_dist + 2
     plt.plot(RRF_x, RRF_y, color=col, ls="--")
     bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
-    ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
+    ax.text(text_pos_x, text_pos_y, text, color="black", bbox=bbox)
 
 
 class Plot():
@@ -114,7 +117,7 @@ class Plot():
         plt.show()
 
     def plot_inc_found(self, result_format="percentage", abstract_only=False,
-                       legend=True):
+                       legend=True, wss_value=False):
         """
         Plot the number of queries that turned out to be included
         in the final review.
@@ -129,16 +132,19 @@ class Plot():
             analysis = self.analyses[data_key]
 
             inc_found = analysis.inclusions_found(result_format=result_format)
-            n_after_init = len(analysis.labels) - analysis.inc_found[False]["n_initial"]
+            n_initial = analysis.inc_found[False]["n_initial"]
+            n_after_init = len(analysis.labels) - n_initial
             max_len = max(max_len, n_after_init)
             if result_format == "percentage":
                 box_dist = 0.5
             else:
                 box_dist = 100
             col = "C"+str((len(self.analyses)-1-i) % 10)
-            if legend or i == len(self.analyses)-1:
-                _add_WSS(95, analysis, ax, col, result_format, box_dist)
-                _add_WSS(100, analysis, ax, col, result_format, box_dist)
+            if (legend or i == len(self.analyses)-1) and not abstract_only:
+                _add_WSS(95, analysis, ax, col, result_format, box_dist,
+                         add_value=wss_value)
+                _add_WSS(100, analysis, ax, col, result_format, box_dist,
+                         add_value=wss_value)
                 _add_RRF(10, analysis, ax, col, result_format, box_dist)
 #                 _add_RRF(5, analysis, ax, col, result_format, box_dist)
 
@@ -161,8 +167,16 @@ class Plot():
                 col = "red"
                 inc_found_final = analysis.inclusions_found(
                     result_format=result_format, final_labels=True)
-                _, WSS95_x, _ = analysis.wss(95, x_format=result_format, final_labels=True)
-                _, WSS100_x, _ = analysis.wss(100, x_format=result_format, final_labels=True)
+                _add_WSS(90, analysis, ax, col, result_format, box_dist,
+                         add_value=wss_value,
+                         final_labels=True)
+                _add_WSS(100, analysis, ax, col, result_format, box_dist,
+                         add_value=wss_value,
+                         final_labels=True)
+                _, WSS95_x, _ = analysis.wss(95, x_format=result_format,
+                                             final_labels=True)
+                _, WSS100_x, _ = analysis.wss(100, x_format=result_format,
+                                              final_labels=True)
                 bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
                 prev_value = 0
                 x_vals = []

@@ -65,7 +65,8 @@ class PlotEntryPoint(BaseEntryPoint):
                 return
             if "inclusions" in types:
                 plot.plot_inc_found(result_format=result_format, legend=legend,
-                                    abstract_only=args_dict["abstract_only"])
+                                    abstract_only=args_dict["abstract_only"],
+                                    wss_value=args_dict["wss_value"])
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
@@ -111,5 +112,11 @@ def _parse_arguments():
         default=False,
         action="store_true",
         help="Don't show a legend with the plot."
+    )
+    parser.add_argument(
+        "--wss_value",
+        default=False,
+        action="store_true",
+        help="Add WSS values to plot."
     )
     return parser
