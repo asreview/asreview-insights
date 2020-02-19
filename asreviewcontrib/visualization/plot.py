@@ -60,17 +60,17 @@ def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
 
 
 class Plot():
-    def __init__(self, data_dirs, prefix="result"):
+    def __init__(self, paths, prefix="result"):
         self.analyses = OrderedDict()
         self.is_file = OrderedDict()
 
-        for data_dir in data_dirs:
-            new_analysis = Analysis.from_dir(data_dir, prefix=prefix)
+        for path in paths:
+            new_analysis = Analysis.from_dir(path, prefix=prefix)
             if new_analysis is not None:
 
                 data_key = new_analysis.key
                 self.analyses[data_key] = new_analysis
-                if os.path.isfile(data_dir):
+                if os.path.isfile(path):
                     self.is_file[data_key] = True
                 else:
                     self.is_file[data_key] = False
@@ -83,8 +83,8 @@ class Plot():
             analysis.close()
 
     @classmethod
-    def from_dirs(cls, data_dirs, prefix="result"):
-        plot_inst = Plot(data_dirs, prefix=prefix)
+    def from_paths(cls, paths, prefix="result"):
+        plot_inst = cls(paths, prefix=prefix)
         return plot_inst
 
     def plot_time_to_inclusion(self, X_fp):

@@ -56,9 +56,9 @@ class PlotEntryPoint(BaseEntryPoint):
 
         prefix = args_dict["prefix"]
         legend = not args_dict["no_legend"]
-        with Plot.from_dirs(args_dict["data_dirs"], prefix=prefix) as plot:
+        with Plot.from_paths(args_dict["data_paths"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
-                print(f"No log files found in {args_dict['data_dirs']}.\n"
+                print(f"No log files found in {args_dict['data_paths']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
@@ -76,8 +76,8 @@ class PlotEntryPoint(BaseEntryPoint):
 def _parse_arguments():
     parser = argparse.ArgumentParser(prog='asreview plot')
     parser.add_argument(
-        'data_dirs',
-        metavar='DATA_FP',
+        'data_paths',
+        metavar='DATA_PATHS',
         type=str,
         nargs='+',
         help='A combination of data directories or files.'
