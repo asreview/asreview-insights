@@ -65,7 +65,7 @@ class Plot():
         self.is_file = OrderedDict()
 
         for path in paths:
-            new_analysis = Analysis.from_dir(path, prefix=prefix)
+            new_analysis = Analysis.from_path(path, prefix=prefix)
             if new_analysis is not None:
 
                 data_key = new_analysis.key
