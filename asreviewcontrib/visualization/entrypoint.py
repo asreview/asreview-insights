@@ -55,15 +55,18 @@ class PlotEntryPoint(BaseEntryPoint):
             result_format = "percentage"
 
         prefix = args_dict["prefix"]
-        with Plot.from_dirs(args_dict["data_dirs"], prefix=prefix) as plot:
+        legend = not args_dict["no_legend"]
+        with Plot.from_paths(args_dict["data_paths"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
-                print(f"No log files found in {args_dict['data_dirs']}.\n"
+                print(f"No log files found in {args_dict['data_paths']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusions" in types:
-                plot.plot_inc_found(result_format=result_format)
+                plot.plot_inc_found(result_format=result_format, legend=legend,
+                                    abstract_only=args_dict["abstract_only"],
+                                    wss_value=args_dict["wss_value"])
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
@@ -73,11 +76,11 @@ class PlotEntryPoint(BaseEntryPoint):
 def _parse_arguments():
     parser = argparse.ArgumentParser(prog='asreview plot')
     parser.add_argument(
-        'data_dirs',
-        metavar='N',
+        'data_paths',
+        metavar='DATA_PATHS',
         type=str,
         nargs='+',
-        help='Data directories.'
+        help='A combination of data directories or files.'
     )
     parser.add_argument(
         "-t", "--type",
@@ -97,5 +100,23 @@ def _parse_arguments():
         default="",
         help='Filter files in the data directory to only contain files'
              'starting with a prefix.'
+    )
+    parser.add_argument(
+        "--abstract_only",
+        default=False,
+        action="store_true",
+        help="Use after abstract screening as the inclusions/exclusions."
+    )
+    parser.add_argument(
+        "--no_legend",
+        default=False,
+        action="store_true",
+        help="Don't show a legend with the plot."
+    )
+    parser.add_argument(
+        "--wss_value",
+        default=False,
+        action="store_true",
+        help="Add WSS values to plot."
     )
     return parser
