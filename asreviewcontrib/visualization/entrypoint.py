@@ -20,7 +20,27 @@ from asreview.entry_points import BaseEntryPoint
 from asreviewcontrib.visualization import Plot
 import logging
 
-PLOT_TYPES = ['inclusions', 'discovery', 'limits']
+PLOT_TYPES = ['inclusions', 'discovery', 'limits', 'propose']
+
+
+def inclusion_plot(plot, **kwargs):
+    all_files = all(plot.is_file.values())
+    if all_files:
+        thick = {key: True for key in list(plot.analyses)}
+    else:
+        thick = None
+
+    inc_plot = plot.new("inclusions", thick=thick, **kwargs)
+    inc_plot.set_grid()
+
+    for key in list(plot.analyses):
+        if all_files or not plot.is_file[key]:
+            inc_plot.add_WSS(key, 95)
+            inc_plot.add_WSS(key, 100)
+            inc_plot.add_RRF(key, 5)
+    inc_plot.add_random()
+    inc_plot.set_legend()
+    inc_plot.show()
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -55,7 +75,7 @@ class PlotEntryPoint(BaseEntryPoint):
             result_format = "percentage"
 
         prefix = args_dict["prefix"]
-        with Plot.from_dirs(args_dict["data_dirs"], prefix=prefix) as plot:
+        with Plot.from_paths(args_dict["data_dirs"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_dirs']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
@@ -63,11 +83,13 @@ class PlotEntryPoint(BaseEntryPoint):
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusions" in types:
-                plot.plot_inc_found(result_format=result_format)
+                inclusion_plot(plot, result_format=result_format)
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
                 plot.plot_limits(result_format=result_format)
+            if "propose" in types:
+                plot.plot_inc_progression()
 
 
 def _parse_arguments():

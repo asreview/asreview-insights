@@ -12,53 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections import OrderedDict
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 from asreview.analysis.analysis import Analysis
-
-
-def _add_WSS(WSS, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
-    if WSS is None:
-        return
-
-    text = f"WSS@{WSS}%"
-    _, WSS_x, WSS_y = analysis.wss(WSS, x_format=result_format, **kwargs)
-    if WSS_x is None or WSS_y is None:
-        return
-
-    text_pos_x = WSS_x[0] + box_dist
-    text_pos_y = (WSS_y[0] + WSS_y[1])/2
-    plt.plot(WSS_x, WSS_y, color=col)
-    bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
-    ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
-
-
-def _add_RRF(RRF, analysis, ax, col, result_format, box_dist=0.5, **kwargs):
-    if RRF is None:
-        return
-
-    text = f"RRF@{RRF}%"
-    _, RRF_x, RRF_y = analysis.rrf(RRF, x_format=result_format, **kwargs)
-    if RRF_x is None or RRF_y is None:
-        return
-
-    text_pos_x = RRF_x[0] + box_dist
-    text_pos_y = (RRF_y[0] + RRF_y[1])/2
-    plt.plot(RRF_x, RRF_y, color=col)
-    bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
-    ax.text(text_pos_x, text_pos_y, text, color="white", bbox=bbox)
+from asreviewcontrib.visualization.plot_inclusions import PlotInclusions
 
 
 class Plot():
-    def __init__(self, data_dirs, prefix="result"):
-        self.analyses = {}
+    def __init__(self, paths, prefix="result"):
+        self.analyses = OrderedDict()
+        self.is_file = OrderedDict()
 
-        for data_dir in data_dirs:
-            new_analysis = Analysis.from_dir(data_dir, prefix=prefix)
+        for path in paths:
+            new_analysis = Analysis.from_path(path, prefix=prefix)
             if new_analysis is not None:
+
                 data_key = new_analysis.key
                 self.analyses[data_key] = new_analysis
+                if os.path.isfile(path):
+                    self.is_file[data_key] = True
+                else:
+                    self.is_file[data_key] = False
 
     def __enter__(self):
         return self
@@ -68,9 +46,17 @@ class Plot():
             analysis.close()
 
     @classmethod
-    def from_dirs(cls, data_dirs, prefix="result"):
-        plot_inst = Plot(data_dirs, prefix=prefix)
+    def from_paths(cls, paths, prefix="result"):
+        plot_inst = Plot(paths, prefix=prefix)
         return plot_inst
+
+    def new(self, plot_type="inclusions", **kwargs):
+        if plot_type == "inclusions":
+            thick = kwargs.pop("thick", None)
+            if thick is None:
+                thick = {key: not f for key, f in self.is_file.items()}
+            return PlotInclusions(self.analyses, thick=thick, **kwargs)
+        raise ValueError(f"Error: plot type '{plot_type}' not found.")
 
     def plot_time_to_inclusion(self, X_fp):
         for data_key, analysis in self.analyses.items():
@@ -101,82 +87,37 @@ class Plot():
         plt.legend()
         plt.show()
 
-    def plot_inc_found(self, result_format="percentage", abstract_only=False):
-        """
-        Plot the number of queries that turned out to be included
-        in the final review.
-        """
+    def plot_inc_progression(self, sigma=30, window=50):
         legend_name = []
         legend_plt = []
 
-        fig, ax = plt.subplots()
+        def gaussian_window(rel_ids, sigma):
+            factors = np.exp(-rel_ids**2/sigma**2)
+            return factors/np.sum(factors)
 
-        max_len = 0
         for i, data_key in enumerate(self.analyses):
             analysis = self.analyses[data_key]
+            inc_found = analysis.inclusions_found(result_format="number")
 
-            inc_found = analysis.inclusions_found(result_format=result_format)
-            n_after_init = len(analysis.labels) - analysis.inc_found[False]["n_initial"]
-            max_len = max(max_len, n_after_init)
-            if result_format == "percentage":
-                box_dist = 0.5
-            else:
-                box_dist = 100
+            dy_inc = (inc_found[1] - np.append([0], inc_found[1][:-1]))
+
             col = "C"+str(i % 10)
-            _add_WSS(95, analysis, ax, col, result_format, box_dist)
-            _add_WSS(100, analysis, ax, col, result_format, box_dist)
-            _add_RRF(10, analysis, ax, col, result_format, box_dist)
-            _add_RRF(5, analysis, ax, col, result_format, box_dist)
 
-            myplot = plt.errorbar(*inc_found, color=col)
-            if abstract_only:
-                legend_name.append(f"{data_key} (abstract)")
-            else:
-                legend_name.append(f"{data_key}")
+            legend_name.append(data_key)
+            smooth_inc_perc = []
+            for i in range(len(dy_inc)):
+                idx = np.arange(max(0, i-window), min(len(dy_inc), i+window+1))
+                factor = gaussian_window(idx - i, sigma)
+                smooth_inc_perc.append(np.sum(dy_inc[idx]*factor))
+
+            myplot, = plt.plot(inc_found[0], 100*np.array(smooth_inc_perc), color=col)
             legend_plt.append(myplot)
 
-            if abstract_only:
-                col = "red"
-                inc_found_final = analysis.inclusions_found(
-                    result_format=result_format, final_labels=True)
-                _, WSS95_x, _ = analysis.wss(95, x_format=result_format, final_labels=True)
-                _, WSS100_x, _ = analysis.wss(100, x_format=result_format, final_labels=True)
-                bbox = dict(boxstyle='round', facecolor=col, alpha=0.5)
-                prev_value = 0
-                x_vals = []
-                y_vals = []
-                WSS_added = False
-                for i in range(len(inc_found_final[0])):
-                    if inc_found_final[1][i] != prev_value:
-                        x_vals.append(inc_found_final[0][i])
-                        y_vals.append(inc_found[1][i])
-                        prev_value = inc_found_final[1][i]
-                        if inc_found_final[0][i] >= WSS100_x[0] - 1e-4 and not WSS_added:
-                            ax.text(WSS100_x[0]+300, inc_found[1][i], "WSS@100%", color="white", bbox=bbox)
-                            WSS_added = True
-                myplot = plt.scatter(x_vals, y_vals, color=col)
-                legend_name.append(f"{data_key} (final)")
-                legend_plt.append(myplot)
+        plt.legend(legend_plt, legend_name, loc="upper right")
 
-        plt.legend(legend_plt, legend_name, loc="lower right")
-
-        if result_format == "number":
-            ax2 = ax.twiny()
-            ax.set_xlim(0, max_len)
-            ax2.set_xlim(0, 100)
-            ax.set_xlabel("# Reviewed")
-            ax2.set_xlabel("% Reviewed")
-            ax.set_ylabel("# Inclusions found")
-            symb = "#"
-        elif result_format == "percentage":
-            symb = "%"
-            ax.set_xlabel("% Reviewed")
-            ax.set_ylabel("% Inclusions found")
-        else:
-            symb = "?"
-
+        plt.xlabel("# papers reviewed")
+        plt.ylabel("% of proposed papers accepted")
         plt.grid()
-        fig.tight_layout()
         plt.show()
 
     def plot_limits(self, prob_allow_miss=[0.1, 0.5, 2.0],
