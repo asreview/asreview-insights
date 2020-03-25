@@ -18,29 +18,11 @@ from asreview.config import LOGGER_EXTENSIONS
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.visualization import Plot
+from asreviewcontrib.visualization.quick import progression_plot
+from asreviewcontrib.visualization.quick import inclusion_plot
 import logging
 
-PLOT_TYPES = ['inclusions', 'discovery', 'limits', 'propose']
-
-
-def inclusion_plot(plot, **kwargs):
-    all_files = all(plot.is_file.values())
-    if all_files:
-        thick = {key: True for key in list(plot.analyses)}
-    else:
-        thick = None
-
-    inc_plot = plot.new("inclusions", thick=thick, **kwargs)
-    inc_plot.set_grid()
-
-    for key in list(plot.analyses):
-        if all_files or not plot.is_file[key]:
-            inc_plot.add_WSS(key, 95)
-            inc_plot.add_WSS(key, 100)
-            inc_plot.add_RRF(key, 5)
-    inc_plot.add_random()
-    inc_plot.set_legend()
-    inc_plot.show()
+PLOT_TYPES = ['inclusion', 'discovery', 'limits', 'progression']
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -82,14 +64,14 @@ class PlotEntryPoint(BaseEntryPoint):
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
-            if "inclusions" in types:
+            if "inclusion" in types:
                 inclusion_plot(plot, result_format=result_format)
             if "discovery" in types:
                 plot.plot_time_to_discovery(result_format=result_format)
             if "limits" in types:
                 plot.plot_limits(result_format=result_format)
-            if "propose" in types:
-                plot.plot_inc_progression()
+            if "progression" in types:
+                progression_plot(plot, result_format=result_format)
 
 
 def _parse_arguments():

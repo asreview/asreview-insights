@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from asreviewcontrib.visualization.plot_base import PlotBase
 
 
-class PlotInclusions():
+class PlotInclusions(PlotBase):
     def __init__(self, analyses, result_format="percentage", thick=None):
         """
         Plot the number of queries that turned out to be included
         in the final review.
         """
+        super(PlotInclusions, self).__init__()
         self.legend_name = []
         self.legend_plt = []
         self.result_format = result_format
@@ -56,12 +58,7 @@ class PlotInclusions():
         elif result_format == "percentage":
             self.ax.set_xlabel("% Reviewed")
             self.ax.set_ylabel("% Inclusions found")
-
-    def set_legend(self, loc="lower right"):
-        plt.legend(self.legend_plt, self.legend_name, loc=loc)
-
-    def set_grid(self):
-        self.ax.grid()
+        self.fig.tight_layout()
 
     def add_WSS(self, data_key, value=95, text_at=None, add_value=False,
                 alpha=0.8, text_col="white", **kwargs):
@@ -130,13 +127,3 @@ class PlotInclusions():
         if self.result_format == "percentage":
             xlim = [min(x, 100) for x in xlim]
         self.ax.plot(xlim, xlim, color='black', ls="--")
-
-    def set_xlim(self, x_start, x_end):
-        self.ax.set_xlim(x_start, x_end)
-
-    def set_ylim(self, y_start, y_end):
-        self.ax.set_ylim(y_start, y_end)
-
-    def show(self):
-        self.fig.tight_layout()
-        plt.show()

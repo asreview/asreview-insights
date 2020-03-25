@@ -20,6 +20,7 @@ import numpy as np
 
 from asreview.analysis.analysis import Analysis
 from asreviewcontrib.visualization.plot_inclusions import PlotInclusions
+from asreviewcontrib.visualization.plot_progression import PlotProgression
 
 
 class Plot():
@@ -50,12 +51,14 @@ class Plot():
         plot_inst = Plot(paths, prefix=prefix)
         return plot_inst
 
-    def new(self, plot_type="inclusions", **kwargs):
-        if plot_type == "inclusions":
-            thick = kwargs.pop("thick", None)
-            if thick is None:
-                thick = {key: not f for key, f in self.is_file.items()}
+    def new(self, plot_type="inclusion", **kwargs):
+        thick = kwargs.pop("thick", None)
+        if thick is None:
+            thick = {key: not f for key, f in self.is_file.items()}
+        if plot_type == "inclusion":
             return PlotInclusions(self.analyses, thick=thick, **kwargs)
+        elif plot_type == "progression":
+            return PlotProgression(self.analyses, thick=thick)
         raise ValueError(f"Error: plot type '{plot_type}' not found.")
 
     def plot_time_to_inclusion(self, X_fp):
