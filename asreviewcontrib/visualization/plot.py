@@ -22,7 +22,6 @@ from asreviewcontrib.visualization.plot_progression import PlotProgression
 from asreviewcontrib.visualization.plot_discovery import PlotDiscovery
 from asreviewcontrib.visualization.plot_limit import PlotLimit
 
-
 class Plot():
     def __init__(self, paths, prefix="result"):
         self.analyses = OrderedDict()
@@ -43,6 +42,7 @@ class Plot():
             self.thick = {key: True for key in list(self.analyses)}
         else:
             self.thick = {key: not f for key, f in self.is_file.items()}
+
 
     def __enter__(self):
         return self
@@ -69,3 +69,4 @@ class Plot():
         elif plot_type == "limit":
             return PlotLimit(self.analyses, **kwargs)
         raise ValueError(f"Error: plot type '{plot_type}' not found.")
+

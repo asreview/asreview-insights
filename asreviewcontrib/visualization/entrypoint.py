@@ -63,13 +63,14 @@ class PlotEntryPoint(BaseEntryPoint):
         prefix = args_dict["prefix"]
         with Plot.from_paths(args_dict["data_dirs"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
-                print(f"No log files found in {args_dict['data_dirs']}.\n"
+                print(f"No log files found in {args_dict['data_paths']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusion" in types:
                 inclusion_plot(plot, output=output, result_format=result_format)  # noqa
+
             if "discovery" in types:
                 discovery_plot(plot, output=output, result_format=result_format)  # noqa
             if "limit" in types:
@@ -81,11 +82,11 @@ class PlotEntryPoint(BaseEntryPoint):
 def _parse_arguments():
     parser = argparse.ArgumentParser(prog='asreview plot')
     parser.add_argument(
-        'data_dirs',
-        metavar='N',
+        'data_paths',
+        metavar='DATA_PATHS',
         type=str,
         nargs='+',
-        help='Data directories.'
+        help='A combination of data directories or files.'
     )
     parser.add_argument(
         "-t", "--type",
