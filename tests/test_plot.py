@@ -14,7 +14,7 @@ def create_state_file(data_fp, state_fp):
     except FileNotFoundError:
         pass
 
-    review_simulate(data_fp, state_file=state_fp, n_prior_included=1,
+    review_simulate(str(data_fp), state_file=state_fp, n_prior_included=1,
                     n_prior_excluded=1, model="nb",
                     feature_extraction="tfidf")
 
