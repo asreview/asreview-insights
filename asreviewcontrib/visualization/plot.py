@@ -15,12 +15,12 @@
 from collections import OrderedDict
 import os
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 from asreview.analysis.analysis import Analysis
+
 from asreviewcontrib.visualization.plot_inclusions import PlotInclusions
 from asreviewcontrib.visualization.plot_progression import PlotProgression
+from asreviewcontrib.visualization.plot_discovery import PlotDiscovery
+from asreviewcontrib.visualization.plot_limit import PlotLimit
 
 
 class Plot():
@@ -38,6 +38,11 @@ class Plot():
                     self.is_file[data_key] = True
                 else:
                     self.is_file[data_key] = False
+        all_files = all(self.is_file.values())
+        if all_files:
+            self.thick = {key: True for key in list(self.analyses)}
+        else:
+            self.thick = {key: not f for key, f in self.is_file.items()}
 
     def __enter__(self):
         return self
@@ -54,104 +59,13 @@ class Plot():
     def new(self, plot_type="inclusion", **kwargs):
         thick = kwargs.pop("thick", None)
         if thick is None:
-            thick = {key: not f for key, f in self.is_file.items()}
+            thick = self.thick
         if plot_type == "inclusion":
             return PlotInclusions(self.analyses, thick=thick, **kwargs)
         elif plot_type == "progression":
-            return PlotProgression(self.analyses, thick=thick)
+            return PlotProgression(self.analyses, thick=thick, **kwargs)
+        elif plot_type == "discovery":
+            return PlotDiscovery(self.analyses, **kwargs)
+        elif plot_type == "limit":
+            return PlotLimit(self.analyses, **kwargs)
         raise ValueError(f"Error: plot type '{plot_type}' not found.")
-
-    def plot_time_to_inclusion(self, X_fp):
-        for data_key, analysis in self.analyses.items():
-            results = analysis.time_to_inclusion(X_fp)
-            for key in results["ttd"]:
-                plt.plot(results["x_range"], results["ttd"][key],
-                         label=data_key + " - " + key)
-        plt.legend()
-        plt.show()
-
-    def plot_time_to_discovery(self, result_format="percentage"):
-        avg_times = []
-        for analysis in self.analyses.values():
-            results = analysis.avg_time_to_discovery(
-                result_format=result_format)
-            avg_times.append(list(results.values()))
-
-        if result_format == "number":
-            plt.hist(avg_times, 30, histtype='bar', density=False,
-                     label=self.analyses.keys())
-            plt.xlabel("# Reviewed")
-            plt.ylabel("# of papers included")
-        else:
-            plt.hist(avg_times, 30, histtype='bar', density=True,
-                     label=self.analyses.keys())
-            plt.xlabel("% Reviewed")
-            plt.ylabel("Fraction of papers included")
-        plt.legend()
-        plt.show()
-
-    def plot_inc_progression(self, sigma=30, window=50):
-        legend_name = []
-        legend_plt = []
-
-        def gaussian_window(rel_ids, sigma):
-            factors = np.exp(-rel_ids**2/sigma**2)
-            return factors/np.sum(factors)
-
-        for i, data_key in enumerate(self.analyses):
-            analysis = self.analyses[data_key]
-            inc_found = analysis.inclusions_found(result_format="number")
-
-            dy_inc = (inc_found[1] - np.append([0], inc_found[1][:-1]))
-
-            col = "C"+str(i % 10)
-
-            legend_name.append(data_key)
-            smooth_inc_perc = []
-            for i in range(len(dy_inc)):
-                idx = np.arange(max(0, i-window), min(len(dy_inc), i+window+1))
-                factor = gaussian_window(idx - i, sigma)
-                smooth_inc_perc.append(np.sum(dy_inc[idx]*factor))
-
-            myplot, = plt.plot(inc_found[0], 100*np.array(smooth_inc_perc), color=col)
-            legend_plt.append(myplot)
-
-        plt.legend(legend_plt, legend_name, loc="upper right")
-
-        plt.xlabel("# papers reviewed")
-        plt.ylabel("% of proposed papers accepted")
-        plt.grid()
-        plt.show()
-
-    def plot_limits(self, prob_allow_miss=[0.1, 0.5, 2.0],
-                    result_format="percentage"):
-        legend_plt = []
-        legend_name = []
-        linestyles = ['-', '--', '-.', ':']
-
-        for i, data_key in enumerate(self.analyses):
-            res = self.analyses[data_key].limits(
-                prob_allow_miss=prob_allow_miss,
-                result_format=result_format)
-            x_range = res["x_range"]
-            col = "C"+str(i % 10)
-
-            for i_limit, limit in enumerate(res["limits"]):
-                ls = linestyles[i_limit % len(linestyles)]
-                my_plot, = plt.plot(x_range, np.array(limit)+np.array(x_range),
-                                    color=col, ls=ls)
-                if i_limit == 0:
-                    legend_plt.append(my_plot)
-                    legend_name.append(f"{data_key}")
-
-        plt.plot(x_range, x_range, color="black", ls='--')
-        if result_format == "percentage":
-            plt.xlabel("% of papers read")
-            plt.ylabel("Estimate of % of papers that need to be read")
-        else:
-            plt.xlabel("# of papers read")
-            plt.ylabel("Estimate of # of papers that need to be read")
-        plt.legend(legend_plt, legend_name, loc="upper right")
-        plt.title("Articles left to read")
-        plt.grid()
-        plt.show()

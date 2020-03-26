@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
 import numpy as np
+
 from asreviewcontrib.visualization.plot_base import PlotBase
 
 
@@ -9,12 +9,8 @@ class PlotInclusions(PlotBase):
         Plot the number of queries that turned out to be included
         in the final review.
         """
-        super(PlotInclusions, self).__init__()
-        self.legend_name = []
-        self.legend_plt = []
+        super(PlotInclusions, self).__init__(analyses)
         self.result_format = result_format
-        self.fig, self.ax = plt.subplots()
-        self.analyses = analyses
         self.col = {}
 
         if thick is None:

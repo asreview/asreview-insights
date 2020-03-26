@@ -2,6 +2,16 @@ import matplotlib.pyplot as plt
 
 
 class PlotBase():
+    def __init__(self, analyses):
+        """
+        Plot the number of queries that turned out to be included
+        in the final review.
+        """
+        super(PlotBase, self).__init__()
+        self.legend_name = []
+        self.legend_plt = []
+        self.fig, self.ax = plt.subplots()
+        self.analyses = analyses
 
     def set_legend(self, loc="lower right"):
         self.ax.legend(self.legend_plt, self.legend_name, loc=loc)

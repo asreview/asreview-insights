@@ -1,11 +1,7 @@
-def inclusion_plot(plot, **kwargs):
+def inclusion_plot(plot, output=None, **kwargs):
     all_files = all(plot.is_file.values())
-    if all_files:
-        thick = {key: True for key in list(plot.analyses)}
-    else:
-        thick = None
 
-    inc_plot = plot.new("inclusions", thick=thick, **kwargs)
+    inc_plot = plot.new("inclusion", **kwargs)
     inc_plot.set_grid()
 
     for key in list(plot.analyses):
@@ -15,17 +11,36 @@ def inclusion_plot(plot, **kwargs):
             inc_plot.add_RRF(key, 5)
     inc_plot.add_random()
     inc_plot.set_legend()
-    inc_plot.show()
-
-
-def progression_plot(plot, **kwargs):
-    all_files = all(plot.is_file.values())
-    if all_files:
-        thick = {key: True for key in list(plot.analyses)}
+    if output is None:
+        inc_plot.show()
     else:
-        thick = None
+        inc_plot.save(output)
 
-    inc_plot = plot.new("progression", thick=thick, **kwargs)
-    inc_plot.set_grid()
-    inc_plot.set_legend()
-    inc_plot.show()
+
+def progression_plot(plot, output=None, **kwargs):
+    prog_plot = plot.new("progression", **kwargs)
+    prog_plot.set_grid()
+    prog_plot.set_legend()
+    if output is None:
+        prog_plot.show()
+    else:
+        prog_plot.save(output)
+
+
+def discovery_plot(plot, output=None, **kwargs):
+    disc_plot = plot.new("discovery", **kwargs)
+    disc_plot.set_legend()
+    if output is None:
+        disc_plot.show()
+    else:
+        disc_plot.save(output)
+
+
+def limit_plot(plot, output=None, **kwargs):
+    limit_plot = plot.new("limit", **kwargs)
+    limit_plot.set_legend()
+    limit_plot.set_grid()
+    if output is None:
+        limit_plot.show()
+    else:
+        limit_plot.save(output)

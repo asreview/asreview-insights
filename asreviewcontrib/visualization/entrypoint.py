@@ -13,16 +13,18 @@
 # limitations under the License.
 
 import argparse
+import logging
 
 from asreview.config import LOGGER_EXTENSIONS
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.visualization import Plot
 from asreviewcontrib.visualization.quick import progression_plot
+from asreviewcontrib.visualization.quick import limit_plot
+from asreviewcontrib.visualization.quick import discovery_plot
 from asreviewcontrib.visualization.quick import inclusion_plot
-import logging
 
-PLOT_TYPES = ['inclusion', 'discovery', 'limits', 'progression']
+PLOT_TYPES = ['inclusion', 'discovery', 'limit', 'progression']
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -56,6 +58,8 @@ class PlotEntryPoint(BaseEntryPoint):
         else:
             result_format = "percentage"
 
+        output = args_dict["output"]
+
         prefix = args_dict["prefix"]
         with Plot.from_paths(args_dict["data_dirs"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
@@ -65,13 +69,13 @@ class PlotEntryPoint(BaseEntryPoint):
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
             if "inclusion" in types:
-                inclusion_plot(plot, result_format=result_format)
+                inclusion_plot(plot, output=output, result_format=result_format)  # noqa
             if "discovery" in types:
-                plot.plot_time_to_discovery(result_format=result_format)
-            if "limits" in types:
-                plot.plot_limits(result_format=result_format)
+                discovery_plot(plot, output=output, result_format=result_format)  # noqa
+            if "limit" in types:
+                limit_plot(plot, output=output, result_format=result_format)  # noqa
             if "progression" in types:
-                progression_plot(plot, result_format=result_format)
+                progression_plot(plot, output=output, result_format=result_format)  # noqa
 
 
 def _parse_arguments():
@@ -101,5 +105,13 @@ def _parse_arguments():
         default="",
         help='Filter files in the data directory to only contain files'
              'starting with a prefix.'
+    )
+    parser.add_argument(
+        "-o", "--output",
+        default=None,
+        help='Save the plot to a file. If multiple plots are made, only one'
+             ' is saved (non-deterministically). File formats are detected '
+             ' by the matplotlib library, check there to see available '
+             'formats.'
     )
     return parser

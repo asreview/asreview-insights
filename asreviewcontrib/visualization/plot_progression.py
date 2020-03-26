@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
 from asreviewcontrib.visualization.plot_base import PlotBase
@@ -11,11 +10,8 @@ def gaussian_window(rel_ids, sigma):
 
 class PlotProgression(PlotBase):
     def __init__(self, analyses, result_format="percentage", thick=None,
-                 sigma=30, window=50):
-        self.legend_name = []
-        self.legend_plt = []
-        self.fig, self.ax = plt.subplots()
-        self.analyses = analyses
+                 sigma=25, window=40):
+        super(PlotProgression, self).__init__(analyses)
         self.col = {}
         self.result_format = result_format
 
