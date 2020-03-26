@@ -1,6 +1,6 @@
 # ASReview-visualization
 
-![Deploy and release](https://github.com/msdslab/asreview-visualization/workflows/Deploy%20and%20release/badge.svg)![Build status](https://github.com/asreview/asreview-visualization/workflows/test-suite/badge.svg)
+![Deploy and release](https://github.com/asreview/asreview-visualization/workflows/Deploy%20and%20release/badge.svg)![Build status](https://github.com/asreview/asreview-visualization/workflows/test-suite/badge.svg)
 
 This is a plotting/visualization supplemental package for the 
 [ASReview](https://github.com/asreview/asreview)
