@@ -13,14 +13,18 @@
 # limitations under the License.
 
 import argparse
+import logging
 
 from asreview.config import LOGGER_EXTENSIONS
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.visualization import Plot
-import logging
+from asreviewcontrib.visualization.quick import progression_plot
+from asreviewcontrib.visualization.quick import limit_plot
+from asreviewcontrib.visualization.quick import discovery_plot
+from asreviewcontrib.visualization.quick import inclusion_plot
 
-PLOT_TYPES = ['inclusions', 'discovery', 'limits']
+PLOT_TYPES = ['inclusion', 'discovery', 'limit', 'progression']
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -54,8 +58,9 @@ class PlotEntryPoint(BaseEntryPoint):
         else:
             result_format = "percentage"
 
+        output = args_dict["output"]
+
         prefix = args_dict["prefix"]
-        legend = not args_dict["no_legend"]
         with Plot.from_paths(args_dict["data_paths"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_paths']}.\n"
@@ -63,14 +68,15 @@ class PlotEntryPoint(BaseEntryPoint):
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
-            if "inclusions" in types:
-                plot.plot_inc_found(result_format=result_format, legend=legend,
-                                    abstract_only=args_dict["abstract_only"],
-                                    wss_value=args_dict["wss_value"])
+
+            if "inclusion" in types:
+                inclusion_plot(plot, output=output, result_format=result_format)  # noqa
             if "discovery" in types:
-                plot.plot_time_to_discovery(result_format=result_format)
-            if "limits" in types:
-                plot.plot_limits(result_format=result_format)
+                discovery_plot(plot, output=output, result_format=result_format)  # noqa
+            if "limit" in types:
+                limit_plot(plot, output=output, result_format=result_format)  # noqa
+            if "progression" in types:
+                progression_plot(plot, output=output, result_format=result_format)  # noqa
 
 
 def _parse_arguments():
@@ -102,21 +108,11 @@ def _parse_arguments():
              'starting with a prefix.'
     )
     parser.add_argument(
-        "--abstract_only",
-        default=False,
-        action="store_true",
-        help="Use after abstract screening as the inclusions/exclusions."
-    )
-    parser.add_argument(
-        "--no_legend",
-        default=False,
-        action="store_true",
-        help="Don't show a legend with the plot."
-    )
-    parser.add_argument(
-        "--wss_value",
-        default=False,
-        action="store_true",
-        help="Add WSS values to plot."
+        "-o", "--output",
+        default=None,
+        help='Save the plot to a file. If multiple plots are made, only one'
+             ' is saved (non-deterministically). File formats are detected '
+             ' by the matplotlib library, check there to see available '
+             'formats.'
     )
     return parser
