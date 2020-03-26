@@ -61,16 +61,16 @@ class PlotEntryPoint(BaseEntryPoint):
         output = args_dict["output"]
 
         prefix = args_dict["prefix"]
-        with Plot.from_paths(args_dict["data_dirs"], prefix=prefix) as plot:
+        with Plot.from_paths(args_dict["data_paths"], prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_paths']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
                       f" and end with one of the following: \n"
                       f"{', '.join(LOGGER_EXTENSIONS)}.")
                 return
+
             if "inclusion" in types:
                 inclusion_plot(plot, output=output, result_format=result_format)  # noqa
-
             if "discovery" in types:
                 discovery_plot(plot, output=output, result_format=result_format)  # noqa
             if "limit" in types:
