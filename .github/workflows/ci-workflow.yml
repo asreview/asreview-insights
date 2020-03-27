@@ -25,22 +25,22 @@ jobs:
         pip install ./asr-plot
         pytest asr-plot/tests
      
-  #test-older:
-    #name: pytest
-    #runs-on: ubuntu-latest
-    #strategy:
-      #matrix:
-        #asr_versions: ['0.6', '0.7', '0.7.1', '0.7.2']
-    #steps:
-    #- uses: actions/checkout@v2
-    #- uses: actions/setup-python@v1
-      #with:
-        #python-version: '3.6'
-        #architecture: 'x64'
-    #- name: Install packages and run tests
-      #run: |
-        #pip install pytest
-        #pip install --upgrade setuptools>=41.0.0
-        #pip install asreview[all]==${{ matrix.asr_versions }}
-        #pip install .
-        #pytest tests
+  test-older:
+    name: pytest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        asr_versions: ['0.7.2']
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+    - name: Install packages and run tests
+      run: |
+        pip install pytest
+        pip install --upgrade setuptools>=41.0.0
+        pip install asreview[all]==${{ matrix.asr_versions }}
+        pip install .
+        pytest tests
