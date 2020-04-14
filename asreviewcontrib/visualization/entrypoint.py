@@ -76,7 +76,9 @@ class PlotEntryPoint(BaseEntryPoint):
             if "limit" in types:
                 limit_plot(plot, output=output, result_format=result_format)  # noqa
             if "progression" in types:
-                progression_plot(plot, output=output, result_format=result_format)  # noqa
+                progression_plot(plot, output=output,
+                                 result_format=result_format,
+                                 sigma=args_dict["sigma"])
 
 
 def _parse_arguments():
@@ -114,5 +116,11 @@ def _parse_arguments():
              ' is saved (non-deterministically). File formats are detected '
              ' by the matplotlib library, check there to see available '
              'formats.'
+    )
+    parser.add_argument(
+        "-s", "--sigma",
+        default=25,
+        type=int,
+        help="Smoothing width for the progression plot."
     )
     return parser
