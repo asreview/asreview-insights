@@ -30,3 +30,6 @@ class PlotBase():
 
     def save(self, fp, *args, **kwargs):
         self.fig.savefig(fp, *args, **kwargs)
+
+    def close(self):
+        plt.close(self.fig)

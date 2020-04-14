@@ -15,6 +15,7 @@ def inclusion_plot(plot, output=None, **kwargs):
         inc_plot.show()
     else:
         inc_plot.save(output)
+        inc_plot.close()
 
 
 def progression_plot(plot, output=None, **kwargs):
@@ -25,6 +26,7 @@ def progression_plot(plot, output=None, **kwargs):
         prog_plot.show()
     else:
         prog_plot.save(output)
+        prog_plot.close()
 
 
 def discovery_plot(plot, output=None, **kwargs):
@@ -34,6 +36,7 @@ def discovery_plot(plot, output=None, **kwargs):
         disc_plot.show()
     else:
         disc_plot.save(output)
+        disc_plot.close()
 
 
 def limit_plot(plot, output=None, **kwargs):
@@ -44,3 +47,4 @@ def limit_plot(plot, output=None, **kwargs):
         limit_plot.show()
     else:
         limit_plot.save(output)
+        limit_plot.close()
