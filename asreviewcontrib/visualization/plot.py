@@ -29,7 +29,7 @@ class Plot():
         self.is_file = OrderedDict()
 
         if isinstance(paths, dict):
-            for key, path in paths.items():
+            for path, key in paths.items():
                 new_analyis = Analysis.from_path(path, prefix=prefix)
                 if new_analyis is None:
                     continue

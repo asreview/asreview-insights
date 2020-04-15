@@ -64,7 +64,8 @@ class PlotEntryPoint(BaseEntryPoint):
         data_paths = args_dict["data_paths"]
         keys = args_dict["keys"] + (
             len(data_paths)-len(args_dict["keys"]))*[None]
-        paths = dict(zip(keys, data_paths))
+        paths = dict(zip(data_paths, keys))
+
         with Plot.from_paths(paths, prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_paths']}.\n"
