@@ -57,7 +57,7 @@ class PlotInclusions(PlotBase):
         self.fig.tight_layout()
 
     def add_WSS(self, data_key, value=95, text_at=None, add_value=False,
-                alpha=0.8, text_col="white", **kwargs):
+                alpha=0.8, text_col="white", add_text=True, **kwargs):
         analysis = self.analyses[data_key]
         col = self.col[data_key]
 
@@ -79,10 +79,11 @@ class PlotInclusions(PlotBase):
         self.ax.plot(WSS_x, WSS_y, color=col, ls="--")
         self.ax.plot(WSS_x, (0, WSS_y[0]), color=col, ls=":")
         bbox = dict(boxstyle='round', facecolor=col, alpha=alpha)
-        self.ax.text(*text_at, text, color=text_col, bbox=bbox)
+        if add_text:
+            self.ax.text(*text_at, text, color=text_col, bbox=bbox)
 
     def add_RRF(self, data_key, value=10, text_at=None, add_value=False,
-                alpha=0.8, text_col="white", **kwargs):
+                alpha=0.8, text_col="white", add_text=True, **kwargs):
         analysis = self.analyses[data_key]
         col = self.col[data_key]
         if value is None:
@@ -104,9 +105,10 @@ class PlotInclusions(PlotBase):
 
         self.ax.plot(RRF_x, RRF_y, color=col, ls="--")
         bbox = dict(boxstyle='round', facecolor=col, alpha=alpha)
-        self.ax.text(*text_at, text, color=text_col, bbox=bbox)
+        if add_text:
+            self.ax.text(*text_at, text, color=text_col, bbox=bbox)
 
-    def add_random(self, text_at=None, col='black'):
+    def add_random(self, text_at=None, col='black', add_text=True):
         xlim = self.ax.get_xlim()
         ylim = self.ax.get_ylim()
         if text_at is None:
@@ -118,7 +120,8 @@ class PlotInclusions(PlotBase):
             )
 
         bbox = dict(boxstyle='round', facecolor='0.65')
-        self.ax.text(*text_at, "random", color=col, bbox=bbox)
+        if add_text:
+            self.ax.text(*text_at, "random", color=col, bbox=bbox)
         xlim = [max(x, 0) for x in xlim]
         if self.result_format == "percentage":
             xlim = [min(x, 100) for x in xlim]
