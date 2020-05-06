@@ -99,8 +99,10 @@ def _parse_arguments():
         "-t", "--type",
         type=str,
         default="all",
-        help="Type of plot to make. Separate by commas (no spaces) for"
-        " multiple plots."
+        help="Type of plot to make. Available plot types: inclusion, "
+        "discovery, limit and progression. "
+        "Separate by commas (no spaces) for"
+        " multiple plots. By default plots all types in sequence."
     )
     parser.add_argument(
         "-a", "--absolute-values",
