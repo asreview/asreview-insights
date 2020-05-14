@@ -28,10 +28,25 @@ class Plot():
         self.analyses = OrderedDict()
         self.is_file = OrderedDict()
 
-        for path in paths:
-            new_analysis = Analysis.from_path(path, prefix=prefix)
-            if new_analysis is not None:
-
+        if isinstance(paths, dict):
+            for path, key in paths.items():
+                new_analyis = Analysis.from_path(path, prefix=prefix)
+                if new_analyis is None:
+                    continue
+                if key is None:
+                    key = new_analyis.key
+                else:
+                    new_analyis.key = key
+                self.analyses[key] = new_analyis
+                if os.path.isfile(path):
+                    self.is_file[key] = True
+                else:
+                    self.is_file[key] = False
+        else:
+            for path in paths:
+                new_analysis = Analysis.from_path(path, prefix=prefix)
+                if new_analysis is None:
+                    continue
                 data_key = new_analysis.key
                 self.analyses[data_key] = new_analysis
                 if os.path.isfile(path):

@@ -61,7 +61,12 @@ class PlotEntryPoint(BaseEntryPoint):
         output = args_dict["output"]
 
         prefix = args_dict["prefix"]
-        with Plot.from_paths(args_dict["data_paths"], prefix=prefix) as plot:
+        data_paths = args_dict["data_paths"]
+        keys = args_dict["keys"] + (
+            len(data_paths)-len(args_dict["keys"]))*[None]
+        paths = dict(zip(data_paths, keys))
+
+        with Plot.from_paths(paths, prefix=prefix) as plot:
             if len(plot.analyses) == 0:
                 print(f"No log files found in {args_dict['data_paths']}.\n"
                       f"To be detected log files have to start with '{prefix}'"
@@ -76,7 +81,9 @@ class PlotEntryPoint(BaseEntryPoint):
             if "limit" in types:
                 limit_plot(plot, output=output, result_format=result_format)  # noqa
             if "progression" in types:
-                progression_plot(plot, output=output, result_format=result_format)  # noqa
+                progression_plot(plot, output=output,
+                                 result_format=result_format,
+                                 sigma=args_dict["sigma"])
 
 
 def _parse_arguments():
@@ -92,8 +99,10 @@ def _parse_arguments():
         "-t", "--type",
         type=str,
         default="all",
-        help="Type of plot to make. Separate by commas (no spaces) for"
-        " multiple plots."
+        help="Type of plot to make. Available plot types: inclusion, "
+        "discovery, limit and progression. "
+        "Separate by commas (no spaces) for"
+        " multiple plots. By default plots all types in sequence."
     )
     parser.add_argument(
         "-a", "--absolute-values",
@@ -114,5 +123,19 @@ def _parse_arguments():
              ' is saved (non-deterministically). File formats are detected '
              ' by the matplotlib library, check there to see available '
              'formats.'
+    )
+    parser.add_argument(
+        "-s", "--sigma",
+        default=25,
+        type=int,
+        help="Smoothing width for the progression plot."
+    )
+    parser.add_argument(
+        "-k", "--keys",
+        default=[],
+        nargs="*",
+        type=str,
+        help="Set the key of each curve. The order should be the same as those"
+             " of the data paths."
     )
     return parser
