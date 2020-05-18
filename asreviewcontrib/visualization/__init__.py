@@ -15,4 +15,6 @@
 from asreviewcontrib.visualization.plot import Plot
 from asreviewcontrib.visualization.entrypoint import PlotEntryPoint
 
-__version__ = "0.2.1"
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions

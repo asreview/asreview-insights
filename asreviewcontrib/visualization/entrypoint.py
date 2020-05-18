@@ -39,7 +39,8 @@ class PlotEntryPoint(BaseEntryPoint):
         self.version = __version__
 
     def execute(self, argv):
-        parser = _parse_arguments()
+        parser = _parse_arguments(
+            version=f"{self.extension_name}: {self.version}")
         args_dict = vars(parser.parse_args(argv))
 
         if args_dict['type'] == 'all':
@@ -86,7 +87,7 @@ class PlotEntryPoint(BaseEntryPoint):
                                  sigma=args_dict["sigma"])
 
 
-def _parse_arguments():
+def _parse_arguments(version="Unknown"):
     parser = argparse.ArgumentParser(prog='asreview plot')
     parser.add_argument(
         'data_paths',
@@ -94,6 +95,11 @@ def _parse_arguments():
         type=str,
         nargs='+',
         help='A combination of data directories or files.'
+    )
+    parser.add_argument(
+        "-V", "--version",
+        action="version",
+        version=version,
     )
     parser.add_argument(
         "-t", "--type",
