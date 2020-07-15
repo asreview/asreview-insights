@@ -116,7 +116,7 @@ class PlotInclusions(PlotBase):
             ylim = self.ax.get_ylim()
             text_at = (
                 np.average(xlim) - 0.07 * (xlim[1]-xlim[0]),
-                np.average(xlim) + 0.07 * (ylim[1]-ylim[0]),
+                np.average(ylim) + 0.07 * (ylim[1]-ylim[0]),
             )
 
         bbox = dict(boxstyle='round', facecolor='0.65')
@@ -125,4 +125,12 @@ class PlotInclusions(PlotBase):
         xlim = [max(x, 0) for x in xlim]
         if self.result_format == "percentage":
             xlim = [min(x, 100) for x in xlim]
-        self.ax.plot(xlim, xlim, color='black', ls="--")
+            y_vals = xlim
+        else:
+            analysis = self.analyses[list(self.analyses)[0]]
+            n_labels = len(analysis.labels)
+            n_initial = analysis.inc_found[False]["n_initial"]
+            max_y = analysis.inc_found[False]["inc_after_init"]
+            label_after_init = n_labels - n_initial
+            y_vals = max_y * np.array(xlim)/label_after_init
+        self.ax.plot(xlim, y_vals, color='black', ls="--")
