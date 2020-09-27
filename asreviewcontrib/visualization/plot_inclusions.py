@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 
 from asreviewcontrib.visualization.plot_base import PlotBase
@@ -57,6 +59,13 @@ class PlotInclusions(PlotBase):
             self.ax.set_ylabel("% Inclusions found")
         self.fig.tight_layout()
 
+    def add_WSS(self, *args, **kwargs):  # noqa
+        warnings.warn(
+            "add_WSS is deprecated, use add_wss instead",
+            DeprecationWarning
+        )
+        self.add_wss(*args, **kwargs)
+
     def add_wss(self,
                 data_key,
                 value=95,
@@ -89,6 +98,13 @@ class PlotInclusions(PlotBase):
         bbox = dict(boxstyle='round', facecolor=col, alpha=alpha)
         if add_text:
             self.ax.text(*text_at, text, color=text_col, bbox=bbox)
+
+    def add_RRF(self, *args, **kwargs):  # noqa
+        warnings.warn(
+            "add_RRF is deprecated, use add_rrf instead",
+            DeprecationWarning
+        )
+        self.add_rrf(*args, **kwargs)
 
     def add_rrf(self,
                 data_key,
