@@ -17,7 +17,7 @@ jobs:
       run: |
         flake8 . --max-complexity=10 --statistics
   test-master:
-    name: pytest
+    name: test-asreview-latest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -39,9 +39,8 @@ jobs:
         pip install ./asr-core[all]
         pip install ./asr-plot
         pytest asr-plot/tests
-
   test-older:
-    name: pytest
+    name: test-asreview-0-7-2
     runs-on: ubuntu-latest
     strategy:
       matrix:
