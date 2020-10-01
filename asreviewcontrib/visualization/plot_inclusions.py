@@ -60,10 +60,8 @@ class PlotInclusions(PlotBase):
         self.fig.tight_layout()
 
     def add_WSS(self, *args, **kwargs):  # noqa
-        warnings.warn(
-            "add_WSS is deprecated, use add_wss instead",
-            DeprecationWarning
-        )
+        warnings.warn("add_WSS is deprecated, use add_wss instead",
+                      DeprecationWarning)
         self.add_wss(*args, **kwargs)
 
     def add_wss(self,
@@ -82,8 +80,9 @@ class PlotInclusions(PlotBase):
             return
 
         text = f"WSS@{value}%"
-        wss_val, wss_x, wss_y = analysis.wss(
-            value, x_format=self.result_format, **kwargs)
+        wss_val, wss_x, wss_y = analysis.wss(value,
+                                             x_format=self.result_format,
+                                             **kwargs)
         if wss_x is None or wss_y is None:
             return
 
@@ -100,10 +99,8 @@ class PlotInclusions(PlotBase):
             self.ax.text(*text_at, text, color=text_col, bbox=bbox)
 
     def add_RRF(self, *args, **kwargs):  # noqa
-        warnings.warn(
-            "add_RRF is deprecated, use add_rrf instead",
-            DeprecationWarning
-        )
+        warnings.warn("add_RRF is deprecated, use add_rrf instead",
+                      DeprecationWarning)
         self.add_rrf(*args, **kwargs)
 
     def add_rrf(self,
@@ -120,8 +117,9 @@ class PlotInclusions(PlotBase):
         if value is None:
             return
 
-        rrf_val, rrf_x, rrf_y = analysis.rrf(
-            value, x_format=self.result_format, **kwargs)
+        rrf_val, rrf_x, rrf_y = analysis.rrf(value,
+                                             x_format=self.result_format,
+                                             **kwargs)
         if rrf_x is None or rrf_y is None:
             return
 
@@ -163,5 +161,5 @@ class PlotInclusions(PlotBase):
             n_initial = analysis.inc_found[False]["n_initial"]
             max_y = analysis.inc_found[False]["inc_after_init"]
             label_after_init = n_labels - n_initial
-            y_vals = max_y * np.array(xlim)/label_after_init
+            y_vals = max_y * np.array(xlim) / label_after_init
         self.ax.plot(xlim, y_vals, color='black', ls="--")

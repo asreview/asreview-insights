@@ -14,8 +14,11 @@ def create_state_file(data_fp, state_fp):
     except FileNotFoundError:
         pass
 
-    review_simulate(str(data_fp), state_file=state_fp, n_prior_included=1,
-                    n_prior_excluded=1, model="nb",
+    review_simulate(str(data_fp),
+                    state_file=state_fp,
+                    n_prior_included=1,
+                    n_prior_excluded=1,
+                    model="nb",
                     feature_extraction="tfidf")
 
 
@@ -39,16 +42,12 @@ def plot_clean(dirs, files):
             pass
 
 
-COMBINATIONS = [
-    (pt, numbers)
-    for pt in ["inclusion", "progress", "discovery", "limit"]
-    for numbers in [True, False]
-]
+COMBINATIONS = [(pt, numbers)
+                for pt in ["inclusion", "progress", "discovery", "limit"]
+                for numbers in [True, False]]
 
 
-@mark.parametrize(
-    "plot_type,numbers", COMBINATIONS
-)
+@mark.parametrize("plot_type,numbers", COMBINATIONS)
 def test_plots(request, plot_type, numbers):
     test_dir = request.fspath.dirname
     output_dir = Path(test_dir, "output")
@@ -61,7 +60,7 @@ def test_plots(request, plot_type, numbers):
     picture_fp = Path(output_dir, "test.png")
 
     if (plot_type, numbers) == COMBINATIONS[0]:
-        plot_setup(data_fp, state_dirs+[output_dir], h5_files+json_files)
+        plot_setup(data_fp, state_dirs + [output_dir], h5_files + json_files)
 
     data_combis = [
         [h5_dir, *h5_files],

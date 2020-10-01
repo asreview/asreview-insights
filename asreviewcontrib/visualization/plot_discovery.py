@@ -14,21 +14,19 @@ class PlotDiscovery(PlotBase):
             avg_times.append(list(results.values()))
 
         if result_format == "number":
-            self.ax.hist(
-                avg_times,
-                30,
-                histtype='bar',
-                density=False,
-                label=self.analyses.keys())
+            self.ax.hist(avg_times,
+                         30,
+                         histtype='bar',
+                         density=False,
+                         label=self.analyses.keys())
             self.ax.set_xlabel("# Reviewed")
             self.ax.set_ylabel("# of papers included")
         else:
-            self.ax.hist(
-                avg_times,
-                30,
-                histtype='bar',
-                density=True,
-                label=self.analyses.keys())
+            self.ax.hist(avg_times,
+                         30,
+                         histtype='bar',
+                         density=True,
+                         label=self.analyses.keys())
             self.ax.set_xlabel("% Reviewed")
             self.ax.set_ylabel("Fraction of papers included")
 
