@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from asreviewcontrib.visualization.plot import Plot
-from asreviewcontrib.visualization.entrypoint import PlotEntryPoint
+from asreviewcontrib.visualization.plot import Plot  # noqa
+from asreviewcontrib.visualization.entrypoint import PlotEntryPoint  # noqa
 
 from ._version import get_versions
 __version__ = get_versions()['version']

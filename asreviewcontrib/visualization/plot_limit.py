@@ -24,11 +24,10 @@ class PlotLimit(PlotBase):
 
             for i_limit, limit in enumerate(res["limits"]):
                 ls = linestyles[i_limit % len(linestyles)]
-                my_plot, = self.ax.plot(
-                    x_range,
-                    np.array(limit) + np.array(x_range),
-                    color=col,
-                    ls=ls)
+                my_plot, = self.ax.plot(x_range,
+                                        np.array(limit) + np.array(x_range),
+                                        color=col,
+                                        ls=ls)
                 if i_limit == 0:
                     self.legend_plt.append(my_plot)
                     self.legend_name.append(f"{data_key}")

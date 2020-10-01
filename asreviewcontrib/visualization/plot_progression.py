@@ -40,8 +40,8 @@ class PlotProgression(PlotBase):
 
             smooth_inc_perc = []
             for i in range(len(dy_inc)):
-                idx = np.arange(
-                    max(0, i - window), min(len(dy_inc), i + window + 1))
+                idx = np.arange(max(0, i - window),
+                                min(len(dy_inc), i + window + 1))
                 factor = _gaussian_window(idx - i, sigma)
                 smooth_inc_perc.append(np.sum(dy_inc[idx] * factor))
 
@@ -49,8 +49,10 @@ class PlotProgression(PlotBase):
                 x_values = 100 * inc_found[0] / len(analysis.labels)
             else:
                 x_values = inc_found[0]
-            myplot, = self.ax.plot(
-                x_values, 100 * np.array(smooth_inc_perc), color=col, lw=lw)
+            myplot, = self.ax.plot(x_values,
+                                   100 * np.array(smooth_inc_perc),
+                                   color=col,
+                                   lw=lw)
             if self.thick[data_key]:
                 self.legend_plt.append(myplot)
                 self.legend_name.append(data_key)

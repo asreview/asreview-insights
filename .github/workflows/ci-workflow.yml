@@ -1,8 +1,23 @@
 name: test-suite
 on: [push, pull_request]
 jobs:
+  lint-python:
+    name: lint-python
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+    - name: Install flake8
+      run: |
+        pip install flake8
+    - name: Lint python with flake8
+      run: |
+        flake8 . --max-complexity=10 --statistics
   test-master:
-    name: pytest
+    name: test-asreview-latest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,16 +32,15 @@ jobs:
       with:
         python-version: '3.6'
         architecture: 'x64'
-    - name: Install packages and run tests  
+    - name: Install packages and run tests
       run: |
         pip install pytest
         pip install --upgrade setuptools>=41.0.0
         pip install ./asr-core[all]
         pip install ./asr-plot
         pytest asr-plot/tests
-     
   test-older:
-    name: pytest
+    name: test-asreview-0-7-2
     runs-on: ubuntu-latest
     strategy:
       matrix:
