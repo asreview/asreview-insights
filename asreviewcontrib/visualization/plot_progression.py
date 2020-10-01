@@ -15,7 +15,7 @@ class PlotProgression(PlotBase):
                  thick=None,
                  sigma=25,
                  window=40):
-        """Base class for the Regression plot."""
+        """Class for the Regression plot."""
         super(PlotProgression, self).__init__(analyses)
         self.col = {}
         self.result_format = result_format
