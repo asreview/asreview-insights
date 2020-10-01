@@ -3,7 +3,7 @@ from asreviewcontrib.visualization.plot_base import PlotBase
 
 class PlotDiscovery(PlotBase):
     def __init__(self, analyses, result_format="percentage"):
-        """Base class for the Discovery plot."""
+        """Class for the Discovery plot."""
         super(PlotDiscovery, self).__init__(analyses)
         self.result_format = result_format
 
