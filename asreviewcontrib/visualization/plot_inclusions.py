@@ -147,7 +147,7 @@ class PlotInclusions(PlotBase):
             ylim = self.ax.get_ylim()
             text_at = (
                 np.average(xlim) - 0.07 * (xlim[1] - xlim[0]),
-                np.average(xlim) + 0.07 * (ylim[1] - ylim[0]),
+                np.average(ylim) + 0.07 * (ylim[1] - ylim[0]),
             )
 
         bbox = dict(boxstyle='round', facecolor='0.65')
