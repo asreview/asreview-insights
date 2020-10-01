@@ -7,7 +7,7 @@ from asreviewcontrib.visualization.plot_base import PlotBase
 
 class PlotInclusions(PlotBase):
     def __init__(self, analyses, result_format="percentage", thick=None):
-        """Base class for the Inclusions plot.
+        """Class for the Inclusions plot.
 
         Plot the number of queries that turned out to be included
         in the final review.
