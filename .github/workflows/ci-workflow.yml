@@ -55,6 +55,7 @@ jobs:
       run: |
         pip install pytest
         pip install --upgrade setuptools>=41.0.0
+        pip install "numpy<1.19"
         pip install asreview[all]==${{ matrix.asr_versions }}
         pip install .
         pytest tests

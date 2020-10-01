@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections import OrderedDict
 import os
+from collections import OrderedDict
 
-from asreview.analysis.analysis import Analysis
+from asreview.analysis import Analysis
 
-from asreviewcontrib.visualization.plot_inclusions import PlotInclusions
-from asreviewcontrib.visualization.plot_progression import PlotProgression
 from asreviewcontrib.visualization.plot_discovery import PlotDiscovery
+from asreviewcontrib.visualization.plot_inclusions import PlotInclusions
 from asreviewcontrib.visualization.plot_limit import PlotLimit
+from asreviewcontrib.visualization.plot_progression import PlotProgression
 
 
 class Plot():
