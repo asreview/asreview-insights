@@ -8,7 +8,7 @@ class PlotLimit(PlotBase):
                  analyses,
                  prob_allow_miss=[0.1, 0.5, 2.0],
                  result_format="percentage"):
-        """Base class for the Limit plot."""
+        """Class for the Limit plot."""
         super(PlotLimit, self).__init__(analyses)
 
         self.legend_plt = []
