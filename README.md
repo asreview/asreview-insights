@@ -76,7 +76,7 @@ They can be individually selected with the `-t` or `--type` switch. Multiple plo
 can be made by using `,` as a separator:
 
 ```bash
-asreview plot ace ptsd --type 'inclusions,discovery'
+asreview plot ace ptsd --type 'inclusion,discovery'
 ```
 
 ### Inclusion
