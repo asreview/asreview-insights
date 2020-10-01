@@ -22,7 +22,7 @@ detect it. Test this by:
 asreview --help
 ```
 
-It should list the 'plot' extension.
+It should list the 'plot' modus.
 
 ## Basic usage
 
