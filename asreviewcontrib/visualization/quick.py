@@ -23,8 +23,7 @@ def inclusion_plot(plot, output=None, **kwargs):
     for key in list(plot.analyses):
         if all_files or not plot.is_file[key]:
             inc_plot.add_wss(key, 95)
-            inc_plot.add_wss(key, 100)
-            inc_plot.add_rrf(key, 5)
+            inc_plot.add_rrf(key, 10)
     inc_plot.add_random()
     inc_plot.set_legend()
     if output is None:
