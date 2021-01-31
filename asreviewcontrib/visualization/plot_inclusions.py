@@ -34,6 +34,8 @@ class PlotInclusions(PlotBase):
             n_after_init = len(analysis.labels) - n_initial
             max_len = max(max_len, n_after_init)
 
+            max_y = analysis.inc_found[False]["inc_after_init"]
+
             self.col[data_key] = "C" + str((len(self.analyses) - 1 - i) % 10)
             col = self.col[data_key]
 
@@ -47,16 +49,36 @@ class PlotInclusions(PlotBase):
                 self.legend_name.append(f"{data_key}")
                 self.legend_plt.append(myplot)
 
+        # show absolute number next to percentages
         if result_format == "number":
+
+            # duplicate x axis
             self.ax2 = self.ax.twiny()
+
+            # top axis
             self.ax.set_xlim(0, max_len)
-            self.ax2.set_xlim(0, 100)
             self.ax.set_xlabel("# Reviewed")
+
+            # bottom axis
+            self.ax2.set_xlim(0, 100)
             self.ax2.set_xlabel("% Reviewed")
-            self.ax.set_ylabel("# Inclusions found")
+
+            self.ax3 = self.ax.twinx()
+
+            # left axis
+            spacing_top = 1.05
+            self.ax.set_ylim(0, round(spacing_top * max_y))
+            self.ax.set_ylabel("# Relevant records found")
+
+            # right axis
+            self.ax3.set_ylim(0, round(spacing_top * 100))
+            self.ax3.set_ylabel("% Relevant records found")
+
+        # only display percentage
         elif result_format == "percentage":
-            self.ax.set_xlabel("% Reviewed")
-            self.ax.set_ylabel("% Inclusions found")
+            self.ax.set_xlabel("% Records reviewed")
+            self.ax.set_ylabel("% Relevant records found")
+
         self.fig.tight_layout()
 
     def add_WSS(self, *args, **kwargs):  # noqa
