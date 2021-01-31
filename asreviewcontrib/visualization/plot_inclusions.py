@@ -137,7 +137,7 @@ class PlotInclusions(PlotBase):
         if add_text:
             self.ax.text(*text_at, text, color=text_col, bbox=bbox)
 
-    def add_random(self, text_at=None, col='black', add_text=True):
+    def add_random(self, line_col='grey', add_text=True, text_at=None):
         xlim = self.ax.get_xlim()
         ylim = self.ax.get_ylim()
         if text_at is None:
@@ -149,8 +149,11 @@ class PlotInclusions(PlotBase):
             )
 
         bbox = dict(boxstyle='round', facecolor='0.65')
+
+        # add label for random line
         if add_text:
-            self.ax.text(*text_at, "random", color=col, bbox=bbox)
+            self.ax.text(*text_at, "random", color="black", bbox=bbox)
+
         xlim = [max(x, 0) for x in xlim]
         if self.result_format == "percentage":
             xlim = [min(x, 100) for x in xlim]
@@ -161,5 +164,5 @@ class PlotInclusions(PlotBase):
             n_initial = analysis.inc_found[False]["n_initial"]
             max_y = analysis.inc_found[False]["inc_after_init"]
             label_after_init = n_labels - n_initial
-            y_vals = max_y * np.array(xlim) / label_after_init
-        self.ax.plot(xlim, y_vals, color='black', ls="--")
+            y_vals = max_y * np.array(xlim)/label_after_init
+        self.ax.plot(xlim, y_vals, color=line_col, ls="--")

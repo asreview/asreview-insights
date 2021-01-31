@@ -24,8 +24,11 @@ def inclusion_plot(plot, output=None, **kwargs):
         if all_files or not plot.is_file[key]:
             inc_plot.add_wss(key, 95)
             inc_plot.add_rrf(key, 10)
-    inc_plot.add_random()
-    inc_plot.set_legend()
+    inc_plot.add_random(add_text=False)
+
+    # TODO {Make legend in flexible argument}
+    # inc_plot.set_legend()
+
     if output is None:
         inc_plot.show()
     else:
