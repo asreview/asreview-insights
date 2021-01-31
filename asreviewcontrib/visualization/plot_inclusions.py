@@ -114,8 +114,8 @@ class PlotInclusions(PlotBase):
         if text_at is None:
             text_at = (wss_x[0] + self.box_dist, (wss_y[0] + wss_y[1]) / 2)
 
-        self.ax.plot(wss_x, wss_y, color=col, ls="--")
-        self.ax.plot(wss_x, (0, wss_y[0]), color=col, ls=":")
+        self.ax.plot(wss_x, wss_y, color=col, ls=(0, (5, 1)))
+        self.ax.plot(wss_x, (0, wss_y[0]), color=col, ls=(0, (1, 5)))
         bbox = dict(boxstyle='round', facecolor=col, alpha=alpha)
         if add_text:
             self.ax.text(*text_at, text, color=text_col, bbox=bbox)
