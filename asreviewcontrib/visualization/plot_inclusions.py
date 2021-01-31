@@ -152,7 +152,7 @@ class PlotInclusions(PlotBase):
         rrf_x = 0, rrf_x[0]
         rrf_y = rrf_y[1], rrf_y[1]
         if text_at is None:
-            text_at = (rrf_x[0] + self.box_dist, rrf_y[0] + self.box_dist + 2)
+            text_at = (rrf_x[0] + self.box_dist, rrf_y[0] * 0.9)
 
         self.ax.plot(rrf_x, rrf_y, color=col, ls="--")
         bbox = dict(boxstyle='round', facecolor=col, alpha=alpha)
