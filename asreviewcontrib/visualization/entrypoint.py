@@ -118,7 +118,7 @@ def _parse_arguments(version="Unknown"):
         " multiple plots. By default plots all types in sequence.")
     parser.add_argument(
         "-a",
-        "--absolute-values",
+        "--show-absolute-values",
         dest="absolute_format",
         action='store_true',
         help='Use absolute values on the axis instead of percentages.')
