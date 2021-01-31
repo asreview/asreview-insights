@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-def inclusion_plot(plot, output=None, **kwargs):
+def inclusion_plot(plot, output=None, show_metric_labels=True, **kwargs):
     """Make an inclusion plot."""
     all_files = all(plot.is_file.values())
 
@@ -22,8 +22,10 @@ def inclusion_plot(plot, output=None, **kwargs):
 
     for key in list(plot.analyses):
         if all_files or not plot.is_file[key]:
-            inc_plot.add_wss(key, 95)
-            inc_plot.add_rrf(key, 10)
+            inc_plot.add_wss(
+                key, 95, add_text=show_metric_labels, add_value=True)
+            inc_plot.add_rrf(
+                key, 10, add_text=show_metric_labels, add_value=True)
     inc_plot.add_random(add_text=False)
 
     # TODO {Make legend in flexible argument}

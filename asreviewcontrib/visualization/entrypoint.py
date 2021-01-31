@@ -78,7 +78,8 @@ class PlotEntryPoint(BaseEntryPoint):
             if "inclusion" in types:
                 inclusion_plot(plot,
                                output=output,
-                               result_format=result_format)  # noqa
+                               result_format=result_format,
+                               show_metric_labels=args_dict["show_metric_labels"])  # noqa
             if "discovery" in types:
                 discovery_plot(plot,
                                output=output,
@@ -121,6 +122,11 @@ def _parse_arguments(version="Unknown"):
         dest="absolute_format",
         action='store_true',
         help='Use absolute values on the axis instead of percentages.')
+    parser.add_argument(
+        "--show-metric-labels",
+        dest="show_metric_labels",
+        action='store_true',
+        help='Show the labels and values for metrics.')
     parser.add_argument(
         "--prefix",
         default="",

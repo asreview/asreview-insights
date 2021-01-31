@@ -87,6 +87,9 @@ are subtracted so that the line always starts at (0,0).
 
 The quicker the line goes to a 100%, the better the performance.
 
+Use `--show-metric-labels` to display the labels and values of WSS and RFF
+lines.
+
 ![alt text](https://github.com/msdslab/asreview-visualization/blob/master/docs/inclusions.png?raw=true "Inclusions")
 
 ### Discovery
