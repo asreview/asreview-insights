@@ -67,11 +67,12 @@ class PlotInclusions(PlotBase):
 
             # left axis
             spacing_top = 1.05
-            self.ax.set_ylim(0, round(spacing_top * max_y))
+            self.ax.set_ylim(0, spacing_top * max_y)
             self.ax.set_ylabel("# Relevant records found")
 
             # right axis
-            self.ax3.set_ylim(0, round(spacing_top * 100))
+            print(round(spacing_top * 100))
+            self.ax3.set_ylim(0, spacing_top * 100)
             self.ax3.set_ylabel("% Relevant records found")
 
         # only display percentage
