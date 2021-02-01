@@ -71,7 +71,6 @@ class PlotInclusions(PlotBase):
             self.ax.set_ylabel("# Relevant records found")
 
             # right axis
-            print(round(spacing_top * 100))
             self.ax3.set_ylim(0, spacing_top * 100)
             self.ax3.set_ylabel("% Relevant records found")
 
