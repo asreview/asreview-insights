@@ -74,7 +74,7 @@ def test_plots(request, plot_type, numbers):
             pass
         args = [*[str(x) for x in combi], "-o", str(picture_fp)]
         if numbers:
-            args += ["--absolute-values"]
+            args += ["--show-absolute-values"]
         entry = PlotEntryPoint()
         entry.execute(args)
         assert os.path.isfile(picture_fp)

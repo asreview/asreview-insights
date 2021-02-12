@@ -186,5 +186,5 @@ class PlotInclusions(PlotBase):
             n_initial = analysis.inc_found[False]["n_initial"]
             max_y = analysis.inc_found[False]["inc_after_init"]
             label_after_init = n_labels - n_initial
-            y_vals = max_y * np.array(xlim)/label_after_init
+            y_vals = max_y * np.array(xlim) / label_after_init
         self.ax.plot(xlim, y_vals, color=line_col, ls="--")
