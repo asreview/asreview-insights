@@ -44,7 +44,7 @@ class PlotInclusions(PlotBase):
             else:
                 lw = 0.7
 
-            myplot = self.ax.errorbar(*inc_found, color=col, lw=lw)
+            myplot = self.ax.errorbar(inc_found[0], inc_found[1], color=col, lw=lw)
             if self.thick[data_key]:
                 self.legend_name.append(f"{data_key}")
                 self.legend_plt.append(myplot)
