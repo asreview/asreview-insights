@@ -1,6 +1,7 @@
 import warnings
 
 import numpy as np
+from matplotlib.ticker import MaxNLocator
 
 from asreviewcontrib.visualization.plot_base import PlotBase
 
@@ -78,6 +79,9 @@ class PlotInclusions(PlotBase):
         elif result_format == "percentage":
             self.ax.set_xlabel("% Records reviewed")
             self.ax.set_ylabel("% Relevant records found")
+
+        # no decimals on y-axis
+        self.ax.yaxis.set_major_locator(MaxNLocator(integer=True))
 
         self.fig.tight_layout()
 
