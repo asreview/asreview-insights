@@ -45,10 +45,16 @@ class PlotInclusions(PlotBase):
             else:
                 lw = 0.7
 
-            myplot = self.ax.errorbar(inc_found[0], inc_found[1], color=col, lw=lw)
+            recall_plot = self.ax.step(
+                inc_found[0],
+                inc_found[1],
+                color=col,
+                lw=lw
+            )
+
             if self.thick[data_key]:
                 self.legend_name.append(f"{data_key}")
-                self.legend_plt.append(myplot)
+                self.legend_plt.append(recall_plot)
 
         # show absolute number next to percentages
         if result_format == "number":
