@@ -62,10 +62,10 @@ asreview plot ace ptsd
 ```
 
 By default, the values shown are expressed as percentages of the total number of papers. Use the
-`-a` or `--absolute-values` flags to have them expressed in absolute numbers:
+`-a` or `--show-absolute-values` flags to have them expressed in absolute numbers:
 
 ```bash
-asreview plot ace ptsd --absolute-values
+asreview plot ace ptsd --show-absolute-values
 ```
 
 
