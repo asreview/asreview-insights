@@ -3,7 +3,7 @@ from pathlib import Path
 
 from pytest import mark
 
-from asreview import review_simulate
+from asreview.review.factory import review_simulate
 
 from asreviewcontrib.visualization.entrypoint import PlotEntryPoint
 
