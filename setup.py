@@ -15,13 +15,13 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='asreview-visualization',
+    name='asreview-insights',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description='Visualization tools for the ASReview project',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/asreview/asreview-visualization',
+    url='https://github.com/asreview/asreview-insights',
     author='Utrecht University',
     author_email='asreview@uu.nl',
     classifiers=[
@@ -49,14 +49,15 @@ setup(
 
     entry_points={
         "asreview.entry_points": [
-            "plot = asreviewcontrib.visualization.entrypoint:PlotEntryPoint",
+            "plot = asreviewcontrib.insights.entrypoint:PlotEntryPoint",
+            "stats = asreviewcontrib.insights.entrypoint:StatsEntryPoint",
         ]
     },
 
     project_urls={
         'Bug Reports':
-            "https://github.com/asreview/asreview-visualization/issues",
+            "https://github.com/asreview/asreview-insights/issues",
         'Source':
-            "https://github.com/asreview/asreview-visualization",
+            "https://github.com/asreview/asreview-insights",
     },
 )

@@ -1,84 +1,67 @@
-import os
 from pathlib import Path
 
 from pytest import mark
 
-from asreview.review.factory import review_simulate
+import matplotlib.pyplot as plt
 
-from asreviewcontrib.visualization.entrypoint import PlotEntryPoint
+from asreview import open_state
 
+from asreviewcontrib.insights import plot_recall, plot_wss, plot_recall_wss
+from asreviewcontrib.insights.recall import _plot_recall, _plot_wss, _plot_recall_wss
 
-def create_state_file(data_fp, state_fp):
-    try:
-        os.remove(state_fp)
-    except FileNotFoundError:
-        pass
-
-    review_simulate(str(data_fp),
-                    state_file=state_fp,
-                    n_prior_included=1,
-                    n_prior_excluded=1,
-                    model="nb",
-                    feature_extraction="tfidf")
+TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
+TEST_FIGURES = Path("figures")
 
 
-def plot_setup(data_fp, state_dirs, state_files):
-    for dir_ in state_dirs:
-        os.makedirs(dir_, exist_ok=True)
-    for file_ in state_files:
-        create_state_file(data_fp, file_)
+def test_plot_recall_small_data():
+
+    fig, ax = plt.subplots()
+    _plot_recall(ax, [1,1,1,0])
+
+    fig.savefig(Path(TEST_FIGURES, "tests_recall_small_dataset.png"))
 
 
-def plot_clean(dirs, files):
-    for f in files:
-        try:
-            os.remove(f)
-        except FileNotFoundError:
-            pass
-    for d in dirs:
-        try:
-            os.rmdir(d)
-        except (FileNotFoundError, OSError):
-            pass
+def test_plot_recall():
+
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
+
+        fig, ax = plt.subplots()
+        plot_recall(ax, s)
+
+        fig.savefig(Path(TEST_FIGURES, "tests_recall_sim_ptsd_2.png"))
 
 
-COMBINATIONS = [(pt, numbers)
-                for pt in ["inclusion", "progress", "discovery", "limit"]
-                for numbers in [True, False]]
+def test_plot_wss_small_data():
+
+    fig, ax = plt.subplots()
+    _plot_wss(ax, [1,1,1,0])
+
+    fig.savefig(Path(TEST_FIGURES, "tests_wss_small_dataset.png"))
 
 
-@mark.parametrize("plot_type,numbers", COMBINATIONS)
-def test_plots(request, plot_type, numbers):
-    test_dir = request.fspath.dirname
-    output_dir = Path(test_dir, "output")
-    state_dirs = [Path(output_dir, x) for x in ["h5", "json"]]
-    h5_dir = Path(output_dir, "h5")
-    json_dir = Path(output_dir, "json")
-    h5_files = [Path(output_dir, "h5", f"result_{x}.h5") for x in [1, 2]]
-    json_files = [Path(output_dir, "json", f"result_{x}.json") for x in [1, 2]]
-    data_fp = Path(test_dir, "data", "embase_labelled.csv")
-    picture_fp = Path(output_dir, "test.png")
+def test_plot_wss():
 
-    if (plot_type, numbers) == COMBINATIONS[0]:
-        plot_setup(data_fp, state_dirs + [output_dir], h5_files + json_files)
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
 
-    data_combis = [
-        [h5_dir, *h5_files],
-        [json_dir, *json_files],
-        [h5_dir, json_dir],
-    ]
-    for combi in data_combis:
-        try:
-            os.remove(picture_fp)
-        except FileNotFoundError:
-            pass
-        args = [*[str(x) for x in combi], "-o", str(picture_fp)]
-        if numbers:
-            args += ["--show-absolute-values"]
-        entry = PlotEntryPoint()
-        entry.execute(args)
-        assert os.path.isfile(picture_fp)
+        fig, ax = plt.subplots()
+        plot_wss(ax, s)
 
-    if (plot_type, numbers) == COMBINATIONS[-1]:
-        plot_clean(state_dirs + [output_dir],
-                   h5_files + json_files + [picture_fp])
+        fig.savefig(Path(TEST_FIGURES, "tests_wss_sim_ptsd_2.png"))
+
+
+def test_plot_recall_wss_small_data():
+
+    fig, ax = plt.subplots()
+    _plot_recall_wss(ax, [1,1,1,0])
+
+    fig.savefig(Path(TEST_FIGURES, "tests_recall_wss_small_dataset.png"))
+
+
+def test_plot_recall_wss():
+
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
+
+        fig, ax = plt.subplots()
+        plot_recall_wss(ax, s)
+
+        fig.savefig(Path(TEST_FIGURES, "tests_recall_wss_sim_ptsd_2.png"))
