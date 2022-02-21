@@ -1,6 +1,6 @@
 # ASReview-visualization
 
-![Deploy and release](https://github.com/asreview/asreview-visualization/workflows/Deploy%20and%20release/badge.svg)![Build status](https://github.com/asreview/asreview-visualization/workflows/test-suite/badge.svg)
+[![PyPI version](https://badge.fury.io/py/asreview-visualization.svg)](https://badge.fury.io/py/asreview-visualization) [![Downloads](https://pepy.tech/badge/asreview-visualization)](https://pepy.tech/project/asreview-visualization) ![PyPI - License](https://img.shields.io/pypi/l/asreview-visualization) ![Deploy and release](https://github.com/asreview/asreview-visualization/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-visualization/workflows/test-suite/badge.svg)
 
 This is a plotting/visualization supplemental package for the
 [ASReview](https://github.com/asreview/asreview) software. It is a fast way to
