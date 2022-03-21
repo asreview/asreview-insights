@@ -12,6 +12,10 @@ from asreviewcontrib.insights.recall import _plot_recall, _plot_wss, _plot_recal
 TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
 TEST_FIGURES = Path("figures")
 
+def setup():
+
+    TEST_FIGURES.mkdir(exist_ok=True)
+
 
 def test_plot_recall_small_data():
 
@@ -23,12 +27,12 @@ def test_plot_recall_small_data():
 
 def test_plot_recall():
 
-    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview")) as s:
 
         fig, ax = plt.subplots()
         plot_recall(ax, s)
 
-        fig.savefig(Path(TEST_FIGURES, "tests_recall_sim_ptsd_2.png"))
+        fig.savefig(Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_1.png"))
 
 
 def test_plot_wss_small_data():
@@ -41,12 +45,12 @@ def test_plot_wss_small_data():
 
 def test_plot_wss():
 
-    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview")) as s:
 
         fig, ax = plt.subplots()
         plot_wss(ax, s)
 
-        fig.savefig(Path(TEST_FIGURES, "tests_wss_sim_ptsd_2.png"))
+        fig.savefig(Path(TEST_FIGURES, "tests_wss_sim_van_de_schoot_2017_1.png"))
 
 
 def test_plot_recall_wss_small_data():
@@ -59,9 +63,9 @@ def test_plot_recall_wss_small_data():
 
 def test_plot_recall_wss():
 
-    with open_state(Path(TEST_ASREVIEW_FILES, "sim_ptsd_2.asreview")) as s:
+    with open_state(Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview")) as s:
 
         fig, ax = plt.subplots()
         plot_recall_wss(ax, s)
 
-        fig.savefig(Path(TEST_FIGURES, "tests_recall_wss_sim_ptsd_2.png"))
+        fig.savefig(Path(TEST_FIGURES, "tests_recall_wss_sim_van_de_schoot_2017_1.png"))

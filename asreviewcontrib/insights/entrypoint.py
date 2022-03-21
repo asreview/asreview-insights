@@ -47,15 +47,12 @@ class PlotEntryPoint(BaseEntryPoint):
             "type",
             type=str,
             default="recall",
-            help="Type of plot to make. Available plot types: recall, "
-            "discovery, limit and progression. "
-            "Separate by commas (no spaces) for"
-            " multiple plots. By default plots all types in sequence.")
+            help="Plot type. Default 'recall'.")
         parser.add_argument('asreview_files',
                             metavar='asreview_files',
                             type=str,
                             nargs='+',
-                            help='A combination of data directories or files.')
+                            help='A (list of) ASReview files.')
         parser.add_argument(
             "-V",
             "--version",

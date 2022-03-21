@@ -47,7 +47,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`]() in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017` -s sim_van_de_schoot_2017.asreview).
 
-![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_ptsd_2.png)
+![Recall plot of Van de Schoot 2017](figures/sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the recall after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
