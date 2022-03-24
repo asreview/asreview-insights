@@ -45,7 +45,7 @@ asreview plot recall YOUR_ASREVIEW_FILE.asreview
 
 The following plot is the result of simulating the [`van_de_schoot_2017`]() in
 the benchmark platform (command `asreview simulate
-benchmark:van_de_schoot_2017` -s sim_van_de_schoot_2017.asreview).
+benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 ![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_van_de_schoot_2017_1.png)
 

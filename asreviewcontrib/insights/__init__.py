@@ -14,11 +14,12 @@
 
 from asreviewcontrib.insights.recall import plot_recall
 from asreviewcontrib.insights.recall import plot_wss
-from asreviewcontrib.insights.recall import plot_recall_wss
+from asreviewcontrib.insights.recall import plot_xxx
+from asreviewcontrib.insights.recall import plot_recall_xxx
 # from asreviewcontrib.insights.entrypoint import PlotEntryPoint  # noqa
 
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 
-__all__ = ['plot_recall', 'plot_wss', 'plot_recall_wss']
+__all__ = ['plot_recall', 'plot_wss', 'plot_xxx', 'plot_recall_xxx']
