@@ -12,29 +12,88 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
-import logging
 
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
-
-def _fix_start_tick(ax):
-
-    # correct x axis if tick is at position 0
-    locs = ax.get_xticks()
-    if locs[1] == 0:
-        locs[1] = 1
-        ax.set_xticks(locs[1:-1])
-
-    return ax
+from asreviewcontrib.insights.utils import _fix_start_tick
 
 
 
-def plot_xxx(ax, state_obj, priors=False):
 
-    """Plot the xxx of state object(s).
+# def _plot_xxx(ax, labels):
+#
+#     """Plot the xxx of state object(s).
+#
+#     labels:
+#         An ASReview state object.
+#     """
+#
+#     x = list(range(1, len(labels)+1))
+#     recall = np.cumsum(labels)/np.sum(labels)
+#     recall_random = np.linspace(1/max(x), 1, max(x))
+#     xxx = recall - recall_random
+#
+#     ax.step(x, xxx, where='post')
+#     ax.set_title("Work Saved over Sampling")
+#     ax.set(xlabel='#', ylabel='xxx')
+#     # ax.set_ylim([-0.05, 1.05])
+#     # ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+#     ax.xaxis.get_major_locator().set_params(integer=True)
+#
+#     # correct x axis if tick is at position 0
+#     _fix_start_tick(ax)
+#
+#     return ax
+
+# def _plot_wss(ax, labels):
+#     """Plot the wss of state object(s).
+#
+#     labels:
+#         An ASReview state object.
+#     """
+#
+#     x = list(range(1, len(labels)+1))
+#     # print(labels)
+#     # recall = np.cumsum(labels)/np.sum(labels)
+#     # recall_random = np.linspace(1/max(x), 1, max(x))
+#     recall = np.cumsum(labels)
+#     recall_random = np.round(np.linspace(0, np.sum(labels), len(x)))
+#
+#     # get the index of each unique recall value
+#     recall_value, recall_index = np.unique(recall, return_index=True)
+#
+#     # print(recall)
+#     # print(recall_random)
+#     recall_random_value, recall_random_index = np.unique(recall_random, return_index=True)
+#
+#     if np.max(recall_index) == max(recall) - 1:
+#         recall_index = np.append([np.nan], recall_index + 1)
+#
+#     print(recall_index)
+#     print(recall_random_index)
+#     print(recall_random_index - recall_index)
+#
+#     # aaa
+#     # get the difference between recall_random and recall
+#     wss = (recall_random_index - recall_index)/len(x)
+#
+#     ax.step(recall_value, wss, where='post')
+#     ax.set_title("Work Saved over Sampling")
+#     ax.set(xlabel='#', ylabel='wss')
+#     # ax.set_ylim([-0.05, 1.05])
+#     # ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+#     ax.xaxis.get_major_locator().set_params(integer=True)
+#
+#     # correct x axis if tick is at position 0
+#     _fix_start_tick(ax)
+#
+#     return ax
+
+
+def plot_recall(ax, state_obj, priors=False, x_relative=False, y_relative=True):
+
+    """Plot the recall of state object(s).
 
     state_obj:
         An ASReview state object.
@@ -42,143 +101,76 @@ def plot_xxx(ax, state_obj, priors=False):
 
     labels = state_obj.get_labels(priors=priors).to_list()
 
-    return _plot_xxx(ax, labels)
+    return _plot_recall(ax, labels,
+                        x_relative=x_relative, y_relative=y_relative)
 
 
-def _plot_xxx(ax, labels):
+def _plot_recall(ax, labels, x_relative=False, y_relative=True):
 
-    """Plot the xxx of state object(s).
-
-    labels:
-        An ASReview state object.
-    """
-
-    x = list(range(1, len(labels)+1))
-    recall = np.cumsum(labels)/np.sum(labels)
-    recall_random = np.linspace(1/max(x), 1, max(x))
-    xxx = recall - recall_random
-
-    ax.step(x, xxx, where='post')
-    ax.set_title("Work Saved over Sampling")
-    ax.set(xlabel='#', ylabel='xxx')
-    # ax.set_ylim([-0.05, 1.05])
-    # ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
-    ax.xaxis.get_major_locator().set_params(integer=True)
-
-    # correct x axis if tick is at position 0
-    _fix_start_tick(ax)
-
-    return ax
-
-
-def plot_wss(ax, state_obj, priors=False):
-    """Plot the wss of state object(s).
-
-    state_obj:
-        An ASReview state object.
-    """
-
-    labels = state_obj.get_labels(priors=priors).to_list()
-
-    return _plot_wss(ax, labels)
-
-
-def _plot_wss(ax, labels):
-    """Plot the wss of state object(s).
+    """Plot the recall of state object(s).
 
     labels:
         An ASReview state object.
     """
+    n_docs = len(labels)
+    n_pos_docs = sum(labels)
 
-    x = list(range(1, len(labels)+1))
-    # print(labels)
-    # recall = np.cumsum(labels)/np.sum(labels)
-    # recall_random = np.linspace(1/max(x), 1, max(x))
+    x = np.arange(1, n_docs+1)
     recall = np.cumsum(labels)
-    recall_random = np.round(np.linspace(0, np.sum(labels), len(x)))
 
-    # get the index of each unique recall value
-    recall_value, recall_index = np.unique(recall, return_index=True)
+    if x_relative:
+        x = x / n_docs
 
-    # print(recall)
-    # print(recall_random)
-    recall_random_value, recall_random_index = np.unique(recall_random, return_index=True)
+    if y_relative:
+        y = recall / n_pos_docs
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    else:
+        y = recall
+        y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
+        yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
 
-    if np.max(recall_index) == max(recall) - 1:
-        recall_index = np.append([np.nan], recall_index + 1)
-
-    print(recall_index)
-    print(recall_random_index)
-    print(recall_random_index - recall_index)
-
-    # aaa
-    # get the difference between recall_random and recall
-    wss = (recall_random_index - recall_index)/len(x)
-
-    ax.step(recall_value, wss, where='post')
-    ax.set_title("Work Saved over Sampling")
-    ax.set(xlabel='#', ylabel='wss')
-    # ax.set_ylim([-0.05, 1.05])
-    # ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
-    ax.xaxis.get_major_locator().set_params(integer=True)
-
-    # correct x axis if tick is at position 0
-    _fix_start_tick(ax)
-
-    return ax
-
-
-def plot_recall(ax, state_obj, priors=False):
-
-    """Plot the recall of state object(s).
-
-    state_obj:
-        An ASReview state object.
-    """
-
-    labels = state_obj.get_labels(priors=priors).to_list()
-
-    return _plot_recall(ax, labels)
-
-
-def _plot_recall(ax, labels):
-
-    """Plot the recall of state object(s).
-
-    labels:
-        An ASReview state object.
-    """
-
-    x = list(range(1, len(labels)+1))
-    recall = np.cumsum(labels)/np.sum(labels)
-
-    ax.step(x, recall, where='post')
+    ax.step(x, y, where='post')
     ax.set_title("Recall")
     ax.set(xlabel='#', ylabel='Recall')
-    ax.set_ylim([-0.05, 1.05])
-    ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
-    ax.xaxis.get_major_locator().set_params(integer=True)
+    ax.set_ylim(y_lim)
+    ax.set_yticks(yticks)
+
+    if not x_relative:
+        ax.xaxis.get_major_locator().set_params(integer=True)
 
     # add random line if required
-    _plot_random_recall(ax, labels)
+    _plot_random_recall(ax, labels,
+                        x_relative=x_relative, y_relative=y_relative)
 
     # correct x axis if tick is at position 0
     _fix_start_tick(ax)
 
     return ax
 
-def _plot_random_recall(ax, labels):
+def _plot_random_recall(ax, labels, x_relative, y_relative):
 
     """Plot the recall of state object(s).
 
     labels:
         An ASReview state object.
     """
+    n_docs = len(labels)
+    n_pos_docs = sum(labels)
 
     # add random line if required
-    x = list(range(1, len(labels)+1))
-    recall_random = np.linspace(1/max(x), 1, max(x))
-    ax.step(x, recall_random, color="black", where='post')
+    x = np.arange(1, n_docs+1)
+    recall_random = np.round(np.linspace(0, n_pos_docs, n_docs))
+
+    if x_relative:
+        x = x / n_docs
+
+    if y_relative:
+        y = recall_random / n_pos_docs
+    else:
+        y = recall_random
+
+    ax.step(x, y, color="black", where='post')
 
     return ax
 

@@ -26,14 +26,21 @@ from asreview import open_state
 # from asreviewcontrib.visualization.quick import progression_plot
 # from asreviewcontrib.visualization.quick import limit_plot
 # from asreviewcontrib.visualization.quick import discovery_plot
-from asreviewcontrib.insights.recall import plot_recall
+from asreviewcontrib.insights import plot_recall
+from asreviewcontrib.insights import plot_wss
+from asreviewcontrib.insights import plot_erf
 from asreviewcontrib.insights.stats import get_stats, print_stats
 
 PLOT_TYPES = ['recall']
+TYPE_TO_FUNC = {
+    'recall': plot_recall,
+    'wss': plot_wss,
+    'erf': plot_erf
+}
 
 
 class PlotEntryPoint(BaseEntryPoint):
-    description = "Plotting functionality for ASReveiew files."
+    description = "Plotting functionality for ASReview files."
     extension_name = "asreview-insights"
 
     @property
@@ -71,7 +78,8 @@ class PlotEntryPoint(BaseEntryPoint):
         with open_state(args.asreview_files[0]) as s:
 
             fig, ax = plt.subplots()
-            plot_recall(ax, s)
+            plot_func = TYPE_TO_FUNC[args.type]
+            plot_func(ax, s)
 
             if args.output:
                 fig.savefig(args.output)
