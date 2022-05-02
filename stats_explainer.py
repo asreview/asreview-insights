@@ -60,7 +60,7 @@ ax.text(137 + erf_x_offset, (137 / 1000 + recall[137]) * 0.9 / 2,
 ax.plot((137, 517), (recall[137], recall[137]), color='blue')
 wss_y_offset = 0.03
 ax.text((137 + recall[137] * 1000) / 2, recall[137] + wss_y_offset,
-        'ERF', color='blue')
+        'WSS', color='blue')
 
 ax.set_title("Explaining Recall, WSS and ERF")
 ax.set(xlabel='#', ylabel='Recall')
