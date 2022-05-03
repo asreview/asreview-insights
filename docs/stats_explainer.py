@@ -1,3 +1,12 @@
+"""Create example plot with different metrics.
+
+Example
+-------
+
+python docs/stats_explainer.py
+"""
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -36,11 +45,11 @@ x = list(range(1, n_docs + 1))
 
 # Recall curve.
 recall = np.cumsum(labels) / np.sum(labels)
-ax.step(x, recall, where='post', color='grey')
+ax.step(x, recall, where='post')
 
 # Random
 recall_random = np.round(np.linspace(0, n_pos_docs, n_docs)) / np.sum(labels)
-ax.plot(x, recall_random, color='grey')
+ax.step(x, recall_random, where='post', color="black")
 
 # Add the ERF@.137 line (recall > 0.5 at 137, recall_random 0.5 at 517).
 ax.plot((137, 137), (137 / 1000, recall[137]), color='red')

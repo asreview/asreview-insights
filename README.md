@@ -35,7 +35,9 @@ from ASReview project files, ideally as the result of a simulation. See
 [LINK]() for more information on simulating with ASReview LAB.
 
 The following plot (with generated, fake data) explains the different metrics
-Recall, WSS, and ERF.
+Recall, WSS, and ERF. The dataset contains 1000 records. The stepped line on
+the diagonal is the naive labeling approach (screening randomly sorted
+records).
 
 ![ASReview metrics explained](docs/stats_explainer.png)
 
