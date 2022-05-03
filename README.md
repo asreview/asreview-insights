@@ -165,18 +165,65 @@ To make use of the more advanced features, you can make use of the Python API.
 The advantage is that you can make more advanced plots. The following example
 shows how the Python API can be used. It makes extensively use of matplotlib.
 
+### Plot using the API
+
+The following example show how to plot the recall with the API and save the
+result. The plot is saved using the matplotlib API.
+
 ```python
 import matplotlib.pyplot as plt
 
 from asreview import open_state
 from asreviewcontrib.insights import plot_recall
 
-    with open_state("example.asreview") as s:
+with open_state("example.asreview") as s:
 
-        fig, ax = plt.subplots()
+    fig, ax = plt.subplots()
 
-        plot_recall(ax, s)
+    plot_recall(ax, s)
 
-        fig.savefig("example.png")
+    fig.savefig("example.png")
 ```
 
+Other options are `plot_wss` and `plot_erf`.
+
+### Customize plot
+
+It's straightforward to customize the plots if you are familiar with
+`matplotlib`. The following example shows how to update the title of the plot.
+
+```python
+import matplotlib.pyplot as plt
+
+from asreview import open_state
+from asreviewcontrib.insights import plot_wss
+
+with open_state("example.asreview") as s:
+
+    fig, ax = plt.subplots()
+    plot_wss(ax, s)
+
+    plt.title("WSS with custom title")
+
+    fig.savefig("example_custom_title.png")
+```
+
+![WSS with custom title](docs/example_custom_title.png)
+
+### Prior knowledge
+
+It's possible to include prior knowledge to your plot. By default, prior
+knowledge is excluded from the plot.
+
+```python
+import matplotlib.pyplot as plt
+
+from asreview import open_state
+from asreviewcontrib.insights import plot_wss
+
+with open_state("example.asreview") as s:
+
+    fig, ax = plt.subplots()
+    plot_wss(ax, s, priors=True)
+
+```
