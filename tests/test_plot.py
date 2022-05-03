@@ -82,28 +82,6 @@ def test_plot_wss():
             Path(TEST_FIGURES, "tests_wss_xyabs_sim_van_de_schoot_2017_1.png"))
 
 
-def test_plot_recall_xxx_small_data():
-
-    fig, ax = plt.subplots()
-    _plot_recall_xxx(ax, [1, 1, 1, 0])
-
-    fig.savefig(Path(TEST_FIGURES, "tests_recall_wss_small_dataset.png"))
-
-
-def test_plot_recall_xxx():
-
-    with open_state(
-            Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
-
-        fig, ax = plt.subplots()
-        plot_recall_xxx(ax, s)
-
-        fig.savefig(
-            Path(TEST_FIGURES,
-                 "tests_recall_wss_sim_van_de_schoot_2017_1.png"))
-
-
 def test_plot_erf():
 
     with open_state(

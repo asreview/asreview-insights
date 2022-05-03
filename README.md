@@ -53,6 +53,47 @@ On the vertical axis, you find the recall after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
 label actions and can't exceed the number of records in the dataset.
 
+### WSS
+
+The Work Saved over Sampling (WSS) metric is an useful metric to study the
+performance of active learning alorithms compared with a naive (random order)
+approach. The ASReview Insights offers a straightforward command line
+interface to plot the wss at any recall.
+
+To plot the WSS curve, you need a ASReview file (extension `.asreview`).
+The file can be [exported from the ASReview LAB user interface](), or is the
+[result of a simulation](). To plot the WSS, use this syntax (Replace
+`YOUR_ASREVIEW_FILE.asreview` by your ASReview file name.):
+
+```bash
+asreview plot wss YOUR_ASREVIEW_FILE.asreview
+```
+
+The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+the benchmark platform (command `asreview simulate
+benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
+
+![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
+
+On the vertical axis, you find the WSS after every labeling decision. The
+recall is displayed on the horizontal axis.
+
+
+### ERF
+
+```bash
+asreview plot erf YOUR_ASREVIEW_FILE.asreview
+```
+
+The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+the benchmark platform (command `asreview simulate
+benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
+
+![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
+
+On the vertical axis, you find the ERF after every labeling decision. The
+number of labeling actions on the horizontal axis is equal to the number of
+label actions and can't exceed the number of records in the dataset.
 
 ## Small datasets
 
