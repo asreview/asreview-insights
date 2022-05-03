@@ -25,7 +25,29 @@ asreview --help
 
 It should list the 'plot' subcommand and the 'stats' subcommand.
 
+## Active learning performance
+
+The `ASReview-insights` extension is useful to measure the performance of
+active learning models on collections of binary labeled text. The performance
+can be measured with widely used metrics like Recall and Work Saved over
+Sampling (WSS). The `ASReview-insights` extension can plot or compute metrics
+from ASReview project files, ideally as the result of a simulation. See
+[LINK]() for more information on simulating with ASReview LAB.
+
+The following plot (with generated, fake data) explains the different metrics
+Recall, WSS, and ERF.
+
+![ASReview metrics explained](docs/stats_explainer.png)
+
+
 ## Plots
+
+The plots in this section are derived from an ASReview (v1.0) file generated
+from
+
+```python
+asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --seed_init 535
+```
 
 ### Recall
 
@@ -73,7 +95,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`]() in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis.
@@ -89,7 +111,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`]() in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
