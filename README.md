@@ -162,8 +162,11 @@ literature about Active Learning for systematic reviewing.
 ## API
 
 To make use of the more advanced features, you can make use of the Python API.
-The advantage is that you can make more advanced plots. The following example
-shows how the Python API can be used. It makes extensively use of matplotlib.
+The advantage is that you can tweak every single element of the plot in the
+way you like. The following examples show how the Python API can be used. They
+make use of matplotlib extensively. See the [Introduction to
+Matplotlib](https://matplotlib.org/stable/tutorials/introductory/usage.html)
+for examples on using the API.
 
 ### Plot using the API
 
@@ -227,3 +230,35 @@ with open_state("example.asreview") as s:
     plot_wss(ax, s, priors=True)
 
 ```
+
+### Relative versus absolute axes
+
+By default, all axes in ASReview-insights are relative. The API can be used to
+change this behavior. The arguments are identical for each plot function.
+
+```python
+import matplotlib.pyplot as plt
+
+from asreview import open_state
+from asreviewcontrib.insights import plot_wss
+
+with open_state("example.asreview") as s:
+
+    fig, ax = plt.subplots()
+    plot_wss(ax, s, x_relative=False, y_relative=False)
+
+    fig.savefig("example_absolute_axis.png")
+```
+
+![Recall with absolute axes](docs/example_absolute_axes.png)
+
+## License
+
+This extension is published under the [MIT license](/LICENSE).
+
+## Contact
+
+This extension is part of the ASReview project. It is maintained by the
+maintainers of ASReview LAB. See [ASReview
+LAB](https://github.com/asreview/asreview) for contact information and more
+resources.
