@@ -20,14 +20,14 @@ def get_stats():
     result = {
         "metrics": {
             "wss": [{
-                            "type" : "recall",
-                            "valueType": 0.95,
-                            "value": None
-                        }],
+                "type": "recall",
+                "valueType": 0.95,
+                "value": None
+            }],
             "rrf": [{
-                            "valueType": 0.1,
-                            "value": None
-                        }]
+                "valueType": 0.1,
+                "value": None
+            }]
         }
     }
 

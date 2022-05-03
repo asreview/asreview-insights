@@ -66,7 +66,7 @@ def _plot_erf(ax, labels, x_relative=True, y_relative=True):
 
     extra_records_found = docs_found - docs_found_random
 
-    x = np.arange(1, n_docs+1)
+    x = np.arange(1, n_docs + 1)
     if x_relative:
         x = x / n_docs
 

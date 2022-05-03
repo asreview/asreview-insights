@@ -34,9 +34,9 @@ setup(
         # Pick your license as you wish
         'License :: OSI Approved :: Apache Software License',
 
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     keywords='asreview plot visualization',
     packages=find_namespace_packages(include=['asreviewcontrib.*']),

@@ -12,14 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import matplotlib.pyplot as plt
 import numpy as np
 
 from asreviewcontrib.insights.utils import _fix_start_tick
-
-
-
 
 # def _plot_xxx(ax, labels):
 #
@@ -91,8 +87,11 @@ from asreviewcontrib.insights.utils import _fix_start_tick
 #     return ax
 
 
-def plot_recall(ax, state_obj, priors=False, x_relative=False, y_relative=True):
-
+def plot_recall(ax,
+                state_obj,
+                priors=False,
+                x_relative=False,
+                y_relative=True):
     """Plot the recall of state object(s).
 
     state_obj:
@@ -101,12 +100,13 @@ def plot_recall(ax, state_obj, priors=False, x_relative=False, y_relative=True):
 
     labels = state_obj.get_labels(priors=priors).to_list()
 
-    return _plot_recall(ax, labels,
-                        x_relative=x_relative, y_relative=y_relative)
+    return _plot_recall(ax,
+                        labels,
+                        x_relative=x_relative,
+                        y_relative=y_relative)
 
 
 def _plot_recall(ax, labels, x_relative=False, y_relative=True):
-
     """Plot the recall of state object(s).
 
     labels:
@@ -115,7 +115,7 @@ def _plot_recall(ax, labels, x_relative=False, y_relative=True):
     n_docs = len(labels)
     n_pos_docs = sum(labels)
 
-    x = np.arange(1, n_docs+1)
+    x = np.arange(1, n_docs + 1)
     recall = np.cumsum(labels)
 
     if x_relative:
@@ -140,16 +140,18 @@ def _plot_recall(ax, labels, x_relative=False, y_relative=True):
         ax.xaxis.get_major_locator().set_params(integer=True)
 
     # add random line if required
-    _plot_random_recall(ax, labels,
-                        x_relative=x_relative, y_relative=y_relative)
+    _plot_random_recall(ax,
+                        labels,
+                        x_relative=x_relative,
+                        y_relative=y_relative)
 
     # correct x axis if tick is at position 0
     _fix_start_tick(ax)
 
     return ax
 
-def _plot_random_recall(ax, labels, x_relative, y_relative):
 
+def _plot_random_recall(ax, labels, x_relative, y_relative):
     """Plot the recall of state object(s).
 
     labels:
@@ -159,7 +161,7 @@ def _plot_random_recall(ax, labels, x_relative, y_relative):
     n_pos_docs = sum(labels)
 
     # add random line if required
-    x = np.arange(1, n_docs+1)
+    x = np.arange(1, n_docs + 1)
     recall_random = np.round(np.linspace(0, n_pos_docs, n_docs))
 
     if x_relative:
@@ -175,9 +177,7 @@ def _plot_random_recall(ax, labels, x_relative, y_relative):
     return ax
 
 
-
 def plot_recall_xxx(ax, state_obj, priors=False):
-
     """Plot the xxx versus the recall of state object(s).
 
     state_obj:
@@ -190,16 +190,15 @@ def plot_recall_xxx(ax, state_obj, priors=False):
 
 
 def _plot_recall_xxx(ax, labels):
-
     """Plot the xxx of state object(s).
 
     labels:
         An ASReview state object.
     """
 
-    x = list(range(1, len(labels)+1))
-    recall = np.cumsum(labels)/np.sum(labels)
-    recall_random = np.linspace(1/max(x), 1, max(x))
+    x = list(range(1, len(labels) + 1))
+    recall = np.cumsum(labels) / np.sum(labels)
+    recall_random = np.linspace(1 / max(x), 1, max(x))
     xxx = recall - recall_random
 
     ax.step(recall, xxx, where='post')

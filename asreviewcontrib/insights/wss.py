@@ -75,7 +75,7 @@ def _plot_wss(ax, labels, x_relative=True, y_relative=True):
                                         np.arange(1, n_pos_docs + 1))
     n_found_earlier = when_found_random - when_found
 
-    x = np.arange(1, n_pos_docs+1)
+    x = np.arange(1, n_pos_docs + 1)
     if x_relative:
         x = x / n_pos_docs
 

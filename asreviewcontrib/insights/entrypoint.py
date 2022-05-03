@@ -32,11 +32,7 @@ from asreviewcontrib.insights import plot_erf
 from asreviewcontrib.insights.stats import get_stats, print_stats
 
 PLOT_TYPES = ['recall']
-TYPE_TO_FUNC = {
-    'recall': plot_recall,
-    'wss': plot_wss,
-    'erf': plot_erf
-}
+TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -50,11 +46,10 @@ class PlotEntryPoint(BaseEntryPoint):
 
     def execute(self, argv):
         parser = argparse.ArgumentParser(prog='asreview plot')
-        parser.add_argument(
-            "type",
-            type=str,
-            default="recall",
-            help="Plot type. Default 'recall'.")
+        parser.add_argument("type",
+                            type=str,
+                            default="recall",
+                            help="Plot type. Default 'recall'.")
         parser.add_argument('asreview_files',
                             metavar='asreview_files',
                             type=str,

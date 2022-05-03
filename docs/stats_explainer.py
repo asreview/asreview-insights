@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from asreviewcontrib.insights.utils import _fix_start_tick
 
 # The recall at a given number of documents read is the fraction of the
 # relevant records found at that moment. (recall = n_pos_records / n_records)
@@ -14,26 +15,16 @@ import matplotlib.pyplot as plt
 # extra relevant records found after reading a fraction X of the total number of
 # records.
 
-
-def _fix_start_tick(ax):
-
-    # correct x axis if tick is at position 0
-    locs = ax.get_xticks()
-    if locs[1] == 0:
-        locs[1] = 1
-        ax.set_xticks(locs[1:-1])
-
-    return ax
-
-
 # Create fictive data.
 n_docs = 1000
 n_pos_docs = 30
 
-percentages = np.array([x**(1/3) for x in np.linspace(0, 1, n_docs)])
+percentages = np.array([x**(1 / 3) for x in np.linspace(0, 1, n_docs)])
 n_docs_found = np.round(percentages * n_pos_docs)
-labels = [n_docs_found[i+1] - n_docs_found[i]
-          for i in range(len(n_docs_found)-1)] + [0]
+labels = [
+    n_docs_found[i + 1] - n_docs_found[i]
+    for i in range(len(n_docs_found) - 1)
+] + [0]
 labels[0] = 1
 labels[5] = 1
 labels[8] = 1
@@ -52,15 +43,18 @@ recall_random = np.round(np.linspace(0, n_pos_docs, n_docs)) / np.sum(labels)
 ax.plot(x, recall_random, color='grey')
 
 # Add the ERF@.137 line (recall > 0.5 at 137, recall_random 0.5 at 517).
-ax.plot((137, 137), (137/1000, recall[137]), color='red')
+ax.plot((137, 137), (137 / 1000, recall[137]), color='red')
 erf_x_offset = -70
 ax.text(137 + erf_x_offset, (137 / 1000 + recall[137]) * 0.9 / 2,
-        'ERF', color='red')
+        'ERF',
+        color='red')
 # Add the WSS@.5 line.
 ax.plot((137, 517), (recall[137], recall[137]), color='blue')
 wss_y_offset = 0.03
-ax.text((137 + recall[137] * 1000) / 2, recall[137] + wss_y_offset,
-        'WSS', color='blue')
+ax.text((137 + recall[137] * 1000) / 2,
+        recall[137] + wss_y_offset,
+        'WSS',
+        color='blue')
 
 ax.set_title("Explaining Recall, WSS and ERF")
 ax.set(xlabel='#', ylabel='Recall')
@@ -70,4 +64,4 @@ ax.xaxis.get_major_locator().set_params(integer=True)
 
 _fix_start_tick(ax)
 
-fig.savefig('stats_explainer.png')
+fig.savefig('docs/stats_explainer.png')
