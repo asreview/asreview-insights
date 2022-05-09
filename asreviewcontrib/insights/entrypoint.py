@@ -60,6 +60,8 @@ class PlotEntryPoint(BaseEntryPoint):
 
             if args.output:
                 fig.savefig(args.output)
+            else:
+                plt.show()
 
 
 class StatsEntryPoint(BaseEntryPoint):
