@@ -51,7 +51,9 @@ from
 asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --seed_init 535
 ```
 
-### Recall
+### Plot types
+
+#### Recall
 
 The recall is an important metric to study the performance of active learning
 alorithms in the context of information retrieval. The ASReview Insights
@@ -77,7 +79,7 @@ On the vertical axis, you find the recall after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
 label actions and can't exceed the number of records in the dataset.
 
-### WSS
+#### WSS
 
 The Work Saved over Sampling (WSS) metric is an useful metric to study the
 performance of active learning alorithms compared with a naive (random order)
@@ -103,7 +105,7 @@ On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis.
 
 
-### ERF
+#### ERF
 
 ```bash
 asreview plot erf YOUR_ASREVIEW_FILE.asreview
@@ -119,7 +121,7 @@ On the vertical axis, you find the ERF after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
 label actions and can't exceed the number of records in the dataset.
 
-## Small datasets
+### Small datasets
 
 Small datasets can provide good insights on interesting details of the
 plotting subcommands in this extension. Important details are for example the
@@ -159,7 +161,7 @@ literature about Active Learning for systematic reviewing.
 ![Recall versus WSS of small dataset example](figures/tests_recall_wss_small_dataset.png)
 
 
-## Plotting API
+### Plotting API
 
 To make use of the more advanced features, you can make use of the Python API.
 The advantage is that you can tweak every single element of the plot in the
@@ -167,8 +169,6 @@ way you like. The following examples show how the Python API can be used. They
 make use of matplotlib extensively. See the [Introduction to
 Matplotlib](https://matplotlib.org/stable/tutorials/introductory/usage.html)
 for examples on using the API.
-
-### Plot using the API
 
 The following example show how to plot the recall with the API and save the
 result. The plot is saved using the matplotlib API.
@@ -190,7 +190,7 @@ with open_state("example.asreview") as s:
 
 Other options are `plot_wss` and `plot_erf`.
 
-### Customize plot
+#### Example: Customize plot
 
 It's straightforward to customize the plots if you are familiar with
 `matplotlib`. The following example shows how to update the title of the plot.
@@ -213,7 +213,7 @@ with open_state("example.asreview") as s:
 
 ![WSS with custom title](docs/example_custom_title.png)
 
-### Prior knowledge
+#### Example: Prior knowledge
 
 It's possible to include prior knowledge to your plot. By default, prior
 knowledge is excluded from the plot.
@@ -231,7 +231,7 @@ with open_state("example.asreview") as s:
 
 ```
 
-### Relative versus absolute axes
+#### Example: Relative versus absolute axes
 
 By default, all axes in ASReview-insights are relative. The API can be used to
 change this behavior. The arguments are identical for each plot function.
@@ -255,7 +255,8 @@ with open_state("example.asreview") as s:
 ## Metrics
 
 The metrics in ASReview-insights can be used to extract metrics at given
-values. The easiest way to get metrics on a ASReview project file is with the following comman don the command line:
+values. The easiest way to get metrics on a ASReview project file is with the
+following comman don the command line:
 
 ```
 asreview stats sim_van_de_schoot_2017.asreview
@@ -316,10 +317,13 @@ values.
 | `erf` | Labels | ERF | 0.95 |
 
 
-### Custom values
+### Override default values
+
+It is possible to override the default values of `asreview stats`. See
+`asreview stats -h` for more information or see the example below.
 
 ```
-asreview stats tests/asreview_files/sim_van_de_schoot_2017_1.asreview --wss_recall 0.9 0.95
+asreview stats sim_van_de_schoot_2017.asreview --wss_recall 0.9 0.95
 ```
 
 ```
@@ -367,9 +371,18 @@ asreview stats tests/asreview_files/sim_van_de_schoot_2017_1.asreview --wss_reca
 }
 ```
 
-## Metrics API
+### Save metrics to file
 
-### Recall using the API
+Metrics can be saved to a file in the JSON format. Use the flag `-o` or
+`--output`.
+
+```
+asreview stats sim_van_de_schoot_2017.asreview -o my_file.json
+```
+
+### Metrics API
+
+Metrics are easily accesible with the `ASReview-insights` API.
 
 Compute the recall after reading half of the dataset.
 
@@ -385,7 +398,7 @@ with open_state("example.asreview") as s:
 
 Other metrics are available like `wss` and `erf`.
 
-### Prior knowledge
+#### Example: Prior knowledge
 
 It's possible to include prior knowledge to your metric. By default, prior
 knowledge is excluded from the metric.
