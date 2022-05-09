@@ -177,7 +177,7 @@ result. The plot is saved using the matplotlib API.
 import matplotlib.pyplot as plt
 
 from asreview import open_state
-from asreviewcontrib.insights import plot_recall
+from asreviewcontrib.insights.plot import plot_recall
 
 with open_state("example.asreview") as s:
 
@@ -199,7 +199,7 @@ It's straightforward to customize the plots if you are familiar with
 import matplotlib.pyplot as plt
 
 from asreview import open_state
-from asreviewcontrib.insights import plot_wss
+from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
 
@@ -222,7 +222,7 @@ knowledge is excluded from the plot.
 import matplotlib.pyplot as plt
 
 from asreview import open_state
-from asreviewcontrib.insights import plot_wss
+from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
 
@@ -240,7 +240,7 @@ change this behavior. The arguments are identical for each plot function.
 import matplotlib.pyplot as plt
 
 from asreview import open_state
-from asreviewcontrib.insights import plot_wss
+from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
 

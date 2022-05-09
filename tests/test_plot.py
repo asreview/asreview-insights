@@ -6,10 +6,12 @@ import matplotlib.pyplot as plt
 
 from asreview import open_state
 
-from asreviewcontrib.insights import plot_recall, plot_wss, plot_erf, plot_recall_xxx
-from asreviewcontrib.insights.recall import _plot_recall, _plot_recall_xxx
-from asreviewcontrib.insights.erf import _plot_erf
-from asreviewcontrib.insights.wss import _plot_wss
+from asreviewcontrib.insights.plot import plot_recall
+from asreviewcontrib.insights.plot import plot_erf
+from asreviewcontrib.insights.plot import plot_wss
+from asreviewcontrib.insights.plot import _plot_recall
+from asreviewcontrib.insights.plot import _plot_erf
+from asreviewcontrib.insights.plot import _plot_wss
 
 TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
 TEST_FIGURES = Path("figures")

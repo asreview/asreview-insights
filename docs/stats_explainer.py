@@ -10,7 +10,7 @@ python docs/stats_explainer.py
 import numpy as np
 import matplotlib.pyplot as plt
 
-from asreviewcontrib.insights.utils import _fix_start_tick
+from asreviewcontrib.insights.plot import _fix_start_tick
 
 # The recall at a given number of documents read is the fraction of the
 # relevant records found at that moment. (recall = n_pos_records / n_records)
