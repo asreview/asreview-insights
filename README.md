@@ -159,7 +159,7 @@ literature about Active Learning for systematic reviewing.
 ![Recall versus WSS of small dataset example](figures/tests_recall_wss_small_dataset.png)
 
 
-## API
+## Plotting API
 
 To make use of the more advanced features, you can make use of the Python API.
 The advantage is that you can tweak every single element of the plot in the
@@ -251,6 +251,154 @@ with open_state("example.asreview") as s:
 ```
 
 ![Recall with absolute axes](docs/example_absolute_axes.png)
+
+## Metrics
+
+The metrics in ASReview-insights can be used to extract metrics at given
+values. The easiest way to get metrics on a ASReview project file is with the following comman don the command line:
+
+```
+asreview stats sim_van_de_schoot_2017.asreview
+```
+
+which results in
+
+```
+{
+    "metrics": {
+        "recall": [
+            {
+                "x": 0.1,
+                "y": 1.0
+            },
+            {
+                "x": 0.25,
+                "y": 1.0
+            },
+            {
+                "x": 0.5,
+                "y": 1.0
+            },
+            {
+                "x": 0.75,
+                "y": 1.0
+            },
+            {
+                "x": 0.9,
+                "y": 1.0
+            }
+        ],
+        "wss_recall": [
+            {
+                "x": 0.95,
+                "y": 0.9107806691449815
+            }
+        ],
+        "erf": [
+            {
+                "x": 0.95,
+                "y": 0.047619047619047616
+            }
+        ]
+    }
+}
+```
+
+Each available metric has `x` and `y` values. The `x` value is the value at
+which the metric is computed. In the plots above, this is the x-axis. The `y`
+value is the output of the metric. Some metrics are computed for multiple
+values.
+
+| Metric | X description | Y description | Default |
+|---|---|---|---|
+| `recall` | Labels | Recall | 0.1, 0.25, 0.5, 0.75, 0.9 |
+| `wss_recall` | Recall | Work Saved over Sampling at recall | 0.95 |
+| `erf` | Labels | ERF | 0.95 |
+
+
+### Custom values
+
+```
+asreview stats tests/asreview_files/sim_van_de_schoot_2017_1.asreview --wss_recall 0.9 0.95
+```
+
+```
+{
+    "metrics": {
+        "recall": [
+            {
+                "x": 0.1,
+                "y": 1.0
+            },
+            {
+                "x": 0.25,
+                "y": 1.0
+            },
+            {
+                "x": 0.5,
+                "y": 1.0
+            },
+            {
+                "x": 0.75,
+                "y": 1.0
+            },
+            {
+                "x": 0.9,
+                "y": 1.0
+            }
+        ],
+        "wss_recall": [
+            {
+                "x": 0.9,
+                "y": 0.8692419589461775
+            },
+            {
+                "x": 0.95,
+                "y": 0.9107806691449815
+            }
+        ],
+        "erf": [
+            {
+                "x": 0.95,
+                "y": 0.047619047619047616
+            }
+        ]
+    }
+}
+```
+
+## Metrics API
+
+### Recall using the API
+
+Compute the recall after reading half of the dataset.
+
+```python
+
+from asreview import open_state
+from asreviewcontrib.insights.metrics import recall
+
+with open_state("example.asreview") as s:
+
+    print(recall(s, 0.5))
+```
+
+Other metrics are available like `wss` and `erf`.
+
+### Prior knowledge
+
+It's possible to include prior knowledge to your metric. By default, prior
+knowledge is excluded from the metric.
+
+```python
+
+from asreview import open_state
+from asreviewcontrib.insights.metrics import recall
+
+with open_state("example.asreview") as s:
+
+    print(recall(s, 0.5, priors=True))
+```
 
 ## License
 

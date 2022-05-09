@@ -2,6 +2,8 @@
 import numpy as np
 
 from asreviewcontrib.insights.algorithms import _recall_values
+from asreviewcontrib.insights.algorithms import _wss_values
+from asreviewcontrib.insights.algorithms import _erf_values
 
 
 def _slice_metric(x, y, intercept):

@@ -72,7 +72,7 @@ class StatsEntryPoint(BaseEntryPoint):
         return __version__
 
     def execute(self, argv):
-        parser = argparse.ArgumentParser(prog='asreview plot')
+        parser = argparse.ArgumentParser(prog='asreview stats')
         parser.add_argument('asreview_files',
                             metavar='asreview_files',
                             type=str,
@@ -84,6 +84,24 @@ class StatsEntryPoint(BaseEntryPoint):
             action="version",
             version=f"asreview-insights: {self.version}",
         )
+        parser.add_argument('--recall',
+                            metavar='recall',
+                            type=float,
+                            default=[0.1, 0.25, 0.5, 0.75, 0.9],
+                            nargs='+',
+                            help='A (list of) values to compute the recall at.')
+        parser.add_argument('--wss_recall',
+                            metavar='wss',
+                            type=float,
+                            nargs='+',
+                            default=[0.95],
+                            help='A (list of) values to compute the wss at.')
+        parser.add_argument('--erf',
+                            metavar='erf',
+                            type=float,
+                            nargs='+',
+                            default=[0.95],
+                            help='A (list of) values to compute the erf at.')
         parser.add_argument(
             "-o",
             "--output",
@@ -92,7 +110,7 @@ class StatsEntryPoint(BaseEntryPoint):
         args = parser.parse_args(argv)
 
         with open_state(args.asreview_files[0]) as s:
-            stats = get_stats()
+            stats = get_stats(s, recall=args.recall, wss=args.wss, erf=args.erf)
             print_stats(stats)
 
         if args.output:
