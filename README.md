@@ -121,25 +121,25 @@ On the vertical axis, you find the ERF after every labeling decision. The
 number of labeling actions on the horizontal axis is equal to the number of
 label actions and can't exceed the number of records in the dataset.
 
-### Small datasets
+### Very sparse datasets
 
-Small datasets can provide good insights on interesting details of the
-plotting subcommands in this extension. Important details are for example the
-handling of prior knowledge and the computation of the recall prediction in
-case of random screening.
+Very sparse or small datasets can provide good explanation on interesting
+details of the plotting subcommands in this extension. Important details are
+for example the handling of prior knowledge and the computation of the recall
+prediction in case of random screening.
 
 The following plot shows the result of a collection of 4 records with 3
 relevant items (inclusions). The relevant items are found in the following
 order:
 
 ```
-[1, 1, 1, 0]
+[1, 1, 0, 1, 0]
 ```
 
-![Recall of small dataset example](figures/tests_recall_small_dataset.png)
+![Recall of small dataset example](figures/tests_small_dataset_recall.png)
 
-The random line is a step functions that estimates the recall after every
-screened record.
+The black line is an estimate of the recall after every screened record in a
+naive manner (also refered to as 'random').
 
 ```
 Recall (est) when screening 1 = (3 relevant records / 4 records left)  / 3 = 0.25
@@ -151,14 +151,13 @@ Recall (est) when screening 2 = (1/4) * (3 relevant records / 3 records left)  /
 The Work Saved over Sampling (WSS) is the difference between the recall of the
 simulation and the theoretical recall of random screening.
 
-
-![Recall of small dataset example](figures/tests_wss_small_dataset.png)
+![WSS for small dataset example](figures/tests_small_dataset_wss.png)
 
 The following graph shows the recall versus the WSS. This comparison is
 important because it is the fundamental of the `WSS@95%` metric used in the
 literature about Active Learning for systematic reviewing.
 
-![Recall versus WSS of small dataset example](figures/tests_recall_wss_small_dataset.png)
+![ERF for small dataset example](figures/tests_small_dataset_erf.png)
 
 
 ### Plotting API
