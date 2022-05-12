@@ -172,7 +172,7 @@ def _plot_wss(ax, labels, x_relative=True, y_relative=True):
 
     ax.step(x, y, where='post')
     ax.set_title("WSS")
-    ax.set(xlabel='#', ylabel='WSS')
+    ax.set(xlabel='Recall', ylabel='WSS')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
