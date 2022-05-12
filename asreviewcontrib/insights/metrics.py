@@ -27,8 +27,8 @@ def _slice_metric(x, y, intercept):
     float
     """
 
-    i = np.searchsorted(x, intercept, side='left')
-    return y[i]
+    i = np.searchsorted(x, intercept, side='right')
+    return y[i - 1]
 
 
 def recall(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
@@ -41,9 +41,12 @@ def recall(state_obj, intercept, priors=False, x_relative=True, y_relative=True)
 def _recall(labels, intercept, x_relative=True, y_relative=True):
 
     x, y = _recall_values(labels, x_relative=x_relative, y_relative=y_relative)
+    print(x, y)
+
+    if intercept < x[0]:
+        return 0
 
     return _slice_metric(x, y, intercept)
-
 
 
 def wss(state_obj, intercept, priors=False, x_relative=True, y_relative=True):

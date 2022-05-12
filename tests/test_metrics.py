@@ -66,6 +66,26 @@ def test_metric_recall_min_values():
     assert_almost_equal(r, 0)
 
 
+def test_metric_recall_invalid_values_min():
+
+    labels = [1, 1, 1, 0]
+    r = _recall(labels, -1)
+    assert_almost_equal(r, 0)
+
+    r = _recall(labels, 0.2, x_relative=False)
+    assert_almost_equal(r, 0)
+
+
+def test_metric_recall_invalid_values_max():
+
+    labels = [1, 1, 1, 0]
+    r = _recall(labels, 6, x_relative=False)
+    assert_almost_equal(r, 1)
+
+    r = _recall(labels, 1.2)
+    assert_almost_equal(r, 1)
+
+
 def test_metric_recall():
 
     with open_state(

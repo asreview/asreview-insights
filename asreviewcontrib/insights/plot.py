@@ -18,7 +18,7 @@ def _fix_start_tick(ax):
 def plot_recall(ax,
                 state_obj,
                 priors=False,
-                x_relative=False,
+                x_relative=True,
                 y_relative=True):
     """Plot the recall of state object(s).
 
@@ -34,7 +34,7 @@ def plot_recall(ax,
                         y_relative=y_relative)
 
 
-def _plot_recall(ax, labels, x_relative=False, y_relative=True):
+def _plot_recall(ax, labels, x_relative=True, y_relative=True):
     """Plot the recall of state object(s).
 
     labels:

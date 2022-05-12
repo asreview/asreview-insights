@@ -28,7 +28,8 @@ class PlotEntryPoint(BaseEntryPoint):
 
     def execute(self, argv):
         parser = argparse.ArgumentParser(prog='asreview plot')
-        parser.add_argument("type",
+        parser.add_argument("plot_type",
+                            metavar='type',
                             type=str,
                             default="recall",
                             help="Plot type. Default 'recall'.")
@@ -37,6 +38,22 @@ class PlotEntryPoint(BaseEntryPoint):
                             type=str,
                             nargs='+',
                             help='A (list of) ASReview files.')
+        parser.add_argument('--show_priors',
+                            metavar='priors',
+                            type=bool,
+                            default=False,
+                            help='Show records used as prior knowledge '
+                            'in the plot.')
+        parser.add_argument('--x_relative',
+                            type=bool,
+                            default=True,
+                            help='Make use of relative coordinates on'
+                            ' the x-axis. Default: True.')
+        parser.add_argument('--y_relative',
+                            type=bool,
+                            default=True,
+                            help='Make use of relative coordinates on'
+                            ' the y-axis. Default: True.')
         parser.add_argument(
             "-V",
             "--version",
@@ -52,11 +69,19 @@ class PlotEntryPoint(BaseEntryPoint):
             'formats.')
         args = parser.parse_args(argv)
 
+        if len(args.asreview_files) > 1:
+            raise ValueError("Plotting multiple project files"
+                             " via the CLI is not supported yet.")
+
         with open_state(args.asreview_files[0]) as s:
 
             fig, ax = plt.subplots()
             plot_func = TYPE_TO_FUNC[args.type]
-            plot_func(ax, s)
+            plot_func(ax,
+                      s,
+                      priors=args.priors,
+                      x_relative=args.x_relative,
+                      y_relative=args.y_relative)
 
             if args.output:
                 fig.savefig(args.output)
@@ -86,12 +111,13 @@ class StatsEntryPoint(BaseEntryPoint):
             action="version",
             version=f"asreview-insights: {self.version}",
         )
-        parser.add_argument('--recall',
-                            metavar='recall',
-                            type=float,
-                            default=[0.1, 0.25, 0.5, 0.75, 0.9],
-                            nargs='+',
-                            help='A (list of) values to compute the recall at.')
+        parser.add_argument(
+            '--recall',
+            metavar='recall',
+            type=float,
+            default=[0.1, 0.25, 0.5, 0.75, 0.9],
+            nargs='+',
+            help='A (list of) values to compute the recall at.')
         parser.add_argument('--wss_recall',
                             metavar='wss',
                             type=float,
@@ -104,6 +130,22 @@ class StatsEntryPoint(BaseEntryPoint):
                             nargs='+',
                             default=[0.95],
                             help='A (list of) values to compute the erf at.')
+        parser.add_argument('--show_priors',
+                            metavar='priors',
+                            type=bool,
+                            default=False,
+                            help='Show records used as prior knowledge '
+                            'in the plot.')
+        parser.add_argument('--x_relative',
+                            type=bool,
+                            default=True,
+                            help='Make use of relative coordinates on'
+                            ' the x-axis. Default: True.')
+        parser.add_argument('--y_relative',
+                            type=bool,
+                            default=True,
+                            help='Make use of relative coordinates on'
+                            ' the y-axis. Default: True.')
         parser.add_argument(
             "-o",
             "--output",
@@ -111,8 +153,18 @@ class StatsEntryPoint(BaseEntryPoint):
             help='Save the statistics and metrics to a JSON file.')
         args = parser.parse_args(argv)
 
+        if len(args.asreview_files) > 1:
+            raise ValueError("Computing metrics for multiple project files"
+                             " via the CLI is not supported yet.")
+
         with open_state(args.asreview_files[0]) as s:
-            stats = get_stats(s, recall=args.recall, wss=args.wss, erf=args.erf)
+            stats = get_stats(s,
+                              recall=args.recall,
+                              wss=args.wss,
+                              erf=args.erf,
+                              priors=args.priors,
+                              x_relative=args.x_relative,
+                              y_relative=args.y_relative)
             print_stats(stats)
 
         if args.output:
