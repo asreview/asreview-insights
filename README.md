@@ -252,7 +252,7 @@ with open_state("example.asreview") as s:
 ![Recall with absolute axes](docs/example_absolute_axes.png)
 
 
-#### Example: Multiple lines in one plot
+#### Example: Multiple curves in one plot
 
 It is possible to have multiple curves in one plot by using the API,
 and add a legend.
