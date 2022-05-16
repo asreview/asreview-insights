@@ -18,7 +18,7 @@ setup(
     name='asreview-insights',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    description='Visualization tools for the ASReview project',
+    description='Insight tools for the ASReview project',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/asreview/asreview-insights',
@@ -38,7 +38,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ],
-    keywords='asreview plot visualization',
+    keywords='asreview plot insights',
     packages=find_namespace_packages(include=['asreviewcontrib.*']),
     install_requires=[
         "numpy", "matplotlib", "asreview",

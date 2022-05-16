@@ -43,8 +43,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/asreview_visualization-${{ steps.get_version.outputs.VERSION }}-py3-none-any.whl
-        asset_name: asreview_visualization-${{ steps.get_version.outputs.VERSION }}-py3-none-any.whl
+        asset_path: ./dist/asreview_insights-${{ steps.get_version.outputs.VERSION }}-py3-none-any.whl
+        asset_name: asreview_insights-${{ steps.get_version.outputs.VERSION }}-py3-none-any.whl
         asset_content_type: application/x-wheel+zip
     - name: Upload Release Asset (Sdist)
       id: upload-release-asset-sdist
