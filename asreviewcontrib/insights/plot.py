@@ -20,10 +20,29 @@ def plot_recall(ax,
                 priors=False,
                 x_relative=True,
                 y_relative=True):
-    """Plot the recall of state object(s).
+    """Plot the recall@T for all thresholds T.
 
-    state_obj:
-        An ASReview state object.
+    Arguments
+    ---------
+    state_obj: asreview.state.SQLiteState
+        State object from which to get the labels for the plot.
+    priors: bool
+        Include the prior in plot or not.
+    x_relative: bool
+        If False, the number of records is on the x-axis.
+        If True, the fraction of the whole dataset is on the x-axis.
+    y_relative: bool
+        If False, the number of included records found is on the y-axis.
+        If True, the fraction of all included records found is on the y-axis.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+
+    Notes
+    -----
+    The recall at T statistic is defined as the number of relevant records
+    found after reviewing T records.
     """
 
     labels = state_obj.get_labels(priors=priors).to_list()

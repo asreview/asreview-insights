@@ -48,7 +48,7 @@ The plots in this section are derived from an ASReview (v1.0) file generated
 from
 
 ```python
-asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --seed_init 535
+asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --init_seed 535
 ```
 
 ### Plot types
@@ -56,7 +56,7 @@ asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asrevie
 #### Recall
 
 The recall is an important metric to study the performance of active learning
-alorithms in the context of information retrieval. The ASReview Insights
+algorithms in the context of information retrieval. The ASReview Insights
 offers a straightforward command line interface to plot a "recall curve". The
 recall curve is the recall at any moment in the active learning process.
 
@@ -251,11 +251,42 @@ with open_state("example.asreview") as s:
 
 ![Recall with absolute axes](docs/example_absolute_axes.png)
 
+
+#### Example: Multiple curves in one plot
+
+It is possible to have multiple curves in one plot by using the API,
+and add a legend.
+
+```python
+import matplotlib.pyplot as plt
+
+from asreview import open_state
+from asreviewcontrib.insights.plot import plot_recall
+
+
+fig, ax = plt.subplots()
+
+with open_state("tests/asreview_files/sim_van_de_schoot_2017_1.asreview") as s1:
+    plot_recall(ax, s1)
+
+with open_state("tests/asreview_files/"
+                "sim_van_de_schoot_2017_logistic.asreview") as s2:
+    plot_recall(ax, s2)
+
+ax.lines[0].set_label("Naive Bayes")
+ax.lines[2].set_label("Logistic")
+ax.legend()
+
+fig.savefig("docs/example_multiple_lines.png")
+```
+
+![Recall with multiple lines](docs/example_multiple_lines.png)
+
 ## Metrics
 
 The metrics in ASReview-insights can be used to extract metrics at given
 values. The easiest way to get metrics on a ASReview project file is with the
-following comman don the command line:
+following command don the command line:
 
 ```
 asreview stats sim_van_de_schoot_2017.asreview
