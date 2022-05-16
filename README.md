@@ -280,7 +280,7 @@ ax.legend()
 fig.savefig("docs/example_multiple_lines.png")
 ```
 
-![Recall with absolute axes](docs/example_multiple_lines.png)
+![Recall with multiple lines](docs/example_multiple_lines.png)
 
 ## Metrics
 
