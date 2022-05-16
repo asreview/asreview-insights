@@ -1,4 +1,3 @@
-
 import numpy as np
 
 from asreviewcontrib.insights.algorithms import _recall_values
@@ -31,11 +30,18 @@ def _slice_metric(x, y, intercept):
     return y[i - 1]
 
 
-def recall(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
+def recall(state_obj,
+           intercept,
+           priors=False,
+           x_relative=True,
+           y_relative=True):
 
     labels = state_obj.get_labels(priors=priors).to_list()
 
-    return _recall(labels, intercept, x_relative=x_relative, y_relative=y_relative)
+    return _recall(labels,
+                   intercept,
+                   x_relative=x_relative,
+                   y_relative=y_relative)
 
 
 def _recall(labels, intercept, x_relative=True, y_relative=True):
@@ -53,7 +59,10 @@ def wss(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
 
     labels = state_obj.get_labels(priors=priors).to_list()
 
-    return _wss(labels, intercept, x_relative=x_relative, y_relative=y_relative)
+    return _wss(labels,
+                intercept,
+                x_relative=x_relative,
+                y_relative=y_relative)
 
 
 def _wss(labels, intercept, x_relative=True, y_relative=True):
@@ -67,7 +76,10 @@ def erf(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
 
     labels = state_obj.get_labels(priors=priors).to_list()
 
-    return _erf(labels, intercept, x_relative=x_relative, y_relative=y_relative)
+    return _erf(labels,
+                intercept,
+                x_relative=x_relative,
+                y_relative=y_relative)
 
 
 def _erf(labels, intercept, x_relative=True, y_relative=True):

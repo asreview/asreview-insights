@@ -1,9 +1,9 @@
-
 import numpy as np
 
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.algorithms import _erf_values
+
 
 def _fix_start_tick(ax):
 
@@ -15,11 +15,8 @@ def _fix_start_tick(ax):
 
     return ax
 
-def plot_recall(ax,
-                state_obj,
-                priors=False,
-                x_relative=True,
-                y_relative=True):
+
+def plot_recall(ax, state_obj, priors=False, x_relative=True, y_relative=True):
     """Plot the recall@T for all thresholds T.
 
     Arguments
@@ -60,8 +57,7 @@ def _plot_recall(ax, labels, x_relative=True, y_relative=True):
         An ASReview state object.
     """
 
-    x, y = _recall_values(
-        labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _recall_values(labels, x_relative=x_relative, y_relative=y_relative)
 
     if y_relative:
         y_lim = [-0.05, 1.05]
@@ -179,8 +175,7 @@ def _plot_wss(ax, labels, x_relative=True, y_relative=True):
     """Plot for each threshold T in [0,1] the WSS@T."""
     n_docs = len(labels)
 
-    x, y = _wss_values(
-        labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _wss_values(labels, x_relative=x_relative, y_relative=y_relative)
 
     if y_relative:
         y_lim = [-0.05, 1.05]
@@ -255,12 +250,12 @@ def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
 
     return _plot_erf(ax, labels, x_relative=x_relative, y_relative=y_relative)
 
+
 def _plot_erf(ax, labels, x_relative=True, y_relative=True):
     """Plot for each threshold T the ERF@T."""
     n_pos_docs = sum(labels)
 
-    x, y = _erf_values(
-        labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _erf_values(labels, x_relative=x_relative, y_relative=y_relative)
 
     if y_relative:
         y_lim = [-0.05, 1.05]

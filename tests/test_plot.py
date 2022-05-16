@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from pytest import mark
-
 import matplotlib.pyplot as plt
 
 from asreview import open_state

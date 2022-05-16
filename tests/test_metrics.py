@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from pytest import mark
-
 from asreview import open_state
 
 from numpy.testing import assert_almost_equal
