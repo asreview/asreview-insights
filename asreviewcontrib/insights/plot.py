@@ -3,6 +3,7 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.algorithms import _erf_values
+from asreviewcontrib.insights.utils import get_labels
 
 
 def _fix_start_tick(ax):
@@ -42,7 +43,7 @@ def plot_recall(ax, state_obj, priors=False, x_relative=True, y_relative=True):
     found after reviewing T records.
     """
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _plot_recall(ax,
                         labels,
@@ -166,7 +167,7 @@ def plot_wss(ax, state_obj, priors=False, x_relative=True, y_relative=True):
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _plot_wss(ax, labels, x_relative=x_relative, y_relative=y_relative)
 
@@ -246,7 +247,7 @@ def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _plot_erf(ax, labels, x_relative=x_relative, y_relative=y_relative)
 

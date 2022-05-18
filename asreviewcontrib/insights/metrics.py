@@ -3,6 +3,7 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.algorithms import _erf_values
+from asreviewcontrib.insights.utils import get_labels
 
 
 def _slice_metric(x, y, intercept):
@@ -36,7 +37,7 @@ def recall(state_obj,
            x_relative=True,
            y_relative=True):
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _recall(labels,
                    intercept,
@@ -57,7 +58,7 @@ def _recall(labels, intercept, x_relative=True, y_relative=True):
 
 def wss(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _wss(labels,
                 intercept,
@@ -74,7 +75,7 @@ def _wss(labels, intercept, x_relative=True, y_relative=True):
 
 def erf(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj)
 
     return _erf(labels,
                 intercept,
