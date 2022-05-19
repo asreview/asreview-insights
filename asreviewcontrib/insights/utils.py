@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def get_labels(state_obj, priors=False):
 
     # get the number of records
@@ -11,6 +12,6 @@ def get_labels(state_obj, priors=False):
     # if less labels than records, check if all labels available
     if len(labels) < n_records:
 
-        labels = labels + np.zeros(n_records-len(labels)).tolist()
+        labels = labels + np.zeros(n_records - len(labels)).tolist()
 
     return labels

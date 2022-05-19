@@ -1,6 +1,5 @@
 import argparse
 import json
-import logging
 
 import matplotlib.pyplot as plt
 
@@ -38,22 +37,22 @@ class PlotEntryPoint(BaseEntryPoint):
                             type=str,
                             nargs='+',
                             help='A (list of) ASReview files.')
-        parser.add_argument('--show_priors',
-                            metavar='priors',
-                            type=bool,
-                            default=False,
-                            help='Show records used as prior knowledge '
-                            'in the plot.')
-        parser.add_argument('--x_relative',
-                            type=bool,
-                            default=True,
-                            help='Make use of relative coordinates on'
-                            ' the x-axis. Default: True.')
-        parser.add_argument('--y_relative',
-                            type=bool,
-                            default=True,
-                            help='Make use of relative coordinates on'
-                            ' the y-axis. Default: True.')
+        # parser.add_argument('--show_priors',
+        #                     metavar='priors',
+        #                     type=bool,
+        #                     default=False,
+        #                     help='Show records used as prior knowledge '
+        #                     'in the plot.')
+        # parser.add_argument('--x_relative',
+        #                     type=bool,
+        #                     default=True,
+        #                     help='Make use of relative coordinates on'
+        #                     ' the x-axis. Default: True.')
+        # parser.add_argument('--y_relative',
+        #                     type=bool,
+        #                     default=True,
+        #                     help='Make use of relative coordinates on'
+        #                     ' the y-axis. Default: True.')
         parser.add_argument(
             "-V",
             "--version",
@@ -76,12 +75,13 @@ class PlotEntryPoint(BaseEntryPoint):
         with open_state(args.asreview_files[0]) as s:
 
             fig, ax = plt.subplots()
-            plot_func = TYPE_TO_FUNC[args.type]
+            plot_func = TYPE_TO_FUNC[args.plot_type]
             plot_func(ax,
-                      s,
-                      priors=args.priors,
-                      x_relative=args.x_relative,
-                      y_relative=args.y_relative)
+                      s
+                      # priors=args.priors,
+                      # x_relative=args.x_relative,
+                      # y_relative=args.y_relative
+                      )
 
             if args.output:
                 fig.savefig(args.output)
