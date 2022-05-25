@@ -2,6 +2,8 @@
 
 [![PyPI version](https://badge.fury.io/py/asreview-insights.svg)](https://badge.fury.io/py/asreview-insights) [![Downloads](https://pepy.tech/badge/asreview-insights)](https://pepy.tech/project/asreview-insights) ![PyPI - License](https://img.shields.io/pypi/l/asreview-insights) ![Deploy and release](https://github.com/asreview/asreview-insights/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-insights/workflows/test-suite/badge.svg)
 
+❣️ ASReview-insights is the successor to [ASReview-visualization](https://pypi.org/project/asreview-visualization/). ASReview insights is available for version 1 or later. Use ASReview visualization for versions 0.x. 
+
 This official extension to [ASReview
 LAB](https://github.com/asreview/asreview) extends asreview with tools for
 plotting and extraction of metrics and statistics. The extension is especially
@@ -449,7 +451,7 @@ This extension is published under the [MIT license](/LICENSE).
 
 ## Contact
 
-This extension is part of the ASReview project. It is maintained by the
+This extension is part of the ASReview project ([asreview.ai](https://asreview.ai)). It is maintained by the
 maintainers of ASReview LAB. See [ASReview
 LAB](https://github.com/asreview/asreview) for contact information and more
 resources.
