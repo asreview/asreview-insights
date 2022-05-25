@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "wss": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "valueType": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "type",
+                "valueType",
+                "value"
+              ]
+            }
+          ]
+        },
+        "rrf": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "valueType": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "valueType",
+                "value"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "wss",
+        "rrf"
+      ]
+    }
+  },
+  "required": [
+    "metrics"
+  ]
+}

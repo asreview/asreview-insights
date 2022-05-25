@@ -16,35 +16,12 @@ jobs:
     - name: Lint python with flake8
       run: |
         flake8 . --max-complexity=10 --statistics
-  test-master:
-    name: test-asreview-latest
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        path: asr-plot
-
-    - uses: actions/checkout@v2
-      with:
-        repository: asreview/asreview
-        path: asr-core
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '3.8'
-        architecture: 'x64'
-    - name: Install packages and run tests
-      run: |
-        pip install pytest
-        pip install --upgrade setuptools>=41.0.0
-        pip install ./asr-core[all]
-        pip install ./asr-plot
-        pytest asr-plot/tests
-  test-older:
-    name: test-asreview-0-7-2
+  test-asreview:
+    name: Test Insights for ASReview LAB versions
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        asr_versions: ['0.7.2']
+        asr_versions: ['1.0rc2']
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
@@ -54,8 +31,6 @@ jobs:
     - name: Install packages and run tests
       run: |
         pip install pytest
-        pip install --upgrade setuptools>=41.0.0
-        pip install "numpy<1.19"
         pip install asreview[all]==${{ matrix.asr_versions }}
         pip install .
         pytest tests
