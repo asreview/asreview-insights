@@ -118,7 +118,7 @@ class StatsEntryPoint(BaseEntryPoint):
             default=[0.1, 0.25, 0.5, 0.75, 0.9],
             nargs='+',
             help='A (list of) values to compute the recall at.')
-        parser.add_argument('--wss_recall',
+        parser.add_argument('--wss',
                             metavar='wss',
                             type=float,
                             nargs='+',
