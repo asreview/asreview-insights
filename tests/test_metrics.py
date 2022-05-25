@@ -6,13 +6,7 @@ from numpy.testing import assert_almost_equal
 from asreviewcontrib.insights.metrics import _recall
 from asreviewcontrib.insights.metrics import recall
 
-TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
-TEST_FIGURES = Path("figures")
-
-
-def setup():
-
-    TEST_FIGURES.mkdir(exist_ok=True)
+TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 
 
 def test_metric_recall_small_data():

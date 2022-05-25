@@ -10,7 +10,7 @@ from asreviewcontrib.insights.plot import plot_erf
 from asreviewcontrib.insights.plot import plot_recall
 from asreviewcontrib.insights.plot import plot_wss
 
-TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
+TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 TEST_FIGURES = Path("figures")
 
 SMALL_DATA = [1, 0, 1, 1, 0]
