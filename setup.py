@@ -1,10 +1,12 @@
 # based on https://github.com/pypa/sampleproject
 # MIT License
 
-# Always prefer setuptools over distutils
-from setuptools import setup, find_namespace_packages
-from os import path
 from io import open
+from os import path
+
+# Always prefer setuptools over distutils
+from setuptools import find_namespace_packages
+from setuptools import setup
 
 import versioneer
 
@@ -33,7 +35,6 @@ setup(
 
         # Pick your license as you wish
         'License :: OSI Approved :: Apache Software License',
-
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -41,23 +42,19 @@ setup(
     keywords='asreview plot insights',
     packages=find_namespace_packages(include=['asreviewcontrib.*']),
     install_requires=[
-        "numpy", "matplotlib", "asreview",
+        "numpy",
+        "matplotlib",
+        "asreview",
     ],
-
-    extras_require={
-    },
-
+    extras_require={},
     entry_points={
         "asreview.entry_points": [
             "plot = asreviewcontrib.insights.entrypoint:PlotEntryPoint",
             "stats = asreviewcontrib.insights.entrypoint:StatsEntryPoint",
         ]
     },
-
     project_urls={
-        'Bug Reports':
-            "https://github.com/asreview/asreview-insights/issues",
-        'Source':
-            "https://github.com/asreview/asreview-insights",
+        'Bug Reports': "https://github.com/asreview/asreview-insights/issues",
+        'Source': "https://github.com/asreview/asreview-insights",
     },
 )

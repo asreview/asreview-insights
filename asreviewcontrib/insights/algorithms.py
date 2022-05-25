@@ -1,25 +1,25 @@
 import numpy as np
 
 
-def _recall_values(labels, x_relative=True, y_relative=True):
+def _recall_values(labels, x_absolute=False, y_absolute=False):
     n_docs = len(labels)
     n_pos_docs = sum(labels)
 
     x = np.arange(1, n_docs + 1)
     recall = np.cumsum(labels)
 
-    if x_relative:
+    if not x_absolute:
         x = x / n_docs
 
-    if y_relative:
-        y = recall / n_pos_docs
-    else:
+    if y_absolute:
         y = recall
+    else:
+        y = recall / n_pos_docs
 
-    return x, y
+    return x.tolist(), y.tolist()
 
 
-def _wss_values(labels, x_relative=True, y_relative=True):
+def _wss_values(labels, x_absolute=False, y_absolute=False):
     n_docs = len(labels)
     n_pos_docs = sum(labels)
 
@@ -33,18 +33,18 @@ def _wss_values(labels, x_relative=True, y_relative=True):
     n_found_earlier = when_found_random - when_found
 
     x = np.arange(1, n_pos_docs + 1)
-    if x_relative:
+    if not x_absolute:
         x = x / n_pos_docs
 
-    if y_relative:
-        y = n_found_earlier / n_docs
-    else:
+    if y_absolute:
         y = n_found_earlier
+    else:
+        y = n_found_earlier / n_docs
 
-    return x, y
+    return x.tolist(), y.tolist()
 
 
-def _erf_values(labels, x_relative=True, y_relative=True):
+def _erf_values(labels, x_absolute=False, y_absolute=False):
 
     n_docs = len(labels)
     n_pos_docs = sum(labels)
@@ -55,12 +55,12 @@ def _erf_values(labels, x_relative=True, y_relative=True):
     extra_records_found = docs_found - docs_found_random
 
     x = np.arange(1, n_docs + 1)
-    if x_relative:
+    if not x_absolute:
         x = x / n_docs
 
-    if y_relative:
-        y = extra_records_found / n_pos_docs
-    else:
+    if y_absolute:
         y = extra_records_found
+    else:
+        y = extra_records_found / n_pos_docs
 
-    return x, y
+    return x.tolist(), y.tolist()

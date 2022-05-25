@@ -1,11 +1,10 @@
 # An example of plotting the recall curves for two ASREVIEW files in one plot,
 # with a legend.
 
+from asreview import open_state
 import matplotlib.pyplot as plt
 
-from asreview import open_state
 from asreviewcontrib.insights.plot import plot_recall
-
 
 fig, ax = plt.subplots()
 

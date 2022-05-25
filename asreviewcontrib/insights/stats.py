@@ -1,8 +1,8 @@
 import json
 
+from asreviewcontrib.insights.metrics import _erf
 from asreviewcontrib.insights.metrics import _recall
 from asreviewcontrib.insights.metrics import _wss
-from asreviewcontrib.insights.metrics import _erf
 
 
 def get_stats(state_obj,
@@ -10,8 +10,8 @@ def get_stats(state_obj,
               wss=[0.95],
               erf=[0.95],
               priors=False,
-              x_relative=True,
-              y_relative=True):
+              x_absolute=False,
+              y_absolute=False):
 
     recall = [recall] if not isinstance(recall, list) else recall
     wss = [wss] if not isinstance(wss, list) else wss
@@ -20,15 +20,15 @@ def get_stats(state_obj,
     labels = state_obj.get_labels(priors=priors).to_list()
 
     recall_values = [
-        _recall(labels, v, x_relative=x_relative, y_relative=y_relative)
+        _recall(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in recall
     ]
     wss_values = [
-        _wss(labels, v, x_relative=x_relative, y_relative=y_relative)
+        _wss(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in wss
     ]
     erf_values = [
-        _erf(labels, v, x_relative=x_relative, y_relative=y_relative)
+        _erf(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in erf
     ]
 

@@ -1,15 +1,14 @@
 from pathlib import Path
 
+from asreview import open_state
 import matplotlib.pyplot as plt
 
-from asreview import open_state
-
-from asreviewcontrib.insights.plot import plot_recall
-from asreviewcontrib.insights.plot import plot_erf
-from asreviewcontrib.insights.plot import plot_wss
-from asreviewcontrib.insights.plot import _plot_recall
 from asreviewcontrib.insights.plot import _plot_erf
+from asreviewcontrib.insights.plot import _plot_recall
 from asreviewcontrib.insights.plot import _plot_wss
+from asreviewcontrib.insights.plot import plot_erf
+from asreviewcontrib.insights.plot import plot_recall
+from asreviewcontrib.insights.plot import plot_wss
 
 TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
 TEST_FIGURES = Path("figures")
@@ -77,17 +76,17 @@ def test_plot_wss():
                  "tests_wss_default_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_wss(ax, s, x_relative=False)
+        plot_wss(ax, s, x_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_wss_xabs_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_wss(ax, s, y_relative=False)
+        plot_wss(ax, s, y_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_wss_yabs_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_wss(ax, s, x_relative=False, y_relative=False)
+        plot_wss(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_wss_xyabs_sim_van_de_schoot_2017_1.png"))
 
@@ -110,16 +109,16 @@ def test_plot_erf():
                  "tests_erf_default_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_erf(ax, s, x_relative=False)
+        plot_erf(ax, s, x_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_erf_xabs_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_erf(ax, s, y_relative=False)
+        plot_erf(ax, s, y_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_erf_yabs_sim_van_de_schoot_2017_1.png"))
 
         fig, ax = plt.subplots()
-        plot_erf(ax, s, x_relative=False, y_relative=False)
+        plot_erf(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_erf_xyabs_sim_van_de_schoot_2017_1.png"))

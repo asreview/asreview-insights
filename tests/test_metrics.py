@@ -1,11 +1,10 @@
 from pathlib import Path
 
 from asreview import open_state
-
 from numpy.testing import assert_almost_equal
 
-from asreviewcontrib.insights.metrics import recall, _recall
-
+from asreviewcontrib.insights.metrics import _recall
+from asreviewcontrib.insights.metrics import recall
 
 TEST_ASREVIEW_FILES = Path("tests", "asreview_files")
 TEST_FIGURES = Path("figures")
@@ -22,13 +21,13 @@ def test_metric_recall_small_data():
     r = _recall(labels, 0.5)
     assert_almost_equal(r, 0.66666667)
 
-    r = _recall(labels, 2, x_relative=False)
+    r = _recall(labels, 2, x_absolute=True)
     assert_almost_equal(r, 0.66666667)
 
-    r = _recall(labels, 2, x_relative=False, y_relative=False)
+    r = _recall(labels, 2, x_absolute=True, y_absolute=True)
     assert_almost_equal(r, 2)
 
-    r = _recall(labels, 0.5, y_relative=False)
+    r = _recall(labels, 0.5, y_absolute=True)
     assert_almost_equal(r, 2)
 
 
@@ -38,13 +37,13 @@ def test_metric_recall_max_values():
     r = _recall(labels, 1)
     assert_almost_equal(r, 1)
 
-    r = _recall(labels, 4, x_relative=False)
+    r = _recall(labels, 4, x_absolute=True)
     assert_almost_equal(r, 1)
 
-    r = _recall(labels, 4, x_relative=False, y_relative=False)
+    r = _recall(labels, 4, x_absolute=True, y_absolute=True)
     assert_almost_equal(r, 3)
 
-    r = _recall(labels, 1, y_relative=False)
+    r = _recall(labels, 1, y_absolute=True)
     assert_almost_equal(r, 3)
 
 
@@ -54,13 +53,13 @@ def test_metric_recall_min_values():
     r = _recall(labels, 0)
     assert_almost_equal(r, 0)
 
-    r = _recall(labels, 0, x_relative=False)
+    r = _recall(labels, 0, x_absolute=True)
     assert_almost_equal(r, 0)
 
-    r = _recall(labels, 0, x_relative=False, y_relative=False)
+    r = _recall(labels, 0, x_absolute=True, y_absolute=True)
     assert_almost_equal(r, 0)
 
-    r = _recall(labels, 0, y_relative=False)
+    r = _recall(labels, 0, y_absolute=True)
     assert_almost_equal(r, 0)
 
 
@@ -70,14 +69,14 @@ def test_metric_recall_invalid_values_min():
     r = _recall(labels, -1)
     assert_almost_equal(r, 0)
 
-    r = _recall(labels, 0.2, x_relative=False)
+    r = _recall(labels, 0.2, x_absolute=True)
     assert_almost_equal(r, 0)
 
 
 def test_metric_recall_invalid_values_max():
 
     labels = [1, 1, 1, 0]
-    r = _recall(labels, 6, x_relative=False)
+    r = _recall(labels, 6, x_absolute=True)
     assert_almost_equal(r, 1)
 
     r = _recall(labels, 1.2)

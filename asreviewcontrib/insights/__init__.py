@@ -1,6 +1,6 @@
+from asreviewcontrib.insights.plot import plot_erf
 from asreviewcontrib.insights.plot import plot_recall
 from asreviewcontrib.insights.plot import plot_wss
-from asreviewcontrib.insights.plot import plot_erf
 
 from ._version import get_versions
 

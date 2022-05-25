@@ -1,16 +1,15 @@
 import argparse
 import json
 
+from asreview import open_state
+from asreview.entry_points import BaseEntryPoint
 import matplotlib.pyplot as plt
 
-# from asreview.config import LOGGER_EXTENSIONS
-from asreview.entry_points import BaseEntryPoint
-from asreview import open_state
-
+from asreviewcontrib.insights import plot_erf
 from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
-from asreviewcontrib.insights import plot_erf
-from asreviewcontrib.insights.stats import get_stats, print_stats
+from asreviewcontrib.insights.stats import get_stats
+from asreviewcontrib.insights.stats import print_stats
 
 PLOT_TYPES = ['recall']
 TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
@@ -37,22 +36,21 @@ class PlotEntryPoint(BaseEntryPoint):
                             type=str,
                             nargs='+',
                             help='A (list of) ASReview files.')
-        # parser.add_argument('--show_priors',
-        #                     metavar='priors',
-        #                     type=bool,
-        #                     default=False,
-        #                     help='Show records used as prior knowledge '
-        #                     'in the plot.')
-        # parser.add_argument('--x_relative',
-        #                     type=bool,
-        #                     default=True,
-        #                     help='Make use of relative coordinates on'
-        #                     ' the x-axis. Default: True.')
-        # parser.add_argument('--y_relative',
-        #                     type=bool,
-        #                     default=True,
-        #                     help='Make use of relative coordinates on'
-        #                     ' the y-axis. Default: True.')
+        parser.add_argument('--priors', action='store_true',
+                            help='Include records used as prior knowledge '
+                            'in the plot.')
+        parser.add_argument('--no-priors', dest='priors', action='store_false',
+                            help='Exclude records used as prior knowledge '
+                            'in the plot. Default.')
+        parser.set_defaults(priors=False)
+        parser.add_argument('--x_absolute',
+                            action='store_true',
+                            help='Make use of absolute coordinates on'
+                            ' the x-axis.')
+        parser.add_argument('--y_absolute',
+                            action='store_true',
+                            help='Make use of absolute coordinates on'
+                            ' the y-axis.')
         parser.add_argument(
             "-V",
             "--version",
@@ -77,10 +75,10 @@ class PlotEntryPoint(BaseEntryPoint):
             fig, ax = plt.subplots()
             plot_func = TYPE_TO_FUNC[args.plot_type]
             plot_func(ax,
-                      s
-                      # priors=args.priors,
-                      # x_relative=args.x_relative,
-                      # y_relative=args.y_relative
+                      s,
+                      priors=args.priors,
+                      x_absolute=args.x_absolute,
+                      y_absolute=args.y_absolute
                       )
 
             if args.output:
@@ -130,22 +128,21 @@ class StatsEntryPoint(BaseEntryPoint):
                             nargs='+',
                             default=[0.95],
                             help='A (list of) values to compute the erf at.')
-        parser.add_argument('--show_priors',
-                            metavar='priors',
-                            type=bool,
-                            default=False,
-                            help='Show records used as prior knowledge '
-                            'in the plot.')
-        parser.add_argument('--x_relative',
-                            type=bool,
-                            default=True,
-                            help='Make use of relative coordinates on'
-                            ' the x-axis. Default: True.')
-        parser.add_argument('--y_relative',
-                            type=bool,
-                            default=True,
-                            help='Make use of relative coordinates on'
-                            ' the y-axis. Default: True.')
+        parser.add_argument('--priors', action='store_true',
+                            help='Include records used as prior knowledge '
+                            'in the metrics.')
+        parser.add_argument('--no-priors', dest='priors', action='store_false',
+                            help='Exclude records used as prior knowledge '
+                            'in the metrics. Default.')
+        parser.set_defaults(priors=False)
+        parser.add_argument('--x_absolute',
+                            action='store_true',
+                            help='Make use of absolute coordinates on'
+                            ' the x-axis.')
+        parser.add_argument('--y_absolute',
+                            action='store_true',
+                            help='Make use of absolute coordinates on'
+                            ' the y-axis.')
         parser.add_argument(
             "-o",
             "--output",
@@ -163,8 +160,8 @@ class StatsEntryPoint(BaseEntryPoint):
                               wss=args.wss,
                               erf=args.erf,
                               priors=args.priors,
-                              x_relative=args.x_relative,
-                              y_relative=args.y_relative)
+                              x_absolute=args.x_absolute,
+                              y_absolute=args.y_absolute)
             print_stats(stats)
 
         if args.output:

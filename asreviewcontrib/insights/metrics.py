@@ -1,8 +1,8 @@
 import numpy as np
 
+from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.utils import get_labels
 
 
@@ -34,21 +34,20 @@ def _slice_metric(x, y, intercept):
 def recall(state_obj,
            intercept,
            priors=False,
-           x_relative=True,
-           y_relative=True):
+           x_absolute=False,
+           y_absolute=False):
 
     labels = get_labels(state_obj)
 
     return _recall(labels,
                    intercept,
-                   x_relative=x_relative,
-                   y_relative=y_relative)
+                   x_absolute=x_absolute,
+                   y_absolute=y_absolute)
 
 
-def _recall(labels, intercept, x_relative=True, y_relative=True):
+def _recall(labels, intercept, x_absolute=False, y_absolute=False):
 
-    x, y = _recall_values(labels, x_relative=x_relative, y_relative=y_relative)
-    print(x, y)
+    x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
     if intercept < x[0]:
         return 0
@@ -56,35 +55,35 @@ def _recall(labels, intercept, x_relative=True, y_relative=True):
     return _slice_metric(x, y, intercept)
 
 
-def wss(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
+def wss(state_obj, intercept, priors=False, x_absolute=False, y_absolute=False):
 
     labels = get_labels(state_obj)
 
     return _wss(labels,
                 intercept,
-                x_relative=x_relative,
-                y_relative=y_relative)
+                x_absolute=x_absolute,
+                y_absolute=y_absolute)
 
 
-def _wss(labels, intercept, x_relative=True, y_relative=True):
+def _wss(labels, intercept, x_absolute=False, y_absolute=False):
 
-    x, y = _wss_values(labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
     return _slice_metric(x, y, intercept)
 
 
-def erf(state_obj, intercept, priors=False, x_relative=True, y_relative=True):
+def erf(state_obj, intercept, priors=False, x_absolute=False, y_absolute=False):
 
     labels = get_labels(state_obj)
 
     return _erf(labels,
                 intercept,
-                x_relative=x_relative,
-                y_relative=y_relative)
+                x_absolute=x_absolute,
+                y_absolute=y_absolute)
 
 
-def _erf(labels, intercept, x_relative=True, y_relative=True):
+def _erf(labels, intercept, x_absolute=False, y_absolute=False):
 
-    x, y = _erf_values(labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _erf_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
     return _slice_metric(x, y, intercept)

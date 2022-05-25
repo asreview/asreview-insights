@@ -1,8 +1,8 @@
 import numpy as np
 
+from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.utils import get_labels
 
 
@@ -17,7 +17,7 @@ def _fix_start_tick(ax):
     return ax
 
 
-def plot_recall(ax, state_obj, priors=False, x_relative=True, y_relative=True):
+def plot_recall(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     """Plot the recall@T for all thresholds T.
 
     Arguments
@@ -26,12 +26,12 @@ def plot_recall(ax, state_obj, priors=False, x_relative=True, y_relative=True):
         State object from which to get the labels for the plot.
     priors: bool
         Include the prior in plot or not.
-    x_relative: bool
-        If False, the number of records is on the x-axis.
-        If True, the fraction of the whole dataset is on the x-axis.
-    y_relative: bool
-        If False, the number of included records found is on the y-axis.
-        If True, the fraction of all included records found is on the y-axis.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
 
     Returns
     -------
@@ -47,26 +47,26 @@ def plot_recall(ax, state_obj, priors=False, x_relative=True, y_relative=True):
 
     return _plot_recall(ax,
                         labels,
-                        x_relative=x_relative,
-                        y_relative=y_relative)
+                        x_absolute=x_absolute,
+                        y_absolute=y_absolute)
 
 
-def _plot_recall(ax, labels, x_relative=True, y_relative=True):
+def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
     """Plot the recall of state object(s).
 
     labels:
         An ASReview state object.
     """
 
-    x, y = _recall_values(labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
-    if y_relative:
-        y_lim = [-0.05, 1.05]
-        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    else:
+    if y_absolute:
         n_pos_docs = sum(labels)
         y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
         yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
+    else:
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.step(x, y, where='post')
     ax.set_title("Recall")
@@ -74,14 +74,14 @@ def _plot_recall(ax, labels, x_relative=True, y_relative=True):
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
-    if not x_relative:
+    if x_absolute:
         ax.xaxis.get_major_locator().set_params(integer=True)
 
     # add random line if required
     _plot_random_recall(ax,
                         labels,
-                        x_relative=x_relative,
-                        y_relative=y_relative)
+                        x_absolute=x_absolute,
+                        y_absolute=y_absolute)
 
     # correct x axis if tick is at position 0
     _fix_start_tick(ax)
@@ -89,7 +89,7 @@ def _plot_recall(ax, labels, x_relative=True, y_relative=True):
     return ax
 
 
-def _plot_random_recall(ax, labels, x_relative, y_relative):
+def _plot_random_recall(ax, labels, x_absolute, y_absolute):
     """Plot the recall of state object(s).
 
     labels:
@@ -102,20 +102,20 @@ def _plot_random_recall(ax, labels, x_relative, y_relative):
     x = np.arange(1, n_docs + 1)
     recall_random = np.round(np.linspace(0, n_pos_docs, n_docs))
 
-    if x_relative:
+    if not x_absolute:
         x = x / n_docs
 
-    if y_relative:
-        y = recall_random / n_pos_docs
-    else:
+    if y_absolute:
         y = recall_random
+    else:
+        y = recall_random / n_pos_docs
 
     ax.step(x, y, color="black", where='post')
 
     return ax
 
 
-def plot_wss(ax, state_obj, priors=False, x_relative=True, y_relative=True):
+def plot_wss(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     """Plot the WSS@T for all thresholds T.
 
     Arguments
@@ -124,12 +124,12 @@ def plot_wss(ax, state_obj, priors=False, x_relative=True, y_relative=True):
         State object from which to get the labels for the plot.
     priors: bool
         Include the prior in plot or not.
-    x_relative: bool
-        If False, the number of included records is on the x-axis.
-        If True, the fraction of the all included records is on the x-axis.
-    y_relative: bool
-        If False, the number of records reviewed less is on the y-axis.
-        If True, the fraction of all records reviewed less is on the y-axis.
+    x_absolute: bool
+        If True, the number of included records is on the x-axis.
+        If False, the fraction of the all included records is on the x-axis.
+    y_absolute: bool
+        If True, the number of records reviewed less is on the y-axis.
+        If False, the fraction of all records reviewed less is on the y-axis.
 
     Returns
     -------
@@ -169,21 +169,21 @@ def plot_wss(ax, state_obj, priors=False, x_relative=True, y_relative=True):
 
     labels = get_labels(state_obj)
 
-    return _plot_wss(ax, labels, x_relative=x_relative, y_relative=y_relative)
+    return _plot_wss(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
-def _plot_wss(ax, labels, x_relative=True, y_relative=True):
+def _plot_wss(ax, labels, x_absolute=False, y_absolute=False):
     """Plot for each threshold T in [0,1] the WSS@T."""
     n_docs = len(labels)
 
-    x, y = _wss_values(labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
-    if y_relative:
-        y_lim = [-0.05, 1.05]
-        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    else:
+    if y_absolute:
         y_lim = [-n_docs * 0.05, n_docs * 1.05]
         yticks = [int(n_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
+    else:
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.step(x, y, where='post')
     ax.set_title("WSS")
@@ -191,7 +191,7 @@ def _plot_wss(ax, labels, x_relative=True, y_relative=True):
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
-    if not x_relative:
+    if x_absolute:
         ax.xaxis.get_major_locator().set_params(integer=True)
 
         # correct x axis if tick is at position 0
@@ -200,7 +200,7 @@ def _plot_wss(ax, labels, x_relative=True, y_relative=True):
     return ax
 
 
-def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
+def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     """Plot the ERF@T for all thresholds T.
 
     Arguments
@@ -209,12 +209,12 @@ def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
         State object from which to get the labels for the plot.
     priors: bool
         Include the prior in plot or not.
-    x_relative: bool
-        If False, the number of records is on the x-axis.
-        If True, the fraction of the whole dataset is on the x-axis.
-    y_relative: bool
-        If False, the number of included records found is on the y-axis.
-        If True, the fraction of all included records found is on the y-axis.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
 
     Returns
     -------
@@ -237,7 +237,7 @@ def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
 
         ERF@T = n_pos_T - round(n_pos * T / n).
 
-    If y_relative=True, the ERF will be returned as a fraction of the total
+    If y_absolute=False, the ERF will be returned as a fraction of the total
     number of included records, in which case we have
 
         ERF@T = (n_pos_T - round(n_pos * T / n)) / n_pos.
@@ -249,21 +249,21 @@ def plot_erf(ax, state_obj, priors=False, x_relative=True, y_relative=True):
 
     labels = get_labels(state_obj)
 
-    return _plot_erf(ax, labels, x_relative=x_relative, y_relative=y_relative)
+    return _plot_erf(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
-def _plot_erf(ax, labels, x_relative=True, y_relative=True):
+def _plot_erf(ax, labels, x_absolute=False, y_absolute=False):
     """Plot for each threshold T the ERF@T."""
     n_pos_docs = sum(labels)
 
-    x, y = _erf_values(labels, x_relative=x_relative, y_relative=y_relative)
+    x, y = _erf_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
-    if y_relative:
-        y_lim = [-0.05, 1.05]
-        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    else:
+    if y_absolute:
         y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
         yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
+    else:
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.step(x, y, where='post')
     ax.set_title("ERF")
@@ -271,7 +271,7 @@ def _plot_erf(ax, labels, x_relative=True, y_relative=True):
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
-    if not x_relative:
+    if x_absolute:
         ax.xaxis.get_major_locator().set_params(integer=True)
 
         # correct x axis if tick is at position 0
