@@ -1,5 +1,7 @@
 # asreview-insights
 
+## This package is currently under development. See [ASReview-visualization](https://pypi.org/project/asreview-visualization/) for stable version compatible with ASReview LAB <=0.19.x.
+
 [![PyPI version](https://badge.fury.io/py/asreview-insights.svg)](https://badge.fury.io/py/asreview-insights) [![Downloads](https://pepy.tech/badge/asreview-insights)](https://pepy.tech/project/asreview-insights) ![PyPI - License](https://img.shields.io/pypi/l/asreview-insights) ![Deploy and release](https://github.com/asreview/asreview-insights/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-insights/workflows/test-suite/badge.svg)
 
 ❣️ ASReview-insights is the successor to [ASReview-visualization](https://pypi.org/project/asreview-visualization/). ASReview insights is available for version 1 or later. Use ASReview visualization for versions 0.x. 
@@ -15,7 +17,7 @@ useful in combination with the simulation feature of ASReview LAB.
 ASReview-insights can be installed from PyPI:
 
 ``` bash
-pip install asreview-insights
+pip install --dev asreview-insights
 ```
 
 After installation, check if the ` asreview-insights` package is listed as an
