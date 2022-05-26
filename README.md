@@ -29,19 +29,43 @@ asreview --help
 
 It should list the 'plot' subcommand and the 'stats' subcommand.
 
-## Active learning performance
+## Active learning performance 
 
-The `ASReview-insights` extension is useful to measure the performance of
-active learning models on collections of binary labeled text. The performance
-can be measured with widely used metrics like Recall and Work Saved over
-Sampling (WSS). The `ASReview-insights` extension can plot or compute metrics
-from ASReview project files, ideally as the result of a simulation. See
-[LINK]() for more information on simulating with ASReview LAB.
+The `ASReview-insights` extension is useful for measuring the performance of
+active learning models on collections of binary labeled text. The extension
+can be used after performing a simulation study that involves mimicking the
+screening process with a specific model. As it is already known which records
+are labeled relevant, the simulation can automatically reenact the screening
+process as if a screener were using active learning. The performance of one or
+multiple models can be measured by different metrics and the
+`ASReview-insights` extension can plot or compute the values for such metrics
+from ASReview project files.
 
-The following plot (with generated, fake data) explains the different metrics
-Recall, WSS, and ERF. The dataset contains 1000 records. The stepped line on
-the diagonal is the naive labeling approach (screening randomly sorted
-records).
+The recall is the proportion of relevant records that have been found at a
+certain point during the screening phase. It is sometimes also called the
+proportion of Relevant Record Found (RRF) after screening an X% of the total
+records. For example, the RRF@10 is the recall (i.e., the proportion of the
+total number of relevant records) at screening 10% of the total number of
+records available in the dataset. 
+
+A variation is the Extra Relevant records Found (ERF), which is the proportion
+of relevant records found after correcting for the number of relevant records
+found via random screening (assuming a uniform distribution of relevant
+records). 
+
+The Work Saved over Sampling (WSS) is a measure of "the work saved over and
+above the work saved by simple sampling for a given level of recall" ([Cohen
+et al., 2006]((https://doi.org/10.1197/jamia.m1929)). It is defined as the
+proportion of records a screener does **not** have to screen compared to
+random reading after providing the prior knowledge used to train the first
+iteration of the model. The WSS is typically measured at a recall of .95
+(WSS@95), reflecting the proportion of records saved by using active learning
+at the cost of failing to identify .05 of relevant publications.
+
+The following plot illustrates the differences between the metrics Recall
+(y-axis), WSS (blue line), and ERF (red line). The dataset contains 1.000
+hypothetical records with labels. The stepped line on the diagonal is the
+naive labeling approach (screening randomly sorted records).
 
 ![ASReview metrics explained](docs/stats_explainer.png)
 
