@@ -361,7 +361,7 @@ which results in
         ],
         "erf": [
             {
-                "x": 0.95,
+                "x": 0.10,
                 "y": 0.047619047619047616
             }
         ]
@@ -378,7 +378,7 @@ values.
 |---|---|---|---|
 | `recall` | Labels | Recall | 0.1, 0.25, 0.5, 0.75, 0.9 |
 | `wss` | Recall | Work Saved over Sampling at recall | 0.95 |
-| `erf` | Labels | ERF | 0.95 |
+| `erf` | Labels | ERF | 0.10 |
 
 
 ### Override default values
