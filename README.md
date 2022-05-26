@@ -4,12 +4,21 @@
 
 [![PyPI version](https://badge.fury.io/py/asreview-insights.svg)](https://badge.fury.io/py/asreview-insights) [![Downloads](https://pepy.tech/badge/asreview-insights)](https://pepy.tech/project/asreview-insights) ![PyPI - License](https://img.shields.io/pypi/l/asreview-insights) ![Deploy and release](https://github.com/asreview/asreview-insights/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-insights/workflows/test-suite/badge.svg)
 
-❣️ ASReview-insights is the successor to [ASReview-visualization](https://pypi.org/project/asreview-visualization/). ASReview insights is available for version 1 or later. Use ASReview visualization for versions 0.x.
 
 This official extension to [ASReview
-LAB](https://github.com/asreview/asreview) extends asreview with tools for
-plotting and extraction of metrics and statistics. The extension is especially
-useful in combination with the simulation feature of ASReview LAB.
+LAB](https://github.com/asreview/asreview) extends the software with tools for
+[plotting](#plot-types) and extracting the [statistical results](statistical-results) 
+of several [performance metrics](performance-metrics). The
+extension is especially useful in combination with the simulation mode[**NEEDS
+HYPERLINK TO RTDs**] of ASReview LAB.
+
+
+❣️ ASReview-insights is the successor to
+[ASReview-visualization](https://pypi.org/project/asreview-visualization/).
+ASReview insights is available for [ASReview
+LAB](https://github.com/asreview/asreview/discussions/975) version 1 or later.
+Use ASReview visualization for versions 0.x.
+
 
 
 ## Installation
@@ -29,7 +38,7 @@ asreview --help
 
 It should list the 'plot' subcommand and the 'stats' subcommand.
 
-## Active learning performance
+## Performance metrics
 
 The `ASReview-insights` extension is useful to measure the performance of
 active learning models on collections of binary labeled text. The performance
@@ -316,7 +325,7 @@ fig.savefig("docs/example_multiple_lines.png")
 
 ![Recall with multiple lines](docs/example_multiple_lines.png)
 
-## Metrics
+## Statistical results
 
 The metrics in ASReview-insights can be used to extract metrics at given
 values. The easiest way to get metrics on a ASReview project file is with the
