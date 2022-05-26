@@ -80,8 +80,11 @@ benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 ![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the recall (i.e, the proportion of the relevant
-records) after every labeling decision. The horizontal axis shows the proportion of 
-total number of records in the dataset.
+records) after every labeling decision. The horizontal axis shows the
+proportion of  total number of records in the dataset. The steeper the recall
+curve, the higher the performance of active learning when comparted to random
+screening. The recall curve can also be used to estimate stopping criteria, see 
+the discussions in [#557](https://github.com/asreview/asreview/discussions/557) and [#1115](https://github.com/asreview/asreview/discussions/1115). 
 
 
 ```bash
@@ -110,7 +113,8 @@ benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 ![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
-recall is displayed on the horizontal axis.
+recall is displayed on the horizontal axis. As shown in the figure, the
+WSS is linearly related to the recall. 
 
 
 #### ERF
@@ -137,7 +141,8 @@ benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the
-dataset.
+dataset. The steep increase of the ERF in the beginning of the process is
+related to the steep recall curve. 
 
 ### Very sparse datasets
 
