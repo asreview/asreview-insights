@@ -60,7 +60,7 @@ asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asrevie
 #### Recall
 
 The recall is an important metric to study the performance of active learning
-algorithms in the context of information retrieval. The ASReview Insights
+algorithms in the context of information retrieval. ASReview Insights
 offers a straightforward command line interface to plot a "recall curve". The
 recall curve is the recall at any moment in the active learning process.
 
@@ -73,15 +73,18 @@ The file can be [exported from the ASReview LAB user interface](), or is the
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 ![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_van_de_schoot_2017_1.png)
 
-On the vertical axis, you find the recall after every labeling decision. The
-number of labeling actions on the horizontal axis is equal to the number of
-label actions and can't exceed the number of records in the dataset.
+On the vertical axis, you find the recall (i.e, the proportion of the relevant
+records) after every labeling decision. The horizontal axis shows the
+proportion of  total number of records in the dataset. The steeper the recall
+curve, the higher the performance of active learning when comparted to random
+screening. The recall curve can also be used to estimate stopping criteria, see 
+the discussions in [#557](https://github.com/asreview/asreview/discussions/557) and [#1115](https://github.com/asreview/asreview/discussions/1115). 
 
 
 ```bash
@@ -92,43 +95,54 @@ asreview plot recall YOUR_ASREVIEW_FILE.asreview
 
 The Work Saved over Sampling (WSS) metric is an useful metric to study the
 performance of active learning alorithms compared with a naive (random order)
-approach. The ASReview Insights offers a straightforward command line
-interface to plot the wss at any recall.
+approach at a given level of recall. ASReview Insights offers a
+straightforward command line interface to plot the WSS at any level of recall.
 
-To plot the WSS curve, you need a ASReview file (extension `.asreview`).
-The file can be [exported from the ASReview LAB user interface](), or is the
-[result of a simulation](). To plot the WSS, use this syntax (Replace
-`YOUR_ASREVIEW_FILE.asreview` by your ASReview file name.):
+To plot the WSS curve, you need a ASReview file (extension `.asreview`). To
+plot the WSS, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
+ASReview file name.):
 
 ```bash
 asreview plot wss YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 ![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
-recall is displayed on the horizontal axis.
+recall is displayed on the horizontal axis. As shown in the figure, the
+WSS is linearly related to the recall. 
 
 
 #### ERF
+
+The Extra Relevant Records found is a derivative of the recall and presents
+the proportion of relevant records found after correcting for the number of
+relevant records found via random screening (assuming a uniform distribution
+of relevant records).
+
+To plot the WSS curve, you need a ASReview file (extension `.asreview`). To
+plot the WSS, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
+ASReview file name.):
+
 
 ```bash
 asreview plot erf YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 ![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
-number of labeling actions on the horizontal axis is equal to the number of
-label actions and can't exceed the number of records in the dataset.
+horizontal axis shows the proportion of  total number of records in the
+dataset. The steep increase of the ERF in the beginning of the process is
+related to the steep recall curve. 
 
 ### Very sparse datasets
 
