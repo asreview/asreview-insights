@@ -126,7 +126,7 @@ class StatsEntryPoint(BaseEntryPoint):
                             metavar='erf',
                             type=float,
                             nargs='+',
-                            default=[0.95],
+                            default=[0.10],
                             help='A (list of) values to compute the erf at.')
         parser.add_argument('--priors', action='store_true',
                             help='Include records used as prior knowledge '

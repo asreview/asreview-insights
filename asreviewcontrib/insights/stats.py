@@ -8,7 +8,7 @@ from asreviewcontrib.insights.metrics import _wss
 def get_stats(state_obj,
               recall=[0.1, 0.25, 0.5, 0.75, 0.9],
               wss=[0.95],
-              erf=[0.95],
+              erf=[0.10],
               priors=False,
               x_absolute=False,
               y_absolute=False):
