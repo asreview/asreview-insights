@@ -186,7 +186,7 @@ def _plot_wss(ax, labels, x_absolute=False, y_absolute=False):
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.step(x, y, where='post')
-    ax.set_title("Work Saved over Sampling (WSS) versus Recall")
+    ax.set_title("Work Saved over Sampling (WSS) given Recall")
     ax.set(xlabel='Recall', ylabel='WSS')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
