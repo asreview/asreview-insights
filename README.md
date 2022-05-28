@@ -83,8 +83,8 @@ On the vertical axis, you find the recall (i.e, the proportion of the relevant
 records) after every labeling decision. The horizontal axis shows the
 proportion of  total number of records in the dataset. The steeper the recall
 curve, the higher the performance of active learning when comparted to random
-screening. The recall curve can also be used to estimate stopping criteria, see 
-the discussions in [#557](https://github.com/asreview/asreview/discussions/557) and [#1115](https://github.com/asreview/asreview/discussions/1115). 
+screening. The recall curve can also be used to estimate stopping criteria, see
+the discussions in [#557](https://github.com/asreview/asreview/discussions/557) and [#1115](https://github.com/asreview/asreview/discussions/1115).
 
 
 ```bash
@@ -114,7 +114,7 @@ benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis. As shown in the figure, the
-WSS is linearly related to the recall. 
+WSS is linearly related to the recall.
 
 
 #### ERF
@@ -142,7 +142,7 @@ benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the
 dataset. The steep increase of the ERF in the beginning of the process is
-related to the steep recall curve. 
+related to the steep recall curve.
 
 ### Very sparse datasets
 
@@ -343,52 +343,67 @@ asreview stats sim_van_de_schoot_2017.asreview
 which results in
 
 ```
-{
-    "metrics": {
-        "recall": [
+    "asreviewVersion": "1.0rc2+14.gac96c1a",
+    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "data": {
+        "items": [
             {
-                "x": 0.1,
-                "y": 1.0
+                "id": "recall",
+                "title": "Recall",
+                "value": [
+                    [
+                        0.1,
+                        1.0
+                    ],
+                    [
+                        0.25,
+                        1.0
+                    ],
+                    [
+                        0.5,
+                        1.0
+                    ],
+                    [
+                        0.75,
+                        1.0
+                    ],
+                    [
+                        0.9,
+                        1.0
+                    ]
+                ]
             },
             {
-                "x": 0.25,
-                "y": 1.0
+                "id": "wss",
+                "title": "Work Saved over Sampling",
+                "value": [
+                    [
+                        0.95,
+                        0.8913851624373686
+                    ]
+                ]
             },
             {
-                "x": 0.5,
-                "y": 1.0
-            },
-            {
-                "x": 0.75,
-                "y": 1.0
-            },
-            {
-                "x": 0.9,
-                "y": 1.0
-            }
-        ],
-        "wss": [
-            {
-                "x": 0.95,
-                "y": 0.9107806691449815
-            }
-        ],
-        "erf": [
-            {
-                "x": 0.10,
-                "y": 0.047619047619047616
+                "id": "erf",
+                "title": "Extra Relevant record Found",
+                "value": [
+                    [
+                        0.1,
+                        0.9047619047619048
+                    ]
+                ]
             }
         ]
     }
 }
 ```
 
-Each available metric has `x` and `y` values. The `x` value is the value at
-which the metric is computed. In the plots above, this is the x-axis. The `y`
-value is the output of the metric. Some metrics are computed for multiple
+Each available metric has two values. The first value is the value at
+which the metric is computed. In the plots above, this is the x-axis. The
+second value is the output of the metric. Some metrics are computed for multiple
 values.
 
-| Metric | X description | Y description | Default |
+| Metric | Description pos. 1 | Description pos. 2 | Default |
 |---|---|---|---|
 | `recall` | Labels | Recall | 0.1, 0.25, 0.5, 0.75, 0.9 |
 | `wss` | Recall | Work Saved over Sampling at recall | 0.95 |
@@ -406,43 +421,59 @@ asreview stats sim_van_de_schoot_2017.asreview --wss 0.9 0.95
 
 ```
 {
-    "metrics": {
-        "recall": [
+    "asreviewVersion": "1.0rc2+14.gac96c1a",
+    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "data": {
+        "items": [
             {
-                "x": 0.1,
-                "y": 1.0
+                "id": "recall",
+                "title": "Recall",
+                "value": [
+                    [
+                        0.1,
+                        1.0
+                    ],
+                    [
+                        0.25,
+                        1.0
+                    ],
+                    [
+                        0.5,
+                        1.0
+                    ],
+                    [
+                        0.75,
+                        1.0
+                    ],
+                    [
+                        0.9,
+                        1.0
+                    ]
+                ]
             },
             {
-                "x": 0.25,
-                "y": 1.0
+                "id": "wss",
+                "title": "Work Saved over Sampling",
+                "value": [
+                    [
+                        0.9,
+                        0.8474220139001132
+                    ],
+                    [
+                        0.95,
+                        0.8913851624373686
+                    ]
+                ]
             },
             {
-                "x": 0.5,
-                "y": 1.0
-            },
-            {
-                "x": 0.75,
-                "y": 1.0
-            },
-            {
-                "x": 0.9,
-                "y": 1.0
-            }
-        ],
-        "wss": [
-            {
-                "x": 0.9,
-                "y": 0.8692419589461775
-            },
-            {
-                "x": 0.95,
-                "y": 0.9107806691449815
-            }
-        ],
-        "erf": [
-            {
-                "x": 0.95,
-                "y": 0.047619047619047616
+                "id": "erf",
+                "title": "Extra Relevant record Found",
+                "value": [
+                    [
+                        0.1,
+                        0.9047619047619048
+                    ]
+                ]
             }
         ]
     }

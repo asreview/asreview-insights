@@ -13,7 +13,8 @@ def get_stats(state_obj,
               erf=[0.10],
               priors=False,
               x_absolute=False,
-              y_absolute=False):
+              y_absolute=False,
+              version=None):
 
     recall = [recall] if not isinstance(recall, list) else recall
     wss = [wss] if not isinstance(wss, list) else wss
@@ -37,7 +38,7 @@ def get_stats(state_obj,
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
     result = {
         "asreviewVersion": asreview.__version__,
-        "apiVersion": self.version,
+        "apiVersion": version,
         "data": {
             "items": [{
                 "id": "recall",
