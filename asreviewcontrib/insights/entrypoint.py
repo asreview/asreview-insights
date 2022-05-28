@@ -161,7 +161,8 @@ class StatsEntryPoint(BaseEntryPoint):
                               erf=args.erf,
                               priors=args.priors,
                               x_absolute=args.x_absolute,
-                              y_absolute=args.y_absolute)
+                              y_absolute=args.y_absolute,
+                              version=self.version)
             print_stats(stats)
 
         if args.output:
