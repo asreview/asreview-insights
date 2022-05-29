@@ -67,7 +67,7 @@ The following plot illustrates the differences between the metrics Recall
 hypothetical records with labels. The stepped line on the diagonal is the
 naive labeling approach (screening randomly sorted records).
 
-![ASReview metrics explained](docs/stats_explainer.png)
+![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/stats_explainer.png)
 
 
 ## Plots
@@ -282,7 +282,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_custom_title.png")
 ```
 
-![WSS with custom title](docs/example_custom_title.png)
+![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/example_custom_title.png)
 
 #### Example: Prior knowledge
 
@@ -321,7 +321,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](docs/example_absolute_axes.png)
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/example_absolute_axes.png)
 
 
 #### Example: Multiple curves in one plot
@@ -351,8 +351,7 @@ ax.legend()
 
 fig.savefig("docs/example_multiple_lines.png")
 ```
-
-![Recall with multiple lines](docs/example_multiple_lines.png)
+![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/example_multiple_lines.png)
 
 ## Metrics
 
