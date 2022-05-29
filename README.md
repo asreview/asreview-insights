@@ -29,7 +29,7 @@ asreview --help
 
 It should list the 'plot' subcommand and the 'stats' subcommand.
 
-## Active learning performance 
+## Active learning performance
 
 The `ASReview-insights` extension is useful for measuring the performance of
 active learning models on collections of binary labeled text. The extension
@@ -46,12 +46,12 @@ certain point during the screening phase. It is sometimes also called the
 proportion of Relevant Record Found (RRF) after screening an X% of the total
 records. For example, the RRF@10 is the recall (i.e., the proportion of the
 total number of relevant records) at screening 10% of the total number of
-records available in the dataset. 
+records available in the dataset.
 
 A variation is the Extra Relevant records Found (ERF), which is the proportion
 of relevant records found after correcting for the number of relevant records
 found via random screening (assuming a uniform distribution of relevant
-records). 
+records).
 
 The Work Saved over Sampling (WSS) is a measure of "the work saved over and
 above the work saved by simple sampling for a given level of recall" ([Cohen
@@ -67,7 +67,7 @@ The following plot illustrates the differences between the metrics Recall
 hypothetical records with labels. The stepped line on the diagonal is the
 naive labeling approach (screening randomly sorted records).
 
-![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/stats_explainer.png)
+![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/docs/stats_explainer.png)
 
 
 ## Plots
@@ -101,7 +101,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the recall (i.e, the proportion of the relevant
 records) after every labeling decision. The horizontal axis shows the
@@ -134,7 +134,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis. As shown in the figure, the
@@ -161,7 +161,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the
@@ -183,7 +183,7 @@ order:
 [1, 1, 0, 1, 0]
 ```
 
-![Recall of small dataset example](figures/tests_small_dataset_recall.png)
+![Recall of small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_recall.png)
 
 The black line is an estimate of the recall after every screened record in a
 naive manner (also refered to as 'random').
@@ -198,13 +198,13 @@ Recall (est) when screening 2 = (1/4) * (3 relevant records / 3 records left)  /
 The Work Saved over Sampling (WSS) is the difference between the recall of the
 simulation and the theoretical recall of random screening.
 
-![WSS for small dataset example](figures/tests_small_dataset_wss.png)
+![WSS for small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_wss.png)
 
 The following graph shows the recall versus the WSS. This comparison is
 important because it is the fundamental of the `WSS@95%` metric used in the
 literature about Active Learning for systematic reviewing.
 
-![ERF for small dataset example](figures/tests_small_dataset_erf.png)
+![ERF for small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_erf.png)
 
 
 ### Plotting CLI
@@ -282,7 +282,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_custom_title.png")
 ```
 
-![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/example_custom_title.png)
+![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/docs/example_custom_title.png)
 
 #### Example: Prior knowledge
 
@@ -321,7 +321,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/example_absolute_axes.png)
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/docs/example_absolute_axes.png)
 
 
 #### Example: Multiple curves in one plot
@@ -351,7 +351,7 @@ ax.legend()
 
 fig.savefig("docs/example_multiple_lines.png")
 ```
-![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/example_multiple_lines.png)
+![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
 
 ## Metrics
 
