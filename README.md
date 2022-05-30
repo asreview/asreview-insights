@@ -31,19 +31,43 @@ It should list the 'plot' subcommand and the 'stats' subcommand.
 
 ## Active learning performance
 
-The `ASReview-insights` extension is useful to measure the performance of
-active learning models on collections of binary labeled text. The performance
-can be measured with widely used metrics like Recall and Work Saved over
-Sampling (WSS). The `ASReview-insights` extension can plot or compute metrics
-from ASReview project files, ideally as the result of a simulation. See
-[LINK]() for more information on simulating with ASReview LAB.
+The `ASReview-insights` extension is useful for measuring the performance of
+active learning models on collections of binary labeled text. The extension
+can be used after performing a simulation study that involves mimicking the
+screening process with a specific model. As it is already known which records
+are labeled relevant, the simulation can automatically reenact the screening
+process as if a screener were using active learning. The performance of one or
+multiple models can be measured by different metrics and the
+`ASReview-insights` extension can plot or compute the values for such metrics
+from ASReview project files.
 
-The following plot (with generated, fake data) explains the different metrics
-Recall, WSS, and ERF. The dataset contains 1000 records. The stepped line on
-the diagonal is the naive labeling approach (screening randomly sorted
+The recall is the proportion of relevant records that have been found at a
+certain point during the screening phase. It is sometimes also called the
+proportion of Relevant Record Found (RRF) after screening an X% of the total
+records. For example, the RRF@10 is the recall (i.e., the proportion of the
+total number of relevant records) at screening 10% of the total number of
+records available in the dataset.
+
+A variation is the Extra Relevant records Found (ERF), which is the proportion
+of relevant records found after correcting for the number of relevant records
+found via random screening (assuming a uniform distribution of relevant
 records).
 
-![ASReview metrics explained](docs/stats_explainer.png)
+The Work Saved over Sampling (WSS) is a measure of "the work saved over and
+above the work saved by simple sampling for a given level of recall" ([Cohen
+et al., 2006]((https://doi.org/10.1197/jamia.m1929)). It is defined as the
+proportion of records a screener does **not** have to screen compared to
+random reading after providing the prior knowledge used to train the first
+iteration of the model. The WSS is typically measured at a recall of .95
+(WSS@95), reflecting the proportion of records saved by using active learning
+at the cost of failing to identify .05 of relevant publications.
+
+The following plot illustrates the differences between the metrics Recall
+(y-axis), WSS (blue line), and ERF (red line). The dataset contains 1.000
+hypothetical records with labels. The stepped line on the diagonal is the
+naive labeling approach (screening randomly sorted records).
+
+![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/docs/stats_explainer.png)
 
 
 ## Plots
@@ -60,7 +84,7 @@ asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asrevie
 #### Recall
 
 The recall is an important metric to study the performance of active learning
-algorithms in the context of information retrieval. The ASReview Insights
+algorithms in the context of information retrieval. ASReview Insights
 offers a straightforward command line interface to plot a "recall curve". The
 recall curve is the recall at any moment in the active learning process.
 
@@ -73,15 +97,18 @@ The file can be [exported from the ASReview LAB user interface](), or is the
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_recall_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_1.png)
 
-On the vertical axis, you find the recall after every labeling decision. The
-number of labeling actions on the horizontal axis is equal to the number of
-label actions and can't exceed the number of records in the dataset.
+On the vertical axis, you find the recall (i.e, the proportion of the relevant
+records) after every labeling decision. The horizontal axis shows the
+proportion of  total number of records in the dataset. The steeper the recall
+curve, the higher the performance of active learning when comparted to random
+screening. The recall curve can also be used to estimate stopping criteria, see
+the discussions in [#557](https://github.com/asreview/asreview/discussions/557) and [#1115](https://github.com/asreview/asreview/discussions/1115).
 
 
 ```bash
@@ -92,43 +119,93 @@ asreview plot recall YOUR_ASREVIEW_FILE.asreview
 
 The Work Saved over Sampling (WSS) metric is an useful metric to study the
 performance of active learning alorithms compared with a naive (random order)
-approach. The ASReview Insights offers a straightforward command line
-interface to plot the wss at any recall.
+approach at a given level of recall. ASReview Insights offers a
+straightforward command line interface to plot the WSS at any level of recall.
 
-To plot the WSS curve, you need a ASReview file (extension `.asreview`).
-The file can be [exported from the ASReview LAB user interface](), or is the
-[result of a simulation](). To plot the WSS, use this syntax (Replace
-`YOUR_ASREVIEW_FILE.asreview` by your ASReview file name.):
+To plot the WSS curve, you need a ASReview file (extension `.asreview`). To
+plot the WSS, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
+ASReview file name.):
 
 ```bash
 asreview plot wss YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
-recall is displayed on the horizontal axis.
+recall is displayed on the horizontal axis. As shown in the figure, the
+WSS is linearly related to the recall.
 
 
 #### ERF
+
+The Extra Relevant Records found is a derivative of the recall and presents
+the proportion of relevant records found after correcting for the number of
+relevant records found via random screening (assuming a uniform distribution
+of relevant records).
+
+To plot the WSS curve, you need a ASReview file (extension `.asreview`). To
+plot the WSS, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
+ASReview file name.):
+
 
 ```bash
 asreview plot erf YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`]() in
+The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
-number of labeling actions on the horizontal axis is equal to the number of
-label actions and can't exceed the number of records in the dataset.
+horizontal axis shows the proportion of  total number of records in the
+dataset. The steep increase of the ERF in the beginning of the process is
+related to the steep recall curve.
+
+### Very sparse datasets
+
+Very sparse or small datasets can provide good explanation on interesting
+details of the plotting subcommands in this extension. Important details are
+for example the handling of prior knowledge and the computation of the recall
+prediction in case of random screening.
+
+The following plot shows the result of a collection of 4 records with 3
+relevant items (inclusions). The relevant items are found in the following
+order:
+
+```
+[1, 1, 0, 1, 0]
+```
+
+![Recall of small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_recall.png)
+
+The black line is an estimate of the recall after every screened record in a
+naive manner (also refered to as 'random').
+
+```
+Recall (est) when screening 1 = (3 relevant records / 4 records left)  / 3 = 0.25
+Recall (est) when screening 2 = (1/4) * (3 relevant records / 3 records left)  / 3 +
+                                (3/4) * (2 relevant records / 3 records left)  / 3 = (1/4 + 3/4*2/3) / 3 = 0.25
+
+```
+
+The Work Saved over Sampling (WSS) is the difference between the recall of the
+simulation and the theoretical recall of random screening.
+
+![WSS for small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_wss.png)
+
+The following graph shows the recall versus the WSS. This comparison is
+important because it is the fundamental of the `WSS@95%` metric used in the
+literature about Active Learning for systematic reviewing.
+
+![ERF for small dataset example](https://github.com/asreview/asreview-insights/blob/master/figures/tests_small_dataset_erf.png)
+
 
 ### Plotting CLI
 
@@ -205,7 +282,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_custom_title.png")
 ```
 
-![WSS with custom title](docs/example_custom_title.png)
+![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/docs/example_custom_title.png)
 
 #### Example: Prior knowledge
 
@@ -244,7 +321,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](docs/example_absolute_axes.png)
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/docs/example_absolute_axes.png)
 
 
 #### Example: Multiple curves in one plot
@@ -274,8 +351,7 @@ ax.legend()
 
 fig.savefig("docs/example_multiple_lines.png")
 ```
-
-![Recall with multiple lines](docs/example_multiple_lines.png)
+![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
 
 ## Metrics
 
@@ -290,56 +366,71 @@ asreview stats sim_van_de_schoot_2017.asreview
 which results in
 
 ```
-{
-    "metrics": {
-        "recall": [
+    "asreviewVersion": "1.0rc2+14.gac96c1a",
+    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "data": {
+        "items": [
             {
-                "x": 0.1,
-                "y": 1.0
+                "id": "recall",
+                "title": "Recall",
+                "value": [
+                    [
+                        0.1,
+                        1.0
+                    ],
+                    [
+                        0.25,
+                        1.0
+                    ],
+                    [
+                        0.5,
+                        1.0
+                    ],
+                    [
+                        0.75,
+                        1.0
+                    ],
+                    [
+                        0.9,
+                        1.0
+                    ]
+                ]
             },
             {
-                "x": 0.25,
-                "y": 1.0
+                "id": "wss",
+                "title": "Work Saved over Sampling",
+                "value": [
+                    [
+                        0.95,
+                        0.8913851624373686
+                    ]
+                ]
             },
             {
-                "x": 0.5,
-                "y": 1.0
-            },
-            {
-                "x": 0.75,
-                "y": 1.0
-            },
-            {
-                "x": 0.9,
-                "y": 1.0
-            }
-        ],
-        "wss": [
-            {
-                "x": 0.95,
-                "y": 0.9107806691449815
-            }
-        ],
-        "erf": [
-            {
-                "x": 0.95,
-                "y": 0.047619047619047616
+                "id": "erf",
+                "title": "Extra Relevant record Found",
+                "value": [
+                    [
+                        0.1,
+                        0.9047619047619048
+                    ]
+                ]
             }
         ]
     }
 }
 ```
 
-Each available metric has `x` and `y` values. The `x` value is the value at
-which the metric is computed. In the plots above, this is the x-axis. The `y`
-value is the output of the metric. Some metrics are computed for multiple
+Each available metric has two values. The first value is the value at
+which the metric is computed. In the plots above, this is the x-axis. The
+second value is the output of the metric. Some metrics are computed for multiple
 values.
 
-| Metric | X description | Y description | Default |
+| Metric | Description pos. 1 | Description pos. 2 | Default |
 |---|---|---|---|
 | `recall` | Labels | Recall | 0.1, 0.25, 0.5, 0.75, 0.9 |
 | `wss` | Recall | Work Saved over Sampling at recall | 0.95 |
-| `erf` | Labels | ERF | 0.95 |
+| `erf` | Labels | ERF | 0.10 |
 
 
 ### Override default values
@@ -353,43 +444,59 @@ asreview stats sim_van_de_schoot_2017.asreview --wss 0.9 0.95
 
 ```
 {
-    "metrics": {
-        "recall": [
+    "asreviewVersion": "1.0rc2+14.gac96c1a",
+    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "data": {
+        "items": [
             {
-                "x": 0.1,
-                "y": 1.0
+                "id": "recall",
+                "title": "Recall",
+                "value": [
+                    [
+                        0.1,
+                        1.0
+                    ],
+                    [
+                        0.25,
+                        1.0
+                    ],
+                    [
+                        0.5,
+                        1.0
+                    ],
+                    [
+                        0.75,
+                        1.0
+                    ],
+                    [
+                        0.9,
+                        1.0
+                    ]
+                ]
             },
             {
-                "x": 0.25,
-                "y": 1.0
+                "id": "wss",
+                "title": "Work Saved over Sampling",
+                "value": [
+                    [
+                        0.9,
+                        0.8474220139001132
+                    ],
+                    [
+                        0.95,
+                        0.8913851624373686
+                    ]
+                ]
             },
             {
-                "x": 0.5,
-                "y": 1.0
-            },
-            {
-                "x": 0.75,
-                "y": 1.0
-            },
-            {
-                "x": 0.9,
-                "y": 1.0
-            }
-        ],
-        "wss": [
-            {
-                "x": 0.9,
-                "y": 0.8692419589461775
-            },
-            {
-                "x": 0.95,
-                "y": 0.9107806691449815
-            }
-        ],
-        "erf": [
-            {
-                "x": 0.95,
-                "y": 0.047619047619047616
+                "id": "erf",
+                "title": "Extra Relevant record Found",
+                "value": [
+                    [
+                        0.1,
+                        0.9047619047619048
+                    ]
+                ]
             }
         ]
     }

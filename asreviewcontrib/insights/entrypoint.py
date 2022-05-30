@@ -126,7 +126,7 @@ class StatsEntryPoint(BaseEntryPoint):
                             metavar='erf',
                             type=float,
                             nargs='+',
-                            default=[0.95],
+                            default=[0.10],
                             help='A (list of) values to compute the erf at.')
         parser.add_argument('--priors', action='store_true',
                             help='Include records used as prior knowledge '
@@ -161,7 +161,8 @@ class StatsEntryPoint(BaseEntryPoint):
                               erf=args.erf,
                               priors=args.priors,
                               x_absolute=args.x_absolute,
-                              y_absolute=args.y_absolute)
+                              y_absolute=args.y_absolute,
+                              version=self.version)
             print_stats(stats)
 
         if args.output:
