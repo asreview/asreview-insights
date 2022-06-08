@@ -78,14 +78,35 @@ naive labeling approach (screening randomly sorted records).
 ![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/docs/stats_explainer.png)
 
 
-## Plots
+## Basic usage
 
-The plots in this section are derived from an ASReview (v1.0) file generated
-from
+The metrics are derived from an ASReview project file containing the data and
+model configuration. The ASREVIEW file (extension `.asreview`) can be exported
+from ASReview LAB – simulation mode(**NEEDS.HYPERLINK.TO.RTDs**), or it is
+generated from running a simulation via the command-line
+interface(**NEEDS.HYPERLINK.TO.RTDs**), for example:
+
 
 ```python
 asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --init_seed 535
 ```
+
+To use the `ASReview-insights` extension, navigate to the folder in which the
+ASREVIEW file is stored and run 
+
+```bash
+asreview plot recall YOUR_ASREVIEW_FILE.asreview
+```
+or 
+
+```bash
+asreview stats sim_van_de_schoot_2017.asreview
+```
+
+More options are described in the sections below. All arguments can be
+obtained via `asreview plot --help` or `asreview stats  --help`. 
+
+## Plots
 
 ### Plot types
 
@@ -96,10 +117,9 @@ algorithms in the context of information retrieval. ASReview Insights
 offers a straightforward command line interface to plot a "recall curve". The
 recall curve is the recall at any moment in the active learning process.
 
-To plot the recall curve, you need a ASReview file (extension `.asreview`).
-The file can be [exported from the ASReview LAB user interface](), or is the
-[result of a simulation](). To plot the recall, use this syntax (Replace
-`YOUR_ASREVIEW_FILE.asreview` by your ASReview file name.):
+To plot the recall curve, you need a ASReview file (extension `.asreview`).To
+plot the recall, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by
+your ASReview file name.):
 
 ```bash
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
