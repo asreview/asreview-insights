@@ -72,9 +72,14 @@ def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
         y_lim = [-0.05, 1.05]
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
+    if x_absolute:
+        xlabel = "Number of labeled records"
+    else:
+        xlabel = "Proportion of labeled records"
+
     ax.step(x, y, where='post')
     ax.set_title("Recall")
-    ax.set(xlabel='#', ylabel='Recall')
+    ax.set(xlabel=xlabel, ylabel='Recall')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
@@ -269,9 +274,14 @@ def _plot_erf(ax, labels, x_absolute=False, y_absolute=False):
         y_lim = [-0.05, 1.05]
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
+    if x_absolute:
+        xlabel = "Number of labeled records"
+    else:
+        xlabel = "Proportion of labeled records"
+
     ax.step(x, y, where='post')
     ax.set_title("Extra Relevant Records Found (ERF)")
-    ax.set(xlabel='#', ylabel='ERF')
+    ax.set(xlabel=xlabel, ylabel='ERF')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
