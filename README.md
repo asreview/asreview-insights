@@ -325,7 +325,7 @@ fig.savefig("docs/example_multiple_lines.png")
 
 ![Recall with multiple lines](docs/example_multiple_lines.png)
 
-## Statistical results
+## Metrics
 
 The metrics in ASReview-insights can be used to extract metrics at given
 values. The easiest way to get metrics on a ASReview project file is with the
