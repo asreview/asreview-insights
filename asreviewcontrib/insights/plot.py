@@ -267,7 +267,7 @@ def _plot_erf(ax, labels, x_absolute=False, y_absolute=False):
 
     ax.step(x, y, where='post')
     ax.set_title("ERF")
-    ax.set(xlabel='Proportion total number of records', ylabel='ERF')
+    ax.set(xlabel='Proportion of reviewed records', ylabel='ERF')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
