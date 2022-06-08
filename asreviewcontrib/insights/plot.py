@@ -70,7 +70,7 @@ def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
 
     ax.step(x, y, where='post')
     ax.set_title("Recall")
-    ax.set(xlabel='Proportion total number of records', ylabel='Recall')
+    ax.set(xlabel='Proportion of reviewed records', ylabel='Recall')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
