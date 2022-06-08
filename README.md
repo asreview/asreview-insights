@@ -7,10 +7,9 @@
 
 This official extension to [ASReview
 LAB](https://github.com/asreview/asreview) extends the software with tools for
-[plotting](#plot-types) and extracting the [statistical results](statistical-results) 
-of several [performance metrics](performance-metrics). The
-extension is especially useful in combination with the simulation mode[**NEEDS
-HYPERLINK TO RTDs**] of ASReview LAB.
+[plotting](#plot-types) and extracting the [statistical results](#metrics) 
+of several [performance metrics](#performance-metrics). The
+extension is especially useful in combination with the [simulation functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.html) of ASReview LAB.
 
 
 ❣️ ASReview-insights is the successor to
