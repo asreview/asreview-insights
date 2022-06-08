@@ -89,8 +89,8 @@ class PlotEntryPoint(BaseEntryPoint):
                 plt.show()
 
 
-class StatsEntryPoint(BaseEntryPoint):
-    description = "Statistics and metrics entry point."
+class MetricsEntryPoint(BaseEntryPoint):
+    description = "Metrics entry point."
     extension_name = "asreview-insights"
 
     @property

@@ -1,4 +1,4 @@
-# asreview-insights
+# ASReview Insights
 
 [![PyPI version](https://badge.fury.io/py/asreview-insights.svg)](https://badge.fury.io/py/asreview-insights) [![Downloads](https://pepy.tech/badge/asreview-insights)](https://pepy.tech/project/asreview-insights) ![PyPI - License](https://img.shields.io/pypi/l/asreview-insights) ![Deploy and release](https://github.com/asreview/asreview-insights/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-insights/workflows/test-suite/badge.svg)
 
@@ -12,7 +12,7 @@ functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.htm
 of ASReview LAB.
 
 
-❣️ ASReview-insights is the successor to
+❣️ ASReview Insights is the successor to
 [ASReview-visualization](https://pypi.org/project/asreview-visualization/).
 ASReview insights is available for [ASReview
 LAB](https://github.com/asreview/asreview/discussions/975) version 1 or later.
@@ -20,31 +20,31 @@ Use ASReview visualization for versions 0.x.
 
 ## Installation
 
-ASReview-insights can be installed from PyPI:
+ASReview Insights can be installed from PyPI:
 
 ``` bash
-pip install --dev asreview-insights
+pip install asreview-insights
 ```
 
-After installation, check if the ` asreview-insights` package is listed as an
+After installation, check if the `asreview-insights` package is listed as an
 extension. Use the following command:
 
 ```bash
 asreview --help
 ```
 
-It should list the 'plot' subcommand and the 'stats' subcommand.
+It should list the 'plot' subcommand and the 'metrics' subcommand.
 
 ## Performance metrics
 
-The `ASReview-insights` extension is useful for measuring the performance of
+The ASReview Insights extension is useful for measuring the performance of
 active learning models on collections of binary labeled text. The extension
 can be used after performing a simulation study that involves mimicking the
 screening process with a specific model. As it is already known which records
 are labeled relevant, the simulation can automatically reenact the screening
 process as if a screener were using active learning. The performance of one or
 multiple models can be measured by different metrics and the
-`ASReview-insights` extension can plot or compute the values for such metrics
+ASReview Insights extension can plot or compute the values for such metrics
 from ASReview project files.
 
 The recall is the proportion of relevant records that have been found at a
@@ -78,37 +78,42 @@ naive labeling approach (screening randomly sorted records).
 
 ## Basic usage
 
-The metrics are derived from an ASReview project file containing the data and
-model configuration. The ASREVIEW file (extension `.asreview`) can be exported
-from ASReview LAB – simulation mode(**NEEDS.HYPERLINK.TO.RTDs**), or it is
-generated from running a simulation via the command-line
-interface(**NEEDS.HYPERLINK.TO.RTDs**), for example:
+The ASReview Insights package extends ASReview LAB with two new subcommands
+(see `asreview --help`): [`plot`](#plot) and [`metrics`](#metrics). The plots
+and metrics are derived from an ASReview project file. The ASReview file
+(extension `.asreview`) can be
+[exported](https://asreview.readthedocs.io/en/latest/manage.html#export-project)
+from ASReview LAB after a
+[simulation](https://asreview.readthedocs.io/en/latest/simulation_overview.html),
+or it is generated from running a [simulation via the command
+line](https://asreview.readthedocs.io/en/latest/simulation_cli.html).
+
+For example, an ASReview can be generated with:
 
 
 ```python
 asreview simulate benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview --init_seed 535
 ```
 
-To use the `ASReview-insights` extension, navigate to the folder in which the
-ASREVIEW file is stored and run 
+To use the most basic options of the ASReview Insights extension, run
 
 ```bash
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
-or 
+where `recall` is the type of the plot, or
 
 ```bash
-asreview stats sim_van_de_schoot_2017.asreview
+asreview metrics sim_van_de_schoot_2017.asreview
 ```
 
-More options are described in the sections below. All arguments can be
-obtained via `asreview plot --help` or `asreview stats  --help`. 
+More options are described in the sections below. All options can be
+obtained via `asreview plot --help` or `asreview metrics --help`.
 
-## Plots
+## `Plot`
 
 ### Plot types
 
-#### Recall
+#### `recall`
 
 The recall is an important metric to study the performance of active learning
 algorithms in the context of information retrieval. ASReview Insights
@@ -141,7 +146,7 @@ the discussions in [#557](https://github.com/asreview/asreview/discussions/557) 
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
 
-#### WSS
+#### `wss`
 
 The Work Saved over Sampling (WSS) metric is an useful metric to study the
 performance of active learning alorithms compared with a naive (random order)
@@ -167,7 +172,7 @@ recall is displayed on the horizontal axis. As shown in the figure, the
 WSS is linearly related to the recall.
 
 
-#### ERF
+#### `erf`
 
 The Extra Relevant Records found is a derivative of the recall and presents
 the proportion of relevant records found after correcting for the number of
@@ -274,7 +279,7 @@ with open_state("example.asreview") as s:
 
 #### Example: Relative versus absolute axes
 
-By default, all axes in ASReview-insights are relative. The API can be used to
+By default, all axes in ASReview Insights are relative. The API can be used to
 change this behavior. The arguments are identical for each plot function.
 
 ```python
@@ -323,14 +328,14 @@ fig.savefig("docs/example_multiple_lines.png")
 ```
 ![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
 
-## Metrics
+## `metrics`
 
-The metrics in ASReview-insights can be used to extract metrics at given
-values. The easiest way to get metrics on a ASReview project file is with the
-following command don the command line:
+The `metrics` subcommand in ASReview Insights can be used to compute metrics
+at given values. The easiest way to get compute metrics for a ASReview project
+file is with the following command don the command line:
 
 ```
-asreview stats sim_van_de_schoot_2017.asreview
+asreview metrics sim_van_de_schoot_2017.asreview
 ```
 
 which results in
@@ -391,10 +396,9 @@ which results in
 }
 ```
 
-Each available metric has two values. The first value is the value at
-which the metric is computed. In the plots above, this is the x-axis. The
-second value is the output of the metric. Some metrics are computed for multiple
-values.
+Each available item has two values. The first value is the value at which the
+metric is computed. In the plots above, this is the x-axis. The second value
+is the results of the metric. Some metrics are computed for multiple values.
 
 | Metric | Description pos. 1 | Description pos. 2 | Default |
 |---|---|---|---|
@@ -405,11 +409,11 @@ values.
 
 ### Override default values
 
-It is possible to override the default values of `asreview stats`. See
-`asreview stats -h` for more information or see the example below.
+It is possible to override the default values of `asreview metrics`. See
+`asreview metrics -h` for more information or see the example below.
 
 ```
-asreview stats sim_van_de_schoot_2017.asreview --wss 0.9 0.95
+asreview metrics sim_van_de_schoot_2017.asreview --wss 0.9 0.95
 ```
 
 ```
@@ -479,7 +483,7 @@ Metrics can be saved to a file in the JSON format. Use the flag `-o` or
 `--output`.
 
 ```
-asreview stats sim_van_de_schoot_2017.asreview -o my_file.json
+asreview metrics sim_van_de_schoot_2017.asreview -o my_file.json
 ```
 
 ### Metrics CLI
@@ -487,11 +491,11 @@ asreview stats sim_van_de_schoot_2017.asreview -o my_file.json
 Optional arguments for the command line are `--priors` to include prior
 knowledge, `--x_absolute` and `--x_absolute` to use absolute axes.
 
-See `asreview stats -h` for all command line arguments.
+See `asreview metrics -h` for all command line arguments.
 
 ### Metrics API
 
-Metrics are easily accesible with the `ASReview-insights` API.
+Metrics are easily accesible with the ASReview Insights API.
 
 Compute the recall after reading half of the dataset.
 

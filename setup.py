@@ -44,7 +44,7 @@ setup(
     entry_points={
         "asreview.entry_points": [
             "plot = asreviewcontrib.insights.entrypoint:PlotEntryPoint",
-            "stats = asreviewcontrib.insights.entrypoint:StatsEntryPoint",
+            "metrics = asreviewcontrib.insights.entrypoint:MetricsEntryPoint",
         ]
     },
     project_urls={
