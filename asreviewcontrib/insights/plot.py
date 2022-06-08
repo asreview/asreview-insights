@@ -69,7 +69,7 @@ def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.step(x, y, where='post')
-    ax.set_title("Recall plot")
+    ax.set_title("Recall")
     ax.set(xlabel='#', ylabel='Recall')
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
