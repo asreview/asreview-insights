@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 from asreviewcontrib.insights import plot_erf
 from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
-from asreviewcontrib.insights.stats import get_stats
-from asreviewcontrib.insights.stats import print_stats
+from asreviewcontrib.insights.metrics import get_metrics
+from asreviewcontrib.insights.metrics import print_metrics
 
 PLOT_TYPES = ['recall']
 TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
@@ -36,10 +36,13 @@ class PlotEntryPoint(BaseEntryPoint):
                             type=str,
                             nargs='+',
                             help='A (list of) ASReview files.')
-        parser.add_argument('--priors', action='store_true',
+        parser.add_argument('--priors',
+                            action='store_true',
                             help='Include records used as prior knowledge '
                             'in the plot.')
-        parser.add_argument('--no-priors', dest='priors', action='store_false',
+        parser.add_argument('--no-priors',
+                            dest='priors',
+                            action='store_false',
                             help='Exclude records used as prior knowledge '
                             'in the plot. Default.')
         parser.set_defaults(priors=False)
@@ -78,8 +81,7 @@ class PlotEntryPoint(BaseEntryPoint):
                       s,
                       priors=args.priors,
                       x_absolute=args.x_absolute,
-                      y_absolute=args.y_absolute
-                      )
+                      y_absolute=args.y_absolute)
 
             if args.output:
                 fig.savefig(args.output)
@@ -128,10 +130,13 @@ class StatsEntryPoint(BaseEntryPoint):
                             nargs='+',
                             default=[0.10],
                             help='A (list of) values to compute the erf at.')
-        parser.add_argument('--priors', action='store_true',
+        parser.add_argument('--priors',
+                            action='store_true',
                             help='Include records used as prior knowledge '
                             'in the metrics.')
-        parser.add_argument('--no-priors', dest='priors', action='store_false',
+        parser.add_argument('--no-priors',
+                            dest='priors',
+                            action='store_false',
                             help='Exclude records used as prior knowledge '
                             'in the metrics. Default.')
         parser.set_defaults(priors=False)
@@ -155,15 +160,15 @@ class StatsEntryPoint(BaseEntryPoint):
                              " via the CLI is not supported yet.")
 
         with open_state(args.asreview_files[0]) as s:
-            stats = get_stats(s,
-                              recall=args.recall,
-                              wss=args.wss,
-                              erf=args.erf,
-                              priors=args.priors,
-                              x_absolute=args.x_absolute,
-                              y_absolute=args.y_absolute,
-                              version=self.version)
-            print_stats(stats)
+            stats = get_metrics(s,
+                                recall=args.recall,
+                                wss=args.wss,
+                                erf=args.erf,
+                                priors=args.priors,
+                                x_absolute=args.x_absolute,
+                                y_absolute=args.y_absolute,
+                                version=self.version)
+            print_metrics(stats)
 
         if args.output:
             with open(args.output, "w") as f:

@@ -17,7 +17,11 @@ def _fix_start_tick(ax):
     return ax
 
 
-def plot_recall(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
+def plot_recall(ax,
+                state_obj,
+                priors=False,
+                x_absolute=False,
+                y_absolute=False):
     """Plot the recall@T for all thresholds T.
 
     Arguments
