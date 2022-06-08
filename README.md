@@ -178,28 +178,11 @@ related to the steep recall curve.
 
 ### Plotting CLI
 
+Optional arguments for the command line are `--priors` to include prior
+knowledge, `--x_absolute` and `--x_absolute` to use absolute axes.
+
 See `asreview plot -h` for all command line arguments.
 
-``` bash
-% asreview plot -h
-usage: asreview plot [-h] [--priors] [--no-priors] [--x_absolute] [--y_absolute] [-V] [-o OUTPUT]
-                     type asreview_files [asreview_files ...]
-
-positional arguments:
-  type                  Plot type. Default 'recall'.
-  asreview_files        A (list of) ASReview files.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --priors              Include records used as prior knowledge in the plot.
-  --no-priors           Exclude records used as prior knowledge in the plot. Default.
-  --x_absolute          Make use of absolute coordinates on the x-axis.
-  --y_absolute          Make use of absolute coordinates on the y-axis.
-  -V, --version         show program's version number and exit
-  -o OUTPUT, --output OUTPUT
-                        Save the plot to a file. File formats are detected by the matplotlib library, check there to see available
-                        formats.
-```
 
 ### Plotting API
 
@@ -483,31 +466,10 @@ asreview stats sim_van_de_schoot_2017.asreview -o my_file.json
 
 ### Metrics CLI
 
+Optional arguments for the command line are `--priors` to include prior
+knowledge, `--x_absolute` and `--x_absolute` to use absolute axes.
+
 See `asreview stats -h` for all command line arguments.
-
-``` bash
-% asreview stats -h
-usage: asreview stats [-h] [-V] [--recall recall [recall ...]] [--wss wss [wss ...]] [--erf erf [erf ...]] [--priors] [--no-priors]
-                      [--x_absolute] [--y_absolute] [-o OUTPUT]
-                      asreview_files [asreview_files ...]
-
-positional arguments:
-  asreview_files        A combination of data directories or files.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -V, --version         show program's version number and exit
-  --recall recall [recall ...]
-                        A (list of) values to compute the recall at.
-  --wss wss [wss ...]   A (list of) values to compute the wss at.
-  --erf erf [erf ...]   A (list of) values to compute the erf at.
-  --priors              Include records used as prior knowledge in the metrics.
-  --no-priors           Exclude records used as prior knowledge in the metrics. Default.
-  --x_absolute          Make use of absolute coordinates on the x-axis.
-  --y_absolute          Make use of absolute coordinates on the y-axis.
-  -o OUTPUT, --output OUTPUT
-                        Save the statistics and metrics to a JSON file.
-```
 
 ### Metrics API
 
