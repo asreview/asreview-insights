@@ -99,7 +99,7 @@ class MetricsEntryPoint(BaseEntryPoint):
         return __version__
 
     def execute(self, argv):
-        parser = argparse.ArgumentParser(prog='asreview stats')
+        parser = argparse.ArgumentParser(prog='asreview metrics')
         parser.add_argument('asreview_files',
                             metavar='asreview_files',
                             type=str,
@@ -152,7 +152,7 @@ class MetricsEntryPoint(BaseEntryPoint):
             "-o",
             "--output",
             default=None,
-            help='Save the statistics and metrics to a JSON file.')
+            help='Save the metrics and results to a JSON file.')
         args = parser.parse_args(argv)
 
         if len(args.asreview_files) > 1:
