@@ -1,15 +1,15 @@
 # asreview-insights
 
-## This package is currently under development. See [ASReview-visualization](https://pypi.org/project/asreview-visualization/) for stable version compatible with ASReview LAB <=0.19.x.
-
 [![PyPI version](https://badge.fury.io/py/asreview-insights.svg)](https://badge.fury.io/py/asreview-insights) [![Downloads](https://pepy.tech/badge/asreview-insights)](https://pepy.tech/project/asreview-insights) ![PyPI - License](https://img.shields.io/pypi/l/asreview-insights) ![Deploy and release](https://github.com/asreview/asreview-insights/workflows/Deploy%20and%20release/badge.svg) ![Build status](https://github.com/asreview/asreview-insights/workflows/test-suite/badge.svg)
 
 
 This official extension to [ASReview
 LAB](https://github.com/asreview/asreview) extends the software with tools for
-[plotting](#plot-types) and extracting the [statistical results](#metrics) 
-of several [performance metrics](#performance-metrics). The
-extension is especially useful in combination with the [simulation functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.html) of ASReview LAB.
+[plotting](#plot-types) and extracting the [statistical results](#metrics) of
+several [performance metrics](#performance-metrics). The extension is
+especially useful in combination with the [simulation
+functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.html)
+of ASReview LAB.
 
 
 ❣️ ASReview-insights is the successor to
@@ -17,8 +17,6 @@ extension is especially useful in combination with the [simulation functionality
 ASReview insights is available for [ASReview
 LAB](https://github.com/asreview/asreview/discussions/975) version 1 or later.
 Use ASReview visualization for versions 0.x.
-
-
 
 ## Installation
 
@@ -338,8 +336,8 @@ asreview stats sim_van_de_schoot_2017.asreview
 which results in
 
 ```
-    "asreviewVersion": "1.0rc2+14.gac96c1a",
-    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "asreviewVersion": "1.0",
+    "apiVersion": "1.0",
     "data": {
         "items": [
             {
@@ -416,8 +414,8 @@ asreview stats sim_van_de_schoot_2017.asreview --wss 0.9 0.95
 
 ```
 {
-    "asreviewVersion": "1.0rc2+14.gac96c1a",
-    "apiVersion": "1.0rc1+3.g19a776d.dirty",
+    "asreviewVersion": "1.0",
+    "apiVersion": "1.0",
     "data": {
         "items": [
             {

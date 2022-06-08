@@ -24,16 +24,10 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/asreview/asreview-insights',
-    author='Utrecht University',
+    author='ASReview LAB developers',
     author_email='asreview@uu.nl',
     classifiers=[
-        # How mature is this project? Common values are
-        #   3 - Alpha
-        #   4 - Beta
-        #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
-
-        # Pick your license as you wish
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
@@ -44,7 +38,7 @@ setup(
     install_requires=[
         "numpy",
         "matplotlib",
-        "asreview",
+        "asreview>=1,<2",
     ],
     extras_require={},
     entry_points={
