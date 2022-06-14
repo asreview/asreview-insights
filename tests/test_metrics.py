@@ -5,6 +5,7 @@ from numpy.testing import assert_almost_equal
 
 from asreviewcontrib.insights.metrics import _recall
 from asreviewcontrib.insights.metrics import recall
+from asreviewcontrib.insights.metrics import _time_to_discovery
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 
@@ -75,6 +76,14 @@ def test_metric_recall_invalid_values_max():
 
     r = _recall(labels, 1.2)
     assert_almost_equal(r, 1)
+
+
+def test_time_to_disc():
+
+    labels = [1, 1, 0, 1]
+    td = _time_to_discovery([3, 2, 0, 1], labels)
+
+    assert td == [(3, 1), (2, 2), (1, 4)]
 
 
 def test_metric_recall():

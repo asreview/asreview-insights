@@ -100,6 +100,38 @@ def _erf(labels, intercept, x_absolute=False, y_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
+def time_to_discovery(state_obj,
+                      priors=False):
+
+    labels = state_obj.get_dataset(["record_id", "label"], priors=priors)
+
+    return _time_to_discovery(labels["record_id"], labels["label"])
+
+
+def _time_to_discovery(record_ids, labels):
+
+    labels = np.array(labels)
+    record_ids = np.array(record_ids)
+
+    v_rel = record_ids[labels == 1]
+    i_rel = np.arange(len(labels))[labels == 1] + 1
+
+    return list(zip(v_rel.tolist(), i_rel.tolist()))
+
+
+def average_time_to_discovery(state_obj, priors=False):
+
+    labels = state_obj.get_dataset(["record_id", "label"], priors=priors)
+
+    td = _time_to_discovery(labels["record_id"], labels["label"])
+    return _average_time_to_discovery(td)
+
+
+def _average_time_to_discovery(td):
+
+    return float(np.mean([v for i, v in td]))
+
+
 def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
@@ -114,6 +146,7 @@ def get_metrics(state_obj,
     erf = [erf] if not isinstance(erf, list) else erf
 
     labels = state_obj.get_labels(priors=priors).to_list()
+    td = time_to_discovery(state_obj)
 
     recall_values = [
         _recall(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
@@ -145,6 +178,14 @@ def get_metrics(state_obj,
                 "id": "erf",
                 "title": "Extra Relevant record Found",
                 "value": [(i, v) for i, v in zip(erf, erf_values)]
+            }, {
+                "id": "atd",
+                "title": "Average time to discovery",
+                "value": _average_time_to_discovery(td)
+            }, {
+                "id": "td",
+                "title": "Time to discovery",
+                "value": td
             }]
         }
     }
