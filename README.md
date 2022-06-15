@@ -390,6 +390,42 @@ which results in
                         0.9047619047619048
                     ]
                 ]
+            },
+            {
+                "id": "atd",
+                "title": "Average time to discovery",
+                "value": 101.71428571428571
+            },
+            {
+                "id": "td",
+                "title": "Time to discovery",
+                "value": [
+                    [
+                        3898,
+                        22
+                    ],
+                    [
+                        284,
+                        23
+                    ],
+                    [
+                        592,
+                        25
+                    ],
+                    ...
+                    [
+                        2382,
+                        184
+                    ],
+                    [
+                        5479,
+                        224
+                    ],
+                    [
+                        3316,
+                        575
+                    ]
+                ]
             }
         ]
     }
@@ -405,6 +441,8 @@ is the results of the metric. Some metrics are computed for multiple values.
 | `recall` | Labels | Recall | 0.1, 0.25, 0.5, 0.75, 0.9 |
 | `wss` | Recall | Work Saved over Sampling at recall | 0.95 |
 | `erf` | Labels | ERF | 0.10 |
+| `atd` | Average time to discovery (in label actions) | - | - |
+| `td` | Row number (starting at 0) | Number of records labeled | - |
 
 
 ### Override default values
@@ -469,6 +507,42 @@ asreview metrics sim_van_de_schoot_2017.asreview --wss 0.9 0.95
                     [
                         0.1,
                         0.9047619047619048
+                    ]
+                ]
+            },
+            {
+                "id": "atd",
+                "title": "Average time to discovery",
+                "value": 101.71428571428571
+            },
+            {
+                "id": "td",
+                "title": "Time to discovery",
+                "value": [
+                    [
+                        3898,
+                        22
+                    ],
+                    [
+                        284,
+                        23
+                    ],
+                    [
+                        592,
+                        25
+                    ],
+                    ...
+                    [
+                        2382,
+                        184
+                    ],
+                    [
+                        5479,
+                        224
+                    ],
+                    [
+                        3316,
+                        575
                     ]
                 ]
             }
