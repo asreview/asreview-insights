@@ -40,7 +40,7 @@ def recall(state_obj,
            x_absolute=False,
            y_absolute=False):
 
-    labels = get_labels(state_obj)
+    labels = get_labels(state_obj, priors=priors)
 
     return _recall(labels,
                    intercept,
@@ -64,7 +64,7 @@ def wss(state_obj,
         x_absolute=False,
         y_absolute=False):
 
-    labels = get_labels(state_obj)
+    labels = get_labels(state_obj, priors=priors)
 
     return _wss(labels,
                 intercept,
@@ -85,7 +85,7 @@ def erf(state_obj,
         x_absolute=False,
         y_absolute=False):
 
-    labels = get_labels(state_obj)
+    labels = get_labels(state_obj, priors=priors)
 
     return _erf(labels,
                 intercept,

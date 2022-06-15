@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from asreview import open_state
+from numpy import array_equal
 from numpy.testing import assert_almost_equal
 
 from asreviewcontrib.insights.metrics import _recall
@@ -84,3 +85,15 @@ def test_metric_recall():
                  "sim_van_de_schoot_2017_1.asreview")) as s:
 
         assert_almost_equal(recall(s, 0.25), 1)
+
+
+def test_metric_priors():
+
+    with open_state(
+            Path(TEST_ASREVIEW_FILES,
+                 "sim_van_de_schoot_2017_1.asreview")) as s:
+
+        r_priors = recall(s, 0.01, priors=True)
+        r_no_priors = recall(s, 0.01, priors=False)
+
+        assert not array_equal(r_priors, r_no_priors)
