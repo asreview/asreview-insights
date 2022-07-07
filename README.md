@@ -84,7 +84,7 @@ question at hand. Therefore, [Ferdinands et al.
 the Time to Discover a relevant record as the fraction of records needed
 to screen to detect this record (TD); and (2) the Average Time to Discover
 (ATD) as an indicator of how many records need to be screened on average to
-find all relevant records in the dataset. 
+find all relevant records in the dataset.
 
 
 ## Basic usage
@@ -213,7 +213,7 @@ related to the steep recall curve.
 ### Plotting CLI
 
 Optional arguments for the command line are `--priors` to include prior
-knowledge, `--x_absolute` and `--x_absolute` to use absolute axes.
+knowledge, `--x_absolute` and `--y_absolute` to use absolute axes.
 
 See `asreview plot -h` for all command line arguments.
 
@@ -574,7 +574,7 @@ asreview metrics sim_van_de_schoot_2017.asreview -o my_file.json
 ### Metrics CLI
 
 Optional arguments for the command line are `--priors` to include prior
-knowledge, `--x_absolute` and `--x_absolute` to use absolute axes.
+knowledge, `--x_absolute` and `--y_absolute` to use absolute axes.
 
 See `asreview metrics -h` for all command line arguments.
 
