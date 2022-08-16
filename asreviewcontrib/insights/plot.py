@@ -55,6 +55,44 @@ def plot_recall(ax,
                         y_absolute=y_absolute)
 
 
+def plot_multiple_recall(ax, 
+                         states_dict, 
+                         priors=False, 
+                         x_absolute=False, 
+                         y_absolute=False,
+                         show_random=True,
+                         show_legend=True):
+    labels_dict = {state_name: get_labels(state_obj) 
+                   for state_name, state_obj in states_dict.items()}
+
+    return _plot_multiple_recall(ax, 
+                                 labels_dict, 
+                                 x_absolute, 
+                                 y_absolute, 
+                                 show_random, 
+                                 show_legend)
+    
+
+def _plot_multiple_recall(ax, 
+                          labels_dict, 
+                          x_absolute=False, 
+                          y_absolute=False, 
+                          show_random=True,
+                          show_legend=True,
+                          legend_kwargs={}):
+    for legend_label, labels in labels_dict.items():
+        ax = _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
+    
+    if show_random:
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
+
+    if show_legend:
+        ax.legend(**legend_kwargs)
+    
+    return ax
+
+
 def _plot_recall(ax, 
                  labels, 
                  x_absolute=False, 

@@ -4,6 +4,7 @@ from asreview import open_state
 import matplotlib.pyplot as plt
 
 from asreviewcontrib.insights.plot import _plot_erf
+from asreviewcontrib.insights.plot import plot_multiple_recall
 from asreviewcontrib.insights.plot import _plot_recall
 from asreviewcontrib.insights.plot import _plot_wss
 from asreviewcontrib.insights.plot import plot_erf
@@ -57,6 +58,25 @@ def test_plot_recall():
         fig.savefig(
             Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_1.png"))
 
+        
+def test_plot_multiple_recall():
+    with open_state(
+            Path(TEST_ASREVIEW_FILES,
+                 "sim_van_de_schoot_2017_1.asreview")) as s_1:
+
+        with open_state(
+            Path(TEST_ASREVIEW_FILES,
+                 "sim_van_de_schoot_2017_logistic.asreview")) as s_log:
+
+            states_dict = {'sim_1': s_1, 'sim_log': s_log}
+
+            fig, ax = plt.subplots()
+            plot_multiple_recall(ax, states_dict)
+
+            fig.savefig(
+                Path(TEST_FIGURES, 
+                     'tests_multiple_recall_sim_van_de_schoot_2017.png')
+            )
 
 def test_plot_wss():
 
