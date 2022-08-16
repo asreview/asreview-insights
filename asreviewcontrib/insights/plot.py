@@ -55,15 +55,30 @@ def plot_recall(ax,
                         y_absolute=y_absolute)
 
 
-def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
+def _plot_recall(ax, 
+                 labels, 
+                 x_absolute=False, 
+                 y_absolute=False, 
+                 show_random=True):
     """Plot the recall of state object(s).
 
     labels:
         An ASReview state object.
     """
+    ax = _add_recall_curve(ax, labels, x_absolute, y_absolute)
+    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
+    if show_random:
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
 
+    return ax
+
+
+def _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label=None):
     x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
+    ax.step(x, y, where='post', label=legend_label)
+    return ax
 
+def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
     if y_absolute:
         n_pos_docs = sum(labels)
         y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
@@ -77,7 +92,6 @@ def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
     else:
         xlabel = "Proportion of labeled records"
 
-    ax.step(x, y, where='post')
     ax.set_title("Recall")
     ax.set(xlabel=xlabel, ylabel='Recall')
     ax.set_ylim(y_lim)
@@ -85,20 +99,13 @@ def _plot_recall(ax, labels, x_absolute=False, y_absolute=False):
 
     if x_absolute:
         ax.xaxis.get_major_locator().set_params(integer=True)
-
-    # add random line if required
-    _plot_random_recall(ax,
-                        labels,
-                        x_absolute=x_absolute,
-                        y_absolute=y_absolute)
-
-    # correct x axis if tick is at position 0
+    
     _fix_start_tick(ax)
 
     return ax
 
 
-def _plot_random_recall(ax, labels, x_absolute, y_absolute):
+def _add_random_curve(ax, labels, x_absolute, y_absolute):
     """Plot the recall of state object(s).
 
     labels:
@@ -181,11 +188,29 @@ def plot_wss(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_wss(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
-def _plot_wss(ax, labels, x_absolute=False, y_absolute=False):
+def _plot_wss(ax, 
+              labels, 
+              x_absolute=False, 
+              y_absolute=False, 
+              legend_label=None):
     """Plot for each threshold T in [0,1] the WSS@T."""
-    n_docs = len(labels)
+    ax = _add_wss_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
+    return ax
 
+
+def _add_wss_curve(ax, 
+                   labels, 
+                   x_absolute=False, 
+                   y_absolute=False, 
+                   legend_label=None):
     x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
+    ax.step(x, y, where='post', label=legend_label)
+    return ax
+
+
+def _add_wss_info(ax, labels, x_absolute=False, y_absolute=False):
+    n_docs = len(labels)
 
     if y_absolute:
         y_lim = [-n_docs * 0.05, n_docs * 1.05]
@@ -193,8 +218,7 @@ def _plot_wss(ax, labels, x_absolute=False, y_absolute=False):
     else:
         y_lim = [-0.05, 1.05]
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-
-    ax.step(x, y, where='post')
+    
     ax.set_title("Work Saved over Sampling (WSS) given Recall")
     ax.set(xlabel='Recall', ylabel='WSS')
     ax.set_ylim(y_lim)
@@ -261,12 +285,30 @@ def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_erf(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
-def _plot_erf(ax, labels, x_absolute=False, y_absolute=False):
+def _plot_erf(ax, 
+              labels, 
+              x_absolute=False, 
+              y_absolute=False, 
+              legend_label=None):
     """Plot for each threshold T the ERF@T."""
-    n_pos_docs = sum(labels)
+    ax = _add_erf_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_erf_info(ax, labels, x_absolute, y_absolute)
+    return ax
 
+
+def _add_erf_curve(ax, 
+                   labels, 
+                   x_absolute=False, 
+                   y_absolute=False, 
+                   legend_label=None):
     x, y = _erf_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
+    ax.step(x, y, where='post', label=legend_label)
+    return ax
 
+
+def _add_erf_info(ax, labels, x_absolute=False, y_absolute=False):
+    n_pos_docs = sum(labels)
+    
     if y_absolute:
         y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
         yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
@@ -279,7 +321,6 @@ def _plot_erf(ax, labels, x_absolute=False, y_absolute=False):
     else:
         xlabel = "Proportion of labeled records"
 
-    ax.step(x, y, where='post')
     ax.set_title("Extra Relevant Records Found (ERF)")
     ax.set(xlabel=xlabel, ylabel='ERF')
     ax.set_ylim(y_lim)
