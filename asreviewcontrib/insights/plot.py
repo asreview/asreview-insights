@@ -6,22 +6,12 @@ from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.utils import get_labels
 
 
-def _fix_start_tick(ax):
-
-    # correct x axis if tick is at position 0
-    locs = ax.get_xticks()
-    if locs[1] == 0:
-        locs[1] = 1
-        ax.set_xticks(locs[1:-1])
-
-    return ax
-
-
 def plot_recall(ax,
                 state_obj,
                 priors=False,
                 x_absolute=False,
-                y_absolute=False):
+                y_absolute=False,
+                show_random=True):
     """Plot the recall@T for all thresholds T.
 
     Arguments
@@ -36,6 +26,8 @@ def plot_recall(ax,
     y_absolute: bool
         If True, the number of included records found is on the y-axis.
         If False, the fraction of all included records found is on the y-axis.
+    show_random: bool
+        Show the random curve in the plot.
 
     Returns
     -------
@@ -55,118 +47,45 @@ def plot_recall(ax,
                         y_absolute=y_absolute)
 
 
-def plot_multiple_recall(ax, 
-                         states_dict, 
-                         priors=False, 
-                         x_absolute=False, 
+def plot_multiple_recall(ax,
+                         states_dict,
+                         priors=False,
+                         x_absolute=False,
                          y_absolute=False,
                          show_random=True,
                          show_legend=True):
+    """Plot the recall@T for all thresholds T, for multiple state objects.
+
+    Arguments
+    ---------
+    state_dict: dict[str, asreview.state.SQLiteState]
+        Dictionary {state_name: state_object}
+    priors: bool
+        Include the prior in plot or not.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
+    show_random: bool
+        Show the random curve in the plot.
+    show_legend: bool
+        Show the legend in the plot.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+    """
     labels_dict = {state_name: get_labels(state_obj) 
                    for state_name, state_obj in states_dict.items()}
 
-    return _plot_multiple_recall(ax, 
-                                 labels_dict, 
-                                 x_absolute, 
-                                 y_absolute, 
-                                 show_random, 
+    return _plot_multiple_recall(ax,
+                                 labels_dict,
+                                 x_absolute,
+                                 y_absolute,
+                                 show_random,
                                  show_legend)
-    
-
-def _plot_multiple_recall(ax, 
-                          labels_dict, 
-                          x_absolute=False, 
-                          y_absolute=False, 
-                          show_random=True,
-                          show_legend=True,
-                          legend_kwargs={}):
-    for legend_label, labels in labels_dict.items():
-        ax = _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label)
-    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
-    
-    if show_random:
-        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
-
-    if show_legend:
-        ax.legend(**legend_kwargs)
-    
-    return ax
-
-
-def _plot_recall(ax, 
-                 labels, 
-                 x_absolute=False, 
-                 y_absolute=False, 
-                 show_random=True):
-    """Plot the recall of state object(s).
-
-    labels:
-        An ASReview state object.
-    """
-    ax = _add_recall_curve(ax, labels, x_absolute, y_absolute)
-    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
-    if show_random:
-        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
-
-    return ax
-
-
-def _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label=None):
-    x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
-    ax.step(x, y, where='post', label=legend_label)
-    return ax
-
-def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
-    if y_absolute:
-        n_pos_docs = sum(labels)
-        y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
-        yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
-    else:
-        y_lim = [-0.05, 1.05]
-        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-
-    if x_absolute:
-        xlabel = "Number of labeled records"
-    else:
-        xlabel = "Proportion of labeled records"
-
-    ax.set_title("Recall")
-    ax.set(xlabel=xlabel, ylabel='Recall')
-    ax.set_ylim(y_lim)
-    ax.set_yticks(yticks)
-
-    if x_absolute:
-        ax.xaxis.get_major_locator().set_params(integer=True)
-    
-    _fix_start_tick(ax)
-
-    return ax
-
-
-def _add_random_curve(ax, labels, x_absolute, y_absolute):
-    """Plot the recall of state object(s).
-
-    labels:
-        An ASReview state object.
-    """
-    n_docs = len(labels)
-    n_pos_docs = sum(labels)
-
-    # add random line if required
-    x = np.arange(1, n_docs + 1)
-    recall_random = np.round(np.linspace(0, n_pos_docs, n_docs))
-
-    if not x_absolute:
-        x = x / n_docs
-
-    if y_absolute:
-        y = recall_random
-    else:
-        y = recall_random / n_pos_docs
-
-    ax.step(x, y, color="black", where='post')
-
-    return ax
 
 
 def plot_wss(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
@@ -226,51 +145,6 @@ def plot_wss(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_wss(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
-def _plot_wss(ax, 
-              labels, 
-              x_absolute=False, 
-              y_absolute=False, 
-              legend_label=None):
-    """Plot for each threshold T in [0,1] the WSS@T."""
-    ax = _add_wss_curve(ax, labels, x_absolute, y_absolute, legend_label)
-    ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
-    return ax
-
-
-def _add_wss_curve(ax, 
-                   labels, 
-                   x_absolute=False, 
-                   y_absolute=False, 
-                   legend_label=None):
-    x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
-    ax.step(x, y, where='post', label=legend_label)
-    return ax
-
-
-def _add_wss_info(ax, labels, x_absolute=False, y_absolute=False):
-    n_docs = len(labels)
-
-    if y_absolute:
-        y_lim = [-n_docs * 0.05, n_docs * 1.05]
-        yticks = [int(n_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
-    else:
-        y_lim = [-0.05, 1.05]
-        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    
-    ax.set_title("Work Saved over Sampling (WSS) given Recall")
-    ax.set(xlabel='Recall', ylabel='WSS')
-    ax.set_ylim(y_lim)
-    ax.set_yticks(yticks)
-
-    if x_absolute:
-        ax.xaxis.get_major_locator().set_params(integer=True)
-
-        # correct x axis if tick is at position 0
-        _fix_start_tick(ax)
-
-    return ax
-
-
 def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     """Plot the ERF@T for all thresholds T.
 
@@ -323,14 +197,186 @@ def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_erf(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
+# Plotting using labels.
+def _plot_recall(ax,
+                 labels,
+                 x_absolute=False,
+                 y_absolute=False,
+                 show_random=True):
+    """Plot the recall of a state object, using the labels.
+
+    labels: list
+        List of labels.
+    """
+    ax = _add_recall_curve(ax, labels, x_absolute, y_absolute)
+    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
+    if show_random:
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
+
+    return ax
+
+
+def _plot_multiple_recall(ax, 
+                          labels_dict, 
+                          x_absolute=False, 
+                          y_absolute=False, 
+                          show_random=True,
+                          show_legend=True,
+                          legend_kwargs={}):
+    """Plot multiple recall curves, using the labels.
+
+    labels_dict : dict[str, list]
+        Dictionary {state_name: list_of_labels}
+    """
+    for legend_label, labels in labels_dict.items():
+        ax = _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
+    
+    if show_random:
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
+
+    if show_legend:
+        ax.legend(**legend_kwargs)
+    
+    return ax
+
+
+def _plot_wss(ax, 
+              labels, 
+              x_absolute=False, 
+              y_absolute=False, 
+              legend_label=None):
+    """Plot for each threshold T in [0,1] the WSS@T.
+    
+    labels: list
+        List of labels.
+    """
+    ax = _add_wss_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
+    return ax
+
+
+def _plot_multiple_wss(ax, 
+                       labels_dict, 
+                       x_absolute=False, 
+                       y_absolute=False,
+                       show_legend=True,
+                       legend_kwargs={}):
+    """Plot multiple WSS curves, using the labels.
+
+    labels_dict : dict[str, list]
+        Dictionary {state_name: list_of_labels}
+    """
+    for legend_label, labels in labels_dict.items():
+        ax = _add_wss_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
+
+    if show_legend:
+        ax.legend(**legend_kwargs)
+    
+    return ax
+
+
 def _plot_erf(ax, 
               labels, 
               x_absolute=False, 
               y_absolute=False, 
               legend_label=None):
-    """Plot for each threshold T the ERF@T."""
+    """Plot for each threshold T the ERF@T.
+    
+    labels: list
+        List of labels.
+    """
     ax = _add_erf_curve(ax, labels, x_absolute, y_absolute, legend_label)
     ax = _add_erf_info(ax, labels, x_absolute, y_absolute)
+    return ax
+
+
+def _plot_multiple_erf(ax, 
+                       labels_dict, 
+                       x_absolute=False, 
+                       y_absolute=False,
+                       show_legend=True,
+                       legend_kwargs={}):
+    """Plot multiple ERF curves, using the labels.
+
+    labels_dict : dict[str, list]
+        Dictionary {state_name: list_of_labels}
+    """
+    for legend_label, labels in labels_dict.items():
+        ax = _add_erf_curve(ax, labels, x_absolute, y_absolute, legend_label)
+    ax = _add_erf_info(ax, labels, x_absolute, y_absolute)
+
+    if show_legend:
+        ax.legend(**legend_kwargs)
+    
+    return ax
+
+
+# Adding curves.
+def _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label=None):
+    """Add a recall curve to a plot.
+
+    Parameters
+    ----------
+    ax : plt.axes.Axes
+        Axes on which to plot the curve.
+    labels : list
+        List of labels.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
+    legend_label : str, optional
+        Label to add to the legend for this curve, by default None
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with the recall curve added.
+    """
+    x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
+    ax.step(x, y, where='post', label=legend_label)
+    return ax
+
+
+def _add_random_curve(ax, labels, x_absolute, y_absolute):
+    """Add a random curve to a plot.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with random curve added.
+    """
+    n_docs = len(labels)
+    n_pos_docs = sum(labels)
+
+    # add random line if required
+    x = np.arange(1, n_docs + 1)
+    recall_random = np.round(np.linspace(0, n_pos_docs, n_docs))
+
+    if not x_absolute:
+        x = x / n_docs
+
+    if y_absolute:
+        y = recall_random
+    else:
+        y = recall_random / n_pos_docs
+
+    ax.step(x, y, color="black", where='post')
+
+    return ax
+
+
+def _add_wss_curve(ax, 
+                   labels, 
+                   x_absolute=False, 
+                   y_absolute=False, 
+                   legend_label=None):
+    x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
+    ax.step(x, y, where='post', label=legend_label)
     return ax
 
 
@@ -344,7 +390,80 @@ def _add_erf_curve(ax,
     return ax
 
 
+# Axes styling and info.
+def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
+    """Add info and set axis for a recall plot.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with title, x-axis and y-axis set for a recall plot.
+    """
+    if y_absolute:
+        n_pos_docs = sum(labels)
+        y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
+        yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
+    else:
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+
+    if x_absolute:
+        xlabel = "Number of labeled records"
+    else:
+        xlabel = "Proportion of labeled records"
+
+    ax.set_title("Recall")
+    ax.set(xlabel=xlabel, ylabel='Recall')
+    ax.set_ylim(y_lim)
+    ax.set_yticks(yticks)
+
+    if x_absolute:
+        ax.xaxis.get_major_locator().set_params(integer=True)
+    
+    _fix_start_tick(ax)
+
+    return ax
+
+
+def _add_wss_info(ax, labels, x_absolute=False, y_absolute=False):
+    """Add info and set axis for a WSS plot.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with title, x-axis and y-axis set for a WSS plot.
+    """
+    n_docs = len(labels)
+
+    if y_absolute:
+        y_lim = [-n_docs * 0.05, n_docs * 1.05]
+        yticks = [int(n_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]
+    else:
+        y_lim = [-0.05, 1.05]
+        yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    
+    ax.set_title("Work Saved over Sampling (WSS) given Recall")
+    ax.set(xlabel='Recall', ylabel='WSS')
+    ax.set_ylim(y_lim)
+    ax.set_yticks(yticks)
+
+    if x_absolute:
+        ax.xaxis.get_major_locator().set_params(integer=True)
+
+        # correct x axis if tick is at position 0
+        _fix_start_tick(ax)
+
+    return ax
+
+
 def _add_erf_info(ax, labels, x_absolute=False, y_absolute=False):
+    """Add info and set axis for a ERF plot.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with title, x-axis and y-axis set for a ERF plot.
+    """
     n_pos_docs = sum(labels)
     
     if y_absolute:
@@ -369,5 +488,15 @@ def _add_erf_info(ax, labels, x_absolute=False, y_absolute=False):
 
         # correct x axis if tick is at position 0
         _fix_start_tick(ax)
+
+    return ax
+
+
+def _fix_start_tick(ax):
+    # correct x axis if tick is at position 0
+    locs = ax.get_xticks()
+    if locs[1] == 0:
+        locs[1] = 1
+        ax.set_xticks(locs[1:-1])
 
     return ax
