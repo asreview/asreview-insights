@@ -4,10 +4,12 @@ from asreview import open_state
 import matplotlib.pyplot as plt
 
 from asreviewcontrib.insights.plot import _plot_erf
-from asreviewcontrib.insights.plot import plot_multiple_recall
 from asreviewcontrib.insights.plot import _plot_recall
 from asreviewcontrib.insights.plot import _plot_wss
 from asreviewcontrib.insights.plot import plot_erf
+from asreviewcontrib.insights.plot import plot_multiple_erf
+from asreviewcontrib.insights.plot import plot_multiple_recall
+from asreviewcontrib.insights.plot import plot_multiple_wss
 from asreviewcontrib.insights.plot import plot_recall
 from asreviewcontrib.insights.plot import plot_wss
 
@@ -58,25 +60,20 @@ def test_plot_recall():
         fig.savefig(
             Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_1.png"))
 
-        
+
 def test_plot_multiple_recall():
-    with open_state(
-            Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s_1:
+    fps = [
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
+    ]
 
-        with open_state(
-            Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_logistic.asreview")) as s_log:
+    fig, ax = plt.subplots()
+    plot_multiple_recall(ax, fps)
 
-            states_dict = {'sim_1': s_1, 'sim_log': s_log}
+    fig.savefig(
+        Path(TEST_FIGURES, 'tests_multiple_recall_sim_van_de_schoot_2017.png')
+    )
 
-            fig, ax = plt.subplots()
-            plot_multiple_recall(ax, states_dict)
-
-            fig.savefig(
-                Path(TEST_FIGURES, 
-                     'tests_multiple_recall_sim_van_de_schoot_2017.png')
-            )
 
 def test_plot_wss():
 
@@ -111,6 +108,20 @@ def test_plot_wss():
             Path(TEST_FIGURES, "tests_wss_xyabs_sim_van_de_schoot_2017_1.png"))
 
 
+def test_plot_multiple_wss():
+    fps = [
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
+    ]
+
+    fig, ax = plt.subplots()
+    plot_multiple_wss(ax, fps)
+
+    fig.savefig(
+        Path(TEST_FIGURES, 'tests_multiple_wss_sim_van_de_schoot_2017.png')
+    )
+
+
 def test_plot_erf():
 
     with open_state(
@@ -142,3 +153,17 @@ def test_plot_erf():
         plot_erf(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
             Path(TEST_FIGURES, "tests_erf_xyabs_sim_van_de_schoot_2017_1.png"))
+
+
+def test_plot_multiple_erf():
+    fps = [
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
+    ]
+
+    fig, ax = plt.subplots()
+    plot_multiple_erf(ax, fps)
+
+    fig.savefig(
+        Path(TEST_FIGURES, 'tests_multiple_erf_sim_van_de_schoot_2017.png')
+    )

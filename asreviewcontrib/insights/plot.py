@@ -4,6 +4,7 @@ from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.utils import get_labels
+from asreviewcontrib.insights.utils import get_multiple_labels
 
 
 def plot_recall(ax,
@@ -48,7 +49,7 @@ def plot_recall(ax,
 
 
 def plot_multiple_recall(ax,
-                         states_dict,
+                         project_fps,
                          priors=False,
                          x_absolute=False,
                          y_absolute=False,
@@ -58,8 +59,8 @@ def plot_multiple_recall(ax,
 
     Arguments
     ---------
-    state_dict: dict[str, asreview.state.SQLiteState]
-        Dictionary {state_name: state_object}
+    project_fps: list[Path]
+        List of filepaths of ASReview project files.
     priors: bool
         Include the prior in plot or not.
     x_absolute: bool
@@ -77,8 +78,7 @@ def plot_multiple_recall(ax,
     -------
     matplotlib.axes.Axes
     """
-    labels_dict = {state_name: get_labels(state_obj) 
-                   for state_name, state_obj in states_dict.items()}
+    labels_dict = get_multiple_labels(project_fps)
 
     return _plot_multiple_recall(ax,
                                  labels_dict,
@@ -145,6 +145,42 @@ def plot_wss(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_wss(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
+def plot_multiple_wss(ax,
+                      project_fps,
+                      priors=False,
+                      x_absolute=False,
+                      y_absolute=False,
+                      show_legend=True):
+    """Plot the WSS@T for all thresholds T, for multiple projects.
+
+    Arguments
+    ---------
+    project_fps: list[Path]
+        List of filepaths of ASReview project files.
+    priors: bool
+        Include the prior in plot or not.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
+    show_legend: bool
+        Show the legend in the plot.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+    """
+    labels_dict = get_multiple_labels(project_fps)
+
+    return _plot_multiple_wss(ax,
+                              labels_dict,
+                              x_absolute,
+                              y_absolute,
+                              show_legend)
+
+
 def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     """Plot the ERF@T for all thresholds T.
 
@@ -197,6 +233,44 @@ def plot_erf(ax, state_obj, priors=False, x_absolute=False, y_absolute=False):
     return _plot_erf(ax, labels, x_absolute=x_absolute, y_absolute=y_absolute)
 
 
+def plot_multiple_erf(ax,
+                      project_fps,
+                      priors=False,
+                      x_absolute=False,
+                      y_absolute=False,
+                      show_legend=True):
+    """Plot the ERF@T for all thresholds T, for multiple projects.
+
+    Arguments
+    ---------
+    project_fps: list[Path]
+        List of filepaths of ASReview project files.
+    priors: bool
+        Include the prior in plot or not.
+    x_absolute: bool
+        If True, the number of records is on the x-axis.
+        If False, the fraction of the whole dataset is on the x-axis.
+    y_absolute: bool
+        If True, the number of included records found is on the y-axis.
+        If False, the fraction of all included records found is on the y-axis.
+    show_random: bool
+        Show the random curve in the plot.
+    show_legend: bool
+        Show the legend in the plot.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+    """
+    labels_dict = get_multiple_labels(project_fps)
+
+    return _plot_multiple_erf(ax,
+                              labels_dict,
+                              x_absolute,
+                              y_absolute,
+                              show_legend)
+
+
 # Plotting using labels.
 def _plot_recall(ax,
                  labels,
@@ -216,10 +290,10 @@ def _plot_recall(ax,
     return ax
 
 
-def _plot_multiple_recall(ax, 
-                          labels_dict, 
-                          x_absolute=False, 
-                          y_absolute=False, 
+def _plot_multiple_recall(ax,
+                          labels_dict,
+                          x_absolute=False,
+                          y_absolute=False,
                           show_random=True,
                           show_legend=True,
                           legend_kwargs={}):
@@ -231,23 +305,23 @@ def _plot_multiple_recall(ax,
     for legend_label, labels in labels_dict.items():
         ax = _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label)
     ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
-    
+
     if show_random:
         ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
         ax.legend(**legend_kwargs)
-    
+
     return ax
 
 
-def _plot_wss(ax, 
-              labels, 
-              x_absolute=False, 
-              y_absolute=False, 
+def _plot_wss(ax,
+              labels,
+              x_absolute=False,
+              y_absolute=False,
               legend_label=None):
     """Plot for each threshold T in [0,1] the WSS@T.
-    
+
     labels: list
         List of labels.
     """
@@ -256,9 +330,9 @@ def _plot_wss(ax,
     return ax
 
 
-def _plot_multiple_wss(ax, 
-                       labels_dict, 
-                       x_absolute=False, 
+def _plot_multiple_wss(ax,
+                       labels_dict,
+                       x_absolute=False,
                        y_absolute=False,
                        show_legend=True,
                        legend_kwargs={}):
@@ -273,17 +347,17 @@ def _plot_multiple_wss(ax,
 
     if show_legend:
         ax.legend(**legend_kwargs)
-    
+
     return ax
 
 
-def _plot_erf(ax, 
-              labels, 
-              x_absolute=False, 
-              y_absolute=False, 
+def _plot_erf(ax,
+              labels,
+              x_absolute=False,
+              y_absolute=False,
               legend_label=None):
     """Plot for each threshold T the ERF@T.
-    
+
     labels: list
         List of labels.
     """
@@ -292,9 +366,9 @@ def _plot_erf(ax,
     return ax
 
 
-def _plot_multiple_erf(ax, 
-                       labels_dict, 
-                       x_absolute=False, 
+def _plot_multiple_erf(ax,
+                       labels_dict,
+                       x_absolute=False,
                        y_absolute=False,
                        show_legend=True,
                        legend_kwargs={}):
@@ -309,7 +383,7 @@ def _plot_multiple_erf(ax,
 
     if show_legend:
         ax.legend(**legend_kwargs)
-    
+
     return ax
 
 
@@ -370,20 +444,20 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
     return ax
 
 
-def _add_wss_curve(ax, 
-                   labels, 
-                   x_absolute=False, 
-                   y_absolute=False, 
+def _add_wss_curve(ax,
+                   labels,
+                   x_absolute=False,
+                   y_absolute=False,
                    legend_label=None):
     x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
     ax.step(x, y, where='post', label=legend_label)
     return ax
 
 
-def _add_erf_curve(ax, 
-                   labels, 
-                   x_absolute=False, 
-                   y_absolute=False, 
+def _add_erf_curve(ax,
+                   labels,
+                   x_absolute=False,
+                   y_absolute=False,
                    legend_label=None):
     x, y = _erf_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
     ax.step(x, y, where='post', label=legend_label)
@@ -419,7 +493,7 @@ def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
 
     if x_absolute:
         ax.xaxis.get_major_locator().set_params(integer=True)
-    
+
     _fix_start_tick(ax)
 
     return ax
@@ -441,7 +515,7 @@ def _add_wss_info(ax, labels, x_absolute=False, y_absolute=False):
     else:
         y_lim = [-0.05, 1.05]
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    
+
     ax.set_title("Work Saved over Sampling (WSS) given Recall")
     ax.set(xlabel='Recall', ylabel='WSS')
     ax.set_ylim(y_lim)
@@ -465,7 +539,7 @@ def _add_erf_info(ax, labels, x_absolute=False, y_absolute=False):
         Axes with title, x-axis and y-axis set for a ERF plot.
     """
     n_pos_docs = sum(labels)
-    
+
     if y_absolute:
         y_lim = [-n_pos_docs * 0.05, n_pos_docs * 1.05]
         yticks = [int(n_pos_docs * r) for r in [0, 0.2, 0.4, 0.6, 0.8, 1.0]]

@@ -6,6 +6,9 @@ from asreview.entry_points import BaseEntryPoint
 import matplotlib.pyplot as plt
 
 from asreviewcontrib.insights import plot_erf
+from asreviewcontrib.insights import plot_multiple_erf
+from asreviewcontrib.insights import plot_multiple_recall
+from asreviewcontrib.insights import plot_multiple_wss
 from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
@@ -13,6 +16,11 @@ from asreviewcontrib.insights.metrics import print_metrics
 
 PLOT_TYPES = ['recall']
 TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
+MULTIPLE_TYPE_TO_FUNC = {
+    'recall': plot_multiple_recall,
+    'wss': plot_multiple_wss,
+    'erf': plot_multiple_erf
+}
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -69,24 +77,28 @@ class PlotEntryPoint(BaseEntryPoint):
             'formats.')
         args = parser.parse_args(argv)
 
+        fig, ax = plt.subplots()
+        # Seperate handling of multiple files, to avoid loading all in memory.
         if len(args.asreview_files) > 1:
-            raise ValueError("Plotting multiple project files"
-                             " via the CLI is not supported yet.")
-
-        with open_state(args.asreview_files[0]) as s:
-
-            fig, ax = plt.subplots()
-            plot_func = TYPE_TO_FUNC[args.plot_type]
+            plot_func = MULTIPLE_TYPE_TO_FUNC[args.plot_type]
             plot_func(ax,
-                      s,
+                      args.asreview_files,
                       priors=args.priors,
                       x_absolute=args.x_absolute,
                       y_absolute=args.y_absolute)
+        else:
+            with open_state(args.asreview_files[0]) as s:
+                plot_func = TYPE_TO_FUNC[args.plot_type]
+                plot_func(ax,
+                          s,
+                          priors=args.priors,
+                          x_absolute=args.x_absolute,
+                          y_absolute=args.y_absolute)
 
-            if args.output:
-                fig.savefig(args.output)
-            else:
-                plt.show()
+        if args.output:
+            fig.savefig(args.output)
+        else:
+            plt.show()
 
 
 class MetricsEntryPoint(BaseEntryPoint):
