@@ -7,11 +7,9 @@ from asreviewcontrib.insights.plot import _plot_erf
 from asreviewcontrib.insights.plot import _plot_recall
 from asreviewcontrib.insights.plot import _plot_wss
 from asreviewcontrib.insights.plot import plot_erf
-from asreviewcontrib.insights.plot import plot_multiple_erf
-from asreviewcontrib.insights.plot import plot_multiple_recall
-from asreviewcontrib.insights.plot import plot_multiple_wss
 from asreviewcontrib.insights.plot import plot_recall
 from asreviewcontrib.insights.plot import plot_wss
+from asreviewcontrib.insights.utils import iter_states
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 TEST_FIGURES = Path("figures")
@@ -68,7 +66,9 @@ def test_plot_multiple_recall():
     ]
 
     fig, ax = plt.subplots()
-    plot_multiple_recall(ax, fps)
+    states = iter_states(fps)
+    legend_values = [fp.stem for fp in fps]
+    plot_recall(ax, states, legend_values=legend_values)
 
     fig.savefig(
         Path(TEST_FIGURES, 'tests_multiple_recall_sim_van_de_schoot_2017.png')
@@ -115,7 +115,9 @@ def test_plot_multiple_wss():
     ]
 
     fig, ax = plt.subplots()
-    plot_multiple_wss(ax, fps)
+    states = iter_states(fps)
+    legend_values = [fp.stem for fp in fps]
+    plot_wss(ax, states, legend_values=legend_values)
 
     fig.savefig(
         Path(TEST_FIGURES, 'tests_multiple_wss_sim_van_de_schoot_2017.png')
@@ -162,7 +164,9 @@ def test_plot_multiple_erf():
     ]
 
     fig, ax = plt.subplots()
-    plot_multiple_erf(ax, fps)
+    states = iter_states(fps)
+    legend_values = [fp.stem for fp in fps]
+    plot_erf(ax, states, legend_values=legend_values)
 
     fig.savefig(
         Path(TEST_FIGURES, 'tests_multiple_erf_sim_van_de_schoot_2017.png')

@@ -1,26 +1,19 @@
 import argparse
 import json
+from pathlib import Path
 
 from asreview import open_state
 from asreview.entry_points import BaseEntryPoint
 import matplotlib.pyplot as plt
 
 from asreviewcontrib.insights import plot_erf
-from asreviewcontrib.insights import plot_multiple_erf
-from asreviewcontrib.insights import plot_multiple_recall
-from asreviewcontrib.insights import plot_multiple_wss
 from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import print_metrics
+from asreviewcontrib.insights.utils import iter_states
 
-PLOT_TYPES = ['recall']
 TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
-MULTIPLE_TYPE_TO_FUNC = {
-    'recall': plot_multiple_recall,
-    'wss': plot_multiple_wss,
-    'erf': plot_multiple_erf
-}
 
 
 class PlotEntryPoint(BaseEntryPoint):
@@ -78,22 +71,18 @@ class PlotEntryPoint(BaseEntryPoint):
         args = parser.parse_args(argv)
 
         fig, ax = plt.subplots()
-        # Seperate handling of multiple files, to avoid loading all in memory.
-        if len(args.asreview_files) > 1:
-            plot_func = MULTIPLE_TYPE_TO_FUNC[args.plot_type]
-            plot_func(ax,
-                      args.asreview_files,
-                      priors=args.priors,
-                      x_absolute=args.x_absolute,
-                      y_absolute=args.y_absolute)
-        else:
-            with open_state(args.asreview_files[0]) as s:
-                plot_func = TYPE_TO_FUNC[args.plot_type]
-                plot_func(ax,
-                          s,
-                          priors=args.priors,
-                          x_absolute=args.x_absolute,
-                          y_absolute=args.y_absolute)
+        plot_func = TYPE_TO_FUNC[args.plot_type]
+        show_legend = False if len(args.asreview_files) == 1 else True
+        state_obj = iter_states(args.asreview_files)
+        legend_values = [Path(fp).stem for fp in args.asreview_files]
+
+        plot_func(ax,
+                  state_obj,
+                  priors=args.priors,
+                  x_absolute=args.x_absolute,
+                  y_absolute=args.y_absolute,
+                  show_legend=show_legend,
+                  legend_values=legend_values)
 
         if args.output:
             fig.savefig(args.output)

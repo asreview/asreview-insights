@@ -1,11 +1,33 @@
 import numpy as np
 from asreview import open_state
-
-from pathlib import Path
+from asreview.state import SQLiteState
 
 
 def get_labels(state_obj, priors=False):
+    """Get the labels from state file(s).
 
+    Parameters
+    ----------
+    state_obj : Union[SQLiteState, list[SQLiteState]]
+        Single state object, or list of multiple state objects.
+    priors : bool, optional
+        Include the prior labels, by default False
+
+    Returns
+    -------
+    list or list of lists
+        List of labels if state_obj is a single state. List of lists of labels
+        if state_obj is a list of states.
+    """
+    print(type(state_obj))
+    if isinstance(state_obj, SQLiteState):
+        return _get_labels(state_obj, priors)
+    else:
+        return [_get_labels(single_state, priors) for single_state in state_obj]
+
+
+def _get_labels(state_obj, priors=False):
+    """Get the labels of a single state."""
     # get the number of records
     n_records = state_obj.n_records
 
@@ -20,25 +42,19 @@ def get_labels(state_obj, priors=False):
     return labels
 
 
-def get_multiple_labels(fps, priors=False):
-    """Get the labels from multiple state files.
+def iter_states(file_paths):
+    """Get a generator of state objects from their filepaths.
 
     Parameters
     ----------
-    fps : list[Path]
-        List of filepaths of ASReview project files.
-    priors : bool, optional
-        Also get the labels for the priors, by default False
+    file_paths : list[Path]
+        List of filepaths of states.
 
-    Returns
-    -------
-    dict[list]
-        Dictionary {project_name: labels}
+    Yields
+    ------
+    asreview.state.BaseState
+        State at given filepath.
     """
-    multiple_labels = {}
-    for fp in fps:
-        fp = Path(fp)
-        project_name = fp.stem
-        with open_state(fp) as state:
-            multiple_labels[project_name] = get_labels(state, priors)
-    return multiple_labels
+    for fp in file_paths:
+        with open_state(fp) as s:
+            yield s
