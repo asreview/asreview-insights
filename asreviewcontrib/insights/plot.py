@@ -13,7 +13,8 @@ def plot_recall(ax,
                 y_absolute=False,
                 show_random=True,
                 show_legend=True,
-                legend_values=None):
+                legend_values=None,
+                legend_kwargs={}):
     """Plot the recall@T for all thresholds T.
 
     Arguments
@@ -36,7 +37,10 @@ def plot_recall(ax,
     legend_values: list[str]
         List of values to show in the legend if state_obj contains multiple
         states and show_legend=True.
-
+    legend_kwargs: dict
+        Dictionary of keyword arguments that are passed to the legend. See
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
+        for the options.
     Returns
     -------
     matplotlib.axes.Axes
@@ -55,7 +59,8 @@ def plot_recall(ax,
                         y_absolute=y_absolute,
                         show_random=show_random,
                         show_legend=show_legend,
-                        legend_values=legend_values)
+                        legend_values=legend_values,
+                        legend_kwargs=legend_kwargs)
 
 
 def plot_wss(ax,
@@ -64,7 +69,8 @@ def plot_wss(ax,
              x_absolute=False,
              y_absolute=False,
              show_legend=True,
-             legend_values=None):
+             legend_values=None,
+             legend_kwargs={}):
     """Plot the WSS@T for all thresholds T.
 
     Arguments
@@ -85,6 +91,10 @@ def plot_wss(ax,
     legend_values: list[str]
         List of values to show in the legend if state_obj contains multiple
         states and show_legend=True.
+    legend_kwargs: dict
+        Dictionary of keyword arguments that are passed to the legend. See
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
+        for the options.
 
     Returns
     -------
@@ -129,7 +139,8 @@ def plot_wss(ax,
                      x_absolute=x_absolute,
                      y_absolute=y_absolute,
                      show_legend=show_legend,
-                     legend_values=legend_values)
+                     legend_values=legend_values,
+                     legend_kwargs=legend_kwargs)
 
 
 def plot_erf(ax,
@@ -138,7 +149,8 @@ def plot_erf(ax,
              x_absolute=False,
              y_absolute=False,
              show_legend=True,
-             legend_values=None):
+             legend_values=None,
+             legend_kwargs={}):
     """Plot the ERF@T for all thresholds T.
 
     Arguments
@@ -159,6 +171,10 @@ def plot_erf(ax,
     legend_values: list[str]
         List of values to show in the legend if state_obj contains multiple
         states and show_legend=True.
+    legend_kwargs: dict
+        Dictionary of keyword arguments that are passed to the legend. See
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
+        for the options.
 
     Returns
     -------
@@ -198,7 +214,8 @@ def plot_erf(ax,
                      x_absolute=x_absolute,
                      y_absolute=y_absolute,
                      show_legend=show_legend,
-                     legend_values=legend_values)
+                     legend_values=legend_values,
+                     legend_kwargs=legend_kwargs)
 
 
 # Plotting using labels.

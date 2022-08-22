@@ -215,8 +215,16 @@ related to the steep recall curve.
 Optional arguments for the command line are `--priors` to include prior
 knowledge, `--x_absolute` and `--y_absolute` to use absolute axes.
 
-See `asreview plot -h` for all command line arguments.
+See `asreview plot -h` for all command line arguments. 
 
+### Plotting multiple files
+It is possible to show the curves of multiple files in one plot. Use this 
+syntax (replace `YOUR_ASREVIEW_FILE_1` and `YOUR_ASREVIEW_FILE_2` by the 
+asreview_files that you want to include in the plot):
+
+```bash
+asreview plot recall YOUR_ASREVIEW_FILE_1.asreview YOUR_ASREVIEW_FILE_2.asreview
+```
 
 ### Plotting API
 
@@ -310,10 +318,9 @@ with open_state("example.asreview") as s:
 ![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/docs/example_absolute_axes.png)
 
 
-#### Example: Multiple curves in one plot
+#### Example: Legend for multiple curves in one plot
 
-It is possible to have multiple curves in one plot by using the API,
-and add a legend.
+If you have multiple curves in one plot, you can customize the legend:
 
 ```python
 import matplotlib.pyplot as plt
@@ -325,17 +332,15 @@ from asreviewcontrib.insights.plot import plot_recall
 fig, ax = plt.subplots()
 
 with open_state("tests/asreview_files/sim_van_de_schoot_2017_1.asreview") as s1:
-    plot_recall(ax, s1)
-
-with open_state("tests/asreview_files/"
-                "sim_van_de_schoot_2017_logistic.asreview") as s2:
-    plot_recall(ax, s2)
-
-ax.lines[0].set_label("Naive Bayes")
-ax.lines[2].set_label("Logistic")
-ax.legend()
+    with open_state("tests/asreview_files/"
+                    "sim_van_de_schoot_2017_logistic.asreview") as s2:
+        plot_recall(ax,
+                    [s1, s2],
+                    legend_values=["Naive Bayes", "Logistic"],
+                    legend_kwargs={'loc': 'lower center'})
 
 fig.savefig("docs/example_multiple_lines.png")
+
 ```
 ![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
 
