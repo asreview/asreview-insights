@@ -3,7 +3,7 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.utils import get_labels
+from asreviewcontrib.insights.utils import _get_labels
 
 
 def plot_recall(ax,
@@ -18,8 +18,7 @@ def plot_recall(ax,
 
     Arguments
     ---------
-    state_obj: Union[asreview.state.SQLiteState,
-                     list[asreview.state.SQLiteState]]
+    state_obj: (list of) asreview.state.SQLiteState
         State object from which to get the labels for the plot, or a list of
         state objects.
     priors: bool
@@ -48,7 +47,7 @@ def plot_recall(ax,
     found after reviewing T records.
     """
 
-    labels = get_labels(state_obj)
+    labels = _get_labels(state_obj)
 
     return _plot_recall(ax,
                         labels,
@@ -70,8 +69,7 @@ def plot_wss(ax,
 
     Arguments
     ---------
-    state_obj: Union[asreview.state.SQLiteState,
-                     list[asreview.state.SQLiteState]]
+    state_obj: (list of) asreview.state.SQLiteState
         State object from which to get the labels for the plot, or a list of
         state objects.
     priors: bool
@@ -124,7 +122,7 @@ def plot_wss(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = get_labels(state_obj)
+    labels = _get_labels(state_obj)
 
     return _plot_wss(ax,
                      labels,
@@ -145,8 +143,7 @@ def plot_erf(ax,
 
     Arguments
     ---------
-    state_obj: Union[asreview.state.SQLiteState,
-                     list[asreview.state.SQLiteState]]
+    state_obj: (list of) asreview.state.SQLiteState
         State object from which to get the labels for the plot, or a list of
         state objects.
     priors: bool
@@ -194,7 +191,7 @@ def plot_erf(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = get_labels(state_obj)
+    labels = _get_labels(state_obj)
 
     return _plot_erf(ax,
                      labels,

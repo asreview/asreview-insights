@@ -9,7 +9,7 @@ from asreviewcontrib.insights.plot import _plot_wss
 from asreviewcontrib.insights.plot import plot_erf
 from asreviewcontrib.insights.plot import plot_recall
 from asreviewcontrib.insights.plot import plot_wss
-from asreviewcontrib.insights.utils import iter_states
+from asreviewcontrib.insights.utils import _iter_states
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 TEST_FIGURES = Path("figures")
@@ -66,7 +66,7 @@ def test_plot_multiple_recall():
     ]
 
     fig, ax = plt.subplots()
-    states = iter_states(fps)
+    states = _iter_states(fps)
     legend_values = [fp.stem for fp in fps]
     plot_recall(ax, states, legend_values=legend_values)
 
@@ -115,7 +115,7 @@ def test_plot_multiple_wss():
     ]
 
     fig, ax = plt.subplots()
-    states = iter_states(fps)
+    states = _iter_states(fps)
     legend_values = [fp.stem for fp in fps]
     plot_wss(ax, states, legend_values=legend_values)
 
@@ -164,7 +164,7 @@ def test_plot_multiple_erf():
     ]
 
     fig, ax = plt.subplots()
-    states = iter_states(fps)
+    states = _iter_states(fps)
     legend_values = [fp.stem for fp in fps]
     plot_erf(ax, states, legend_values=legend_values)
 
