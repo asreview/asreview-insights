@@ -24,12 +24,11 @@ def _wss_values(labels, x_absolute=False, y_absolute=False):
     n_pos_docs = sum(labels)
 
     docs_found = np.cumsum(labels)
-    docs_found_random = np.round(np.linspace(0, n_pos_docs, n_docs))
 
-    # Get the first occurrence of 1, 2, 3, ..., n_pos_docs in both arrays.
+    # Get the first occurrence of 1, 2, 3, ..., n_pos_docs in the array
     when_found = np.searchsorted(docs_found, np.arange(1, n_pos_docs + 1))
-    when_found_random = np.searchsorted(docs_found_random,
-                                        np.arange(1, n_pos_docs + 1))
+    # Find first occurence of 1, 2, 3, ..., n_pos_docs if the documents were reviewed randomly
+    when_found_random = np.ceil(np.arange(1, n_pos_docs + 1) / n_pos_docs * n_docs)
     n_found_earlier = when_found_random - when_found
 
     x = np.arange(1, n_pos_docs + 1)
