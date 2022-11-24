@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        asr_versions: ['1.0rc2']
+        asr_versions: ['1.0', '1.1']
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
