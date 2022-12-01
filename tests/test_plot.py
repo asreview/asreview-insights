@@ -122,4 +122,5 @@ def test_plot_erf():
         fig, ax = plt.subplots()
         plot_erf(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_erf_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
