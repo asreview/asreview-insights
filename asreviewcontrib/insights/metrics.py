@@ -145,7 +145,8 @@ def get_metrics(state_obj,
     wss = [wss] if not isinstance(wss, list) else wss
     erf = [erf] if not isinstance(erf, list) else erf
 
-    labels = state_obj.get_labels(priors=priors).to_list()
+    labels = get_labels(state_obj, priors=priors)
+
     td = time_to_discovery(state_obj)
 
     recall_values = [
