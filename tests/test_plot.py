@@ -49,76 +49,78 @@ def test_plot_recall():
 
     with open_state(
             Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
 
         fig, ax = plt.subplots()
         plot_recall(ax, s)
 
         fig.savefig(
-            Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_stop_if_min.png"))
 
 
 def test_plot_wss():
 
     with open_state(
             Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
         fig, ax = plt.subplots()
         plot_wss(ax, s)
         fig.savefig(
             Path(TEST_FIGURES,
-                 "tests_wss_default_sim_van_de_schoot_2017_1.png"))
+                 "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s)
         fig.savefig(
             Path(TEST_FIGURES,
-                 "tests_wss_default_sim_van_de_schoot_2017_1.png"))
+                 "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s, x_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_xabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES, "tests_wss_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_yabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES, "tests_wss_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_xyabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES,
+                 "tests_wss_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
 
 def test_plot_erf():
 
     with open_state(
             Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
         fig, ax = plt.subplots()
         plot_erf(ax, s)
         fig.savefig(
             Path(TEST_FIGURES,
-                 "tests_erf_default_sim_van_de_schoot_2017_1.png"))
+                 "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s)
         fig.savefig(
             Path(TEST_FIGURES,
-                 "tests_erf_default_sim_van_de_schoot_2017_1.png"))
+                 "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s, x_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_xabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES, "tests_erf_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_yabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES, "tests_erf_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_xyabs_sim_van_de_schoot_2017_1.png"))
+            Path(TEST_FIGURES,
+                 "tests_erf_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
