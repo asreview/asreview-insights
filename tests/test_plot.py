@@ -88,7 +88,8 @@ def test_plot_wss():
         fig, ax = plt.subplots()
         plot_wss(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_wss_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
 
 def test_plot_erf():
