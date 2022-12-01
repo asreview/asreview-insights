@@ -4,7 +4,7 @@ from asreview import open_state
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
 
-from asreviewcontrib.insights.metrics import _recall
+from asreviewcontrib.insights.metrics import _recall, get_metrics
 from asreviewcontrib.insights.metrics import recall
 from asreviewcontrib.insights.metrics import _time_to_discovery
 
@@ -91,7 +91,7 @@ def test_metric_recall():
 
     with open_state(
             Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
 
         assert_almost_equal(recall(s, 0.25), 1)
 
@@ -100,9 +100,24 @@ def test_metric_priors():
 
     with open_state(
             Path(TEST_ASREVIEW_FILES,
-                 "sim_van_de_schoot_2017_1.asreview")) as s:
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
 
         r_priors = recall(s, 0.01, priors=True)
         r_no_priors = recall(s, 0.01, priors=False)
 
         assert not array_equal(r_priors, r_no_priors)
+
+
+def test_label_padding():
+
+    with open_state(
+            Path(TEST_ASREVIEW_FILES,
+                 "sim_van_de_schoot_2017_stop_if_min.asreview")) as s:
+        stop_if_min = get_metrics(s)
+
+    with open_state(
+            Path(TEST_ASREVIEW_FILES,
+                 "sim_van_de_schoot_2017_stop_if_full.asreview")) as s:
+        stop_if_full = get_metrics(s)
+
+    assert stop_if_min == stop_if_full
