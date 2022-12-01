@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def get_labels(state_obj, priors=False):
+def pad_simulation_labels(state_obj, priors=False):
 
     # get the number of records
     n_records = state_obj.n_records
