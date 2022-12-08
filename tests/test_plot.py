@@ -181,3 +181,16 @@ def test_plot_multiple_erf():
     fig.savefig(
         Path(TEST_FIGURES, 'tests_multiple_erf_sim_van_de_schoot_2017.png')
     )
+
+
+def test_plot_with_priors():
+    fp = Path(TEST_ASREVIEW_FILES,
+              "sim_van_de_schoot_2017_stop_if_min.asreview")
+
+    fig, ax = plt.subplots()
+    with open_state(fp) as s:
+        plot_recall(ax, s, priors=True)
+
+    fig.savefig(
+        Path(TEST_FIGURES, 'tests_priors_recall_sim_van_de_schoot_2017.png')
+    )

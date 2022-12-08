@@ -51,7 +51,7 @@ def plot_recall(ax,
     found after reviewing T records.
     """
 
-    labels = _pad_simulation_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _plot_recall(ax,
                         labels,
@@ -132,7 +132,7 @@ def plot_wss(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = _pad_simulation_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _plot_wss(ax,
                      labels,
@@ -207,7 +207,7 @@ def plot_erf(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = _pad_simulation_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _plot_erf(ax,
                      labels,
