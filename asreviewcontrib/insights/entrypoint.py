@@ -105,7 +105,7 @@ class MetricsEntryPoint(BaseEntryPoint):
                             metavar='asreview_files',
                             type=str,
                             nargs='+',
-                            help='A combination of data directories or files.')
+                            help='A (list of) ASReview files.')
         parser.add_argument(
             "-V",
             "--version",
@@ -156,21 +156,24 @@ class MetricsEntryPoint(BaseEntryPoint):
             help='Save the metrics and results to a JSON file.')
         args = parser.parse_args(argv)
 
-        if len(args.asreview_files) > 1:
-            raise ValueError("Computing metrics for multiple project files"
-                             " via the CLI is not supported yet.")
-
-        with open_state(args.asreview_files[0]) as s:
-            stats = get_metrics(s,
-                                recall=args.recall,
-                                wss=args.wss,
-                                erf=args.erf,
-                                priors=args.priors,
-                                x_absolute=args.x_absolute,
-                                y_absolute=args.y_absolute,
-                                version=self.version)
-            print_metrics(stats)
+        output_dict = {}
+        for asreview_file in args.asreview_files:
+            with open_state(asreview_file) as s:
+                if len(args.asreview_files) > 1:
+                    print(f"Calculating metrics for {asreview_file}")
+                stats = get_metrics(s,
+                                    recall=args.recall,
+                                    wss=args.wss,
+                                    erf=args.erf,
+                                    priors=args.priors,
+                                    x_absolute=args.x_absolute,
+                                    y_absolute=args.y_absolute,
+                                    version=self.version)
+                output_dict[asreview_file] = stats
+                print_metrics(stats)
 
         if args.output:
+            if len(args.asreview_files) == 1:
+                output_dict = output_dict[args.asreview_files[0]]
             with open(args.output, "w") as f:
-                json.dump(stats, f, indent=4)
+                json.dump(output_dict, f, indent=4)
