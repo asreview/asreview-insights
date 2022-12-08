@@ -143,7 +143,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the recall (i.e, the proportion of the relevant
 records) after every labeling decision. The horizontal axis shows the
@@ -176,7 +176,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis. As shown in the figure, the
@@ -203,7 +203,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_1.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the

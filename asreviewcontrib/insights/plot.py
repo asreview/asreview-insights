@@ -3,7 +3,7 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.utils import _get_labels
+from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
 def plot_recall(ax,
@@ -51,7 +51,7 @@ def plot_recall(ax,
     found after reviewing T records.
     """
 
-    labels = _get_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj)
 
     return _plot_recall(ax,
                         labels,
@@ -132,7 +132,7 @@ def plot_wss(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = _get_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj)
 
     return _plot_wss(ax,
                      labels,
@@ -207,7 +207,7 @@ def plot_erf(ax,
     [Can we include the stats_explainer picture in the docs?]
     """
 
-    labels = _get_labels(state_obj)
+    labels = _pad_simulation_labels(state_obj)
 
     return _plot_erf(ax,
                      labels,
