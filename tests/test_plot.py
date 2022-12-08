@@ -56,12 +56,14 @@ def test_plot_recall():
         plot_recall(ax, s)
 
         fig.savefig(
-            Path(TEST_FIGURES, "tests_recall_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_recall_sim_van_de_schoot_2017_stop_if_min.png"))
 
 
 def test_plot_multiple_recall():
     fps = [
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES,
+             "sim_van_de_schoot_2017_stop_if_min.asreview"),
         Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
     ]
 
@@ -95,12 +97,14 @@ def test_plot_wss():
         fig, ax = plt.subplots()
         plot_wss(ax, s, x_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_wss_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_wss_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_wss_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_wss(ax, s, x_absolute=True, y_absolute=True)
@@ -111,7 +115,8 @@ def test_plot_wss():
 
 def test_plot_multiple_wss():
     fps = [
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES,
+             "sim_van_de_schoot_2017_stop_if_min.asreview"),
         Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
     ]
 
@@ -145,22 +150,26 @@ def test_plot_erf():
         fig, ax = plt.subplots()
         plot_erf(ax, s, x_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_erf_xabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_erf_yabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
         fig, ax = plt.subplots()
         plot_erf(ax, s, x_absolute=True, y_absolute=True)
         fig.savefig(
-            Path(TEST_FIGURES, "tests_erf_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
+            Path(TEST_FIGURES,
+                 "tests_erf_xyabs_sim_van_de_schoot_2017_stop_if_min.png"))
 
 
 def test_plot_multiple_erf():
     fps = [
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_1.asreview"),
+        Path(TEST_ASREVIEW_FILES,
+             "sim_van_de_schoot_2017_stop_if_min.asreview"),
         Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_logistic.asreview")
     ]
 

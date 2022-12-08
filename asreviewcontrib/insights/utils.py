@@ -33,7 +33,8 @@ def _pad_simulation_labels(state_obj, priors=False):
 
         return labels
     else:
-        return [_pad_simulation_labels(single_state, priors) for single_state in state_obj]
+        return [_pad_simulation_labels(single_state, priors)
+                for single_state in state_obj]
 
 
 def _iter_states(file_paths):
