@@ -190,8 +190,8 @@ the proportion of relevant records found after correcting for the number of
 relevant records found via random screening (assuming a uniform distribution
 of relevant records).
 
-To plot the WSS curve, you need a ASReview file (extension `.asreview`). To
-plot the WSS, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
+To plot the ERF curve, you need a ASReview file (extension `.asreview`). To
+plot the ERF, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by your
 ASReview file name.):
 
 
