@@ -26,10 +26,15 @@ def _pad_simulation_labels(state_obj, priors=False):
         # get the labels
         labels = state_obj.get_labels(priors=priors).to_list()
 
-        # if less labels than records, check if all labels available
-        if len(labels) < n_records:
+        if not priors:
+            n_used_records = n_records - state_obj.n_priors
+        else:
+            n_used_records = n_records
 
-            labels = labels + np.zeros(n_records - len(labels)).tolist()
+        # if less labels than records, check if all labels available
+        if len(labels) < n_used_records:
+
+            labels = labels + np.zeros(n_used_records - len(labels)).tolist()
 
         return labels
     else:
