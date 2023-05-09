@@ -61,7 +61,7 @@ records).
 
 The Work Saved over Sampling (WSS) is a measure of "the work saved over and
 above the work saved by simple sampling for a given level of recall" ([Cohen
-et al., 2006]((https://doi.org/10.1197/jamia.m1929)). It is defined as the
+et al., 2006])((https://doi.org/10.1197/jamia.m1929)). It is defined as the
 proportion of records a screener does **not** have to screen compared to
 random reading after providing the prior knowledge used to train the first
 iteration of the model. The WSS is typically measured at a recall of .95
@@ -131,7 +131,7 @@ algorithms in the context of information retrieval. ASReview Insights
 offers a straightforward command line interface to plot a "recall curve". The
 recall curve is the recall at any moment in the active learning process.
 
-To plot the recall curve, you need a ASReview file (extension `.asreview`).To
+To plot the recall curve, you need a ASReview file (extension `.asreview`). To
 plot the recall, use this syntax (Replace `YOUR_ASREVIEW_FILE.asreview` by
 your ASReview file name.):
 
@@ -159,7 +159,7 @@ asreview plot recall YOUR_ASREVIEW_FILE.asreview
 
 #### `wss`
 
-The Work Saved over Sampling (WSS) metric is an useful metric to study the
+The Work Saved over Sampling (WSS) metric is a useful metric to study the
 performance of active learning alorithms compared with a naive (random order)
 approach at a given level of recall. ASReview Insights offers a
 straightforward command line interface to plot the WSS at any level of recall.
@@ -272,7 +272,7 @@ with open_state("example.asreview") as s:
 
 #### Example: Prior knowledge
 
-It's possible to include prior knowledge to your plot. By default, prior
+It's possible to include prior knowledge in your plot. By default, prior
 knowledge is excluded from the plot.
 
 ```python
@@ -342,8 +342,8 @@ fig.savefig("docs/example_multiple_lines.png")
 ## `metrics`
 
 The `metrics` subcommand in ASReview Insights can be used to compute metrics
-at given values. The easiest way to get compute metrics for a ASReview project
-file is with the following command don the command line:
+at given values. The easiest way to compute metrics for a ASReview project
+file is with the following command on the command line:
 
 ```
 asreview metrics sim_van_de_schoot_2017.asreview
