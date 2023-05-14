@@ -60,8 +60,8 @@ found via random screening (assuming a uniform distribution of relevant
 records).
 
 The Work Saved over Sampling (WSS) is a measure of "the work saved over and
-above the work saved by simple sampling for a given level of recall" ([Cohen
-et al., 2006])((https://doi.org/10.1197/jamia.m1929)). It is defined as the
+above the work saved by simple sampling for a given level of recall" [(Cohen
+et al., 2006)](https://doi.org/10.1197/jamia.m1929). It is defined as the
 proportion of records a screener does **not** have to screen compared to
 random reading after providing the prior knowledge used to train the first
 iteration of the model. The WSS is typically measured at a recall of .95
