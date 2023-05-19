@@ -168,6 +168,25 @@ def _average_time_to_discovery(td):
     return float(np.mean([v for i, v in td]))
 
 
+def confusion_matrix(state_obj,
+                     intercept,
+                     priors=False,
+                     x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _confusion_matrix(labels,intercept,x_absolute=x_absolute)
+                   
+                 
+
+def _confusion_matrix(labels,intercept, x_absolute=False):
+
+   x,TP,FP,TN,FN=_confusion_matrix_values(list(labels),x_absolute=x_absolute)  #list(labels) otherwise series (?)
+
+   return _slice_metric_adj(x,[TP,FP,TN,FN],intercept)
+
+
+
 def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
