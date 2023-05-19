@@ -34,6 +34,42 @@ def _slice_metric(x, y, intercept):
     return y[i - 1]
 
 
+def _slice_metric_adj(x, y_lists, intercept):
+    """Find the first value after the intercept.
+
+    intercept[i-1] <= v < intercept[i]
+
+    Arguments
+    ---------
+    x: numpy.array or list
+        The values of the x-axis.
+    y_lists: list of numpy.array or list
+        The values of the y-axis as multiple lists.
+    intercept: float
+        The value of the x-axis to map to the y-axis. If value
+        is not present, the first value greater than the intercept
+        is used.
+
+    Returns
+    -------
+    float or list
+        The first value after the intercept for each y list.
+    """
+
+    results = []
+    if  all(isinstance(item, list) for item in y_lists):    
+        for y in y_lists:        
+            i = np.searchsorted(x, intercept, side='right')        
+            results.append(y[i - 1])
+    else:
+        i = np.searchsorted(x, intercept, side='right')        
+        results.append(y_lists[i - 1])
+
+        
+    
+    return results
+
+
 def recall(state_obj,
            intercept,
            priors=False,
