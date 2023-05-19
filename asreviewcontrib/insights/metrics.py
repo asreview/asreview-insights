@@ -191,6 +191,7 @@ def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
                 erf=[0.10],
+                cm=[0.1, 0.25, 0.5, 0.75, 0.9],
                 priors=False,
                 x_absolute=False,
                 y_absolute=False,
@@ -215,6 +216,10 @@ def get_metrics(state_obj,
     erf_values = [
         _erf(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in erf
+    ]
+    cm_values = [
+        _confusion_matrix(labels,v,x_absolute=x_absolute)
+        for v in cm
     ]
 
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -242,7 +247,12 @@ def get_metrics(state_obj,
                 "id": "td",
                 "title": "Time to discovery",
                 "value": td
-            }]
+            }, {
+                "id": "confusion_matrix",
+                "title": "TPs, FPs, TNs, FNs",
+                "value": [(i, v) for i, v in zip(cm, cm_values)]
+                                    
+                }]
         }
     }
 
