@@ -64,3 +64,25 @@ def _erf_values(labels, x_absolute=False, y_absolute=False):
         y = extra_records_found / n_pos_docs
 
     return x.tolist(), y.tolist()
+
+
+def _confusion_matrix_values(labels,x_absolute=False):    
+    
+    n_relevant = int(sum(labels)) #n total relevant recs
+    n_irrelevant= labels.count(0) #n total irrelevant recs    
+    n_docs = len(labels) #n records 
+    screened  = np.arange(1,n_docs+1) 
+      
+    n_tp = np.cumsum(labels,dtype=int) #TP             
+    n_fp = screened - n_tp #FP (#screened - TP) #incorrectly predicted as include
+    n_tn = n_irrelevant - n_fp #TN (#irrelevant - FP) correclty predicted as exclude (did not have to screen)
+    n_fn = n_relevant - n_tp #FN (#relevant - TP)  #missing relevant recs
+    
+    if not x_absolute:
+        screened = screened/n_docs # recs screened
+    else:
+        screened  = screened  
+  
+    return screened.tolist(),n_tp.tolist(), n_fp.tolist(), n_tn.tolist(), n_fn.tolist()
+
+
