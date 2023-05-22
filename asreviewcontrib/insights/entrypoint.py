@@ -134,7 +134,7 @@ class MetricsEntryPoint(BaseEntryPoint):
                             metavar='cm',
                             type=float,
                             nargs='+',
-                            default=[],
+                            default=[0.1, 0.25, 0.5, 0.75, 0.9],
                             help='A (list of) values to compute the cm at.')
         parser.add_argument('--priors',
                             action='store_true',
