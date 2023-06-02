@@ -6,6 +6,10 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
+from asreviewcontrib.insights.algorithms import _tp_values
+from asreviewcontrib.insights.algorithms import _fp_values
+from asreviewcontrib.insights.algorithms import _fn_values
+from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.utils import pad_simulation_labels
 
 
@@ -32,42 +36,6 @@ def _slice_metric(x, y, intercept):
 
     i = np.searchsorted(x, intercept, side='right')
     return y[i - 1]
-
-
-def _slice_metric_adj(x, y_lists, intercept):
-    """Find the first value after the intercept.
-
-    intercept[i-1] <= v < intercept[i]
-
-    Arguments
-    ---------
-    x: numpy.array or list
-        The values of the x-axis.
-    y_lists: list of numpy.array or list
-        The values of the y-axis as multiple lists.
-    intercept: float
-        The value of the x-axis to map to the y-axis. If value
-        is not present, the first value greater than the intercept
-        is used.
-
-    Returns
-    -------
-    float or list
-        The first value after the intercept for each y list.
-    """
-
-    results = []
-    if  all(isinstance(item, list) for item in y_lists):    
-        for y in y_lists:        
-            i = np.searchsorted(x, intercept, side='right')        
-            results.append(y[i - 1])
-    else:
-        i = np.searchsorted(x, intercept, side='right')        
-        results.append(y_lists[i - 1])
-
-        
-    
-    return results
 
 
 def recall(state_obj,
@@ -168,30 +136,79 @@ def _average_time_to_discovery(td):
     return float(np.mean([v for i, v in td]))
 
 
-def confusion_matrix(state_obj,
-                     intercept,
-                     priors=False,
-                     x_absolute=False):
+def tp(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
 
     labels = pad_simulation_labels(state_obj, priors=priors)  
 
-    return _confusion_matrix(labels,intercept,x_absolute=x_absolute)
-                   
-                 
+    return _tp(labels, intercept, x_absolute=x_absolute)
 
-def _confusion_matrix(labels,intercept, x_absolute=False):
 
-   x,TP,FP,TN,FN=_confusion_matrix_values(list(labels),x_absolute=x_absolute)  #list(labels) otherwise series (?)
+def _tp(labels, intercept, x_absolute=False):
 
-   return _slice_metric_adj(x,[TP,FP,TN,FN],intercept)
+    x, y = _tp_values(labels, x_absolute=x_absolute) 
+   
+    return _slice_metric(x, y, intercept)
 
+
+def fp(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _fp(labels, intercept, x_absolute=x_absolute)
+
+
+def _fp(labels, intercept, x_absolute=False): 
+   
+    x, y = _fp_values(labels, x_absolute=x_absolute)
+
+    return _slice_metric(x, y, intercept)
+
+
+def tn(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _tn(labels, intercept, x_absolute=x_absolute)
+
+
+def _tn(labels, intercept, x_absolute=False): 
+
+    x, y = _tn_values(labels, x_absolute=x_absolute)
+        
+    return _slice_metric(x, y, intercept)
+
+
+def fn(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _fn(labels, intercept, x_absolute=x_absolute)
+
+
+def _fn(labels, intercept, x_absolute=False): 
+       
+    x, y = _fn_values(labels, x_absolute=x_absolute)  
+    
+    return _slice_metric(x, y, intercept)
 
 
 def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
                 erf=[0.10],
-                cm=[0.1, 0.25, 0.5, 0.75, 0.9],
+                cm=[0.1, 0.25, 0.5, 0.75, 0.8, 0.85, 0.9, 0.95, 1],
                 priors=False,
                 x_absolute=False,
                 y_absolute=False,
@@ -200,7 +217,8 @@ def get_metrics(state_obj,
     recall = [recall] if not isinstance(recall, list) else recall
     wss = [wss] if not isinstance(wss, list) else wss
     erf = [erf] if not isinstance(erf, list) else erf
-
+    cm = [cm] if not isinstance(cm, list) else cm
+    
     labels = pad_simulation_labels(state_obj, priors=priors)
 
     td = time_to_discovery(state_obj)
@@ -218,8 +236,11 @@ def get_metrics(state_obj,
         for v in erf
     ]
     cm_values = [
-        _confusion_matrix(labels,v,x_absolute=x_absolute)
-        for v in cm
+        [_tp(labels, v, x_absolute=False),
+         _fp(labels, v, x_absolute=False),
+         _tn(labels, v, x_absolute=False),
+         _fn(labels, v, x_absolute=False)]
+         for v in cm
     ]
 
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -248,8 +269,8 @@ def get_metrics(state_obj,
                 "title": "Time to discovery",
                 "value": td
             }, {
-                "id": "confusion_matrix",
-                "title": "TPs, FPs, TNs, FNs",
+                "id": "cm",
+                "title": "TP, FP, TN, FN",
                 "value": [(i, v) for i, v in zip(cm, cm_values)]
                                     
                 }]
