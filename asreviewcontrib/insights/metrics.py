@@ -235,12 +235,21 @@ def get_metrics(state_obj,
         _erf(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in erf
     ]
-    cm_values = [
-        [_tp(labels, v, x_absolute=False),
-         _fp(labels, v, x_absolute=False),
-         _tn(labels, v, x_absolute=False),
-         _fn(labels, v, x_absolute=False)]
-         for v in cm
+    tp_values = [
+        _tp(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    fp_values = [
+        _fp(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    tn_values = [
+        _tn(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    fn_values = [
+        _fn(labels, v, x_absolute=False)               
+        for v in cm
     ]
 
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -269,10 +278,21 @@ def get_metrics(state_obj,
                 "title": "Time to discovery",
                 "value": td
             }, {
-                "id": "cm",
-                "title": "TP, FP, TN, FN",
-                "value": [(i, v) for i, v in zip(cm, cm_values)]
-                                    
+                "id": "tp",
+                "title": "True positives are the number of relevant records found at recall level",
+                "value": [(i, v) for i, v in zip(cm, tp_values)]
+            }, {
+                "id": "fp",
+                "title": "False positives are the records screened minus the true positives at recall level",
+                "value": [(i, v) for i, v in zip(cm, fp_values)]
+            }, {
+                "id": "tn",
+                "title": "True negatives are the number of irrelevant records minus the false positives at recall level",
+                "value": [(i, v) for i, v in zip(cm, tn_values)]
+            }, {
+                "id": "fn",
+                "title": "False negatives are the number of relevant records minus the true positives at recall level",
+                "value": [(i, v) for i, v in zip(cm, fn_values)]                                        
                 }]
         }
     }
