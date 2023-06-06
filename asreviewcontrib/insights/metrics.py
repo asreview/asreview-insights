@@ -204,6 +204,29 @@ def _fn(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
+def tnr(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _tnr(labels, intercept, x_absolute=x_absolute)
+
+
+def _tnr(labels, intercept, x_absolute=False): 
+    
+    n_excludes = labels.count(0)       
+    x, y = _tn_values(labels, x_absolute=x_absolute)
+    y = [v / n_excludes for v in y]
+    y = np.round(y, 6)
+    
+    if intercept < x[0]:
+        return 0
+    
+    return _slice_metric(x, y, intercept)
+
+
 def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
@@ -251,6 +274,10 @@ def get_metrics(state_obj,
         _fn(labels, v, x_absolute=False)               
         for v in cm
     ]
+    tnr_values = [
+        _tnr(labels, v, x_absolute=x_absolute)
+        for v in cm 
+    ]
 
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
     result = {
@@ -283,17 +310,21 @@ def get_metrics(state_obj,
                 "value": [(i, v) for i, v in zip(cm, tp_values)]
             }, {
                 "id": "fp",
-                "title": "False positives are the records screened minus the true positives at recall level",
+                "title": "False positives are the number of irrelevant records reviewed at recall level",
                 "value": [(i, v) for i, v in zip(cm, fp_values)]
             }, {
                 "id": "tn",
-                "title": "True negatives are the number of irrelevant records minus the false positives at recall level",
+                "title": "True negatives are the number of irrelevant records correctly not reviewed at recall level",
                 "value": [(i, v) for i, v in zip(cm, tn_values)]
             }, {
                 "id": "fn",
-                "title": "False negatives are the number of relevant records minus the true positives at recall level",
+                "title": "False negatives are the number of relevant records not found at recall level",
                 "value": [(i, v) for i, v in zip(cm, fn_values)]                                        
-                }]
+            }, {
+                "id": "tnr",
+                "title": "True negative rate (Specificity)",
+                "value": [(i, v) for i, v in zip(cm, tnr_values)]                                        
+                }] 
         }
     }
 
