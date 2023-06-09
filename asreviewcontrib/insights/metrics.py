@@ -205,9 +205,9 @@ def _fn(labels, intercept, x_absolute=False):
 
 
 def tnr(state_obj,
-       intercept,
-       priors=False,
-       x_absolute=False):
+        intercept,
+        priors=False,
+        x_absolute=False):
 
     labels = pad_simulation_labels(state_obj, priors=priors)  
 
@@ -324,7 +324,7 @@ def get_metrics(state_obj,
                 "id": "tnr",
                 "title": "True negative rate (Specificity)",
                 "value": [(i, v) for i, v in zip(cm, tnr_values)]                                        
-                }] 
+               }] 
         }
     }
 

@@ -66,23 +66,70 @@ def _erf_values(labels, x_absolute=False, y_absolute=False):
     return x.tolist(), y.tolist()
 
 
-def _confusion_matrix_values(labels, x_absolute=False):    
-    
-    n_relevant = int(sum(labels)) #n total relevant recs
-    n_irrelevant= labels.count(0) #n total irrelevant recs    
-    n_docs = len(labels) #n records 
-    screened  = np.arange(1,n_docs + 1) 
-      
-    n_tp = np.cumsum(labels,dtype=int) #TP             
-    n_fp = screened - n_tp #FP (#screened - TP) #incorrectly predicted as include
-    n_tn = n_irrelevant - n_fp #TN (#irrelevant - FP) correclty predicted as exclude (did not have to screen)
-    n_fn = n_relevant - n_tp #FN (#relevant - TP)  #missing relevant recs
+def _tp_values(labels, x_absolute=False):      
+    n_pos_docs = sum(labels)
+    tp = np.cumsum(labels, dtype=int) 
+
+    x = np.arange(1, n_pos_docs + 1)
     
     if not x_absolute:
-        screened = screened / n_docs # recs screened
-    else:
-        screened  = screened  
-  
-    return screened.tolist(), n_tp.tolist(), n_fp.tolist(), n_tn.tolist(), n_fn.tolist()
+        x = x / n_pos_docs
+
+    when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
+    y = tp[when_found]  
+
+    return x.tolist(), y.tolist()
 
 
+def _fp_values(labels, x_absolute=False):
+    n_pos_docs = sum(labels)
+    n_docs = len(labels)
+    tp = np.cumsum(labels, dtype=int)
+    x = np.arange(1, n_docs + 1)
+    fp = x - tp
+
+    x = np.arange(1, n_pos_docs + 1)
+    
+    if not x_absolute:
+        x = x / n_pos_docs
+
+    when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
+    y = fp[when_found]
+   
+    return x.tolist(), y.tolist()
+
+def _tn_values(labels, x_absolute=False):    
+    n_pos_docs = sum(labels)
+    n_docs = len(labels)
+    tp = np.cumsum(labels, dtype=int)
+    x = np.arange(1, n_docs + 1)
+    n_excludes = labels.count(0)
+    fp = x - tp
+    tn = n_excludes - fp
+
+    x = np.arange(1, n_pos_docs + 1)
+    
+    if not x_absolute:
+        x = x / n_pos_docs
+
+    when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
+    y = tn[when_found]    
+
+    return x.tolist(), y.tolist()
+
+
+def _fn_values(labels, x_absolute=False):
+    n_pos_docs = sum(labels)
+    n_includes = int(sum(labels))
+    tp = np.cumsum(labels, dtype=int)
+    fn = n_includes-tp
+
+    x = np.arange(1, n_pos_docs + 1)
+
+    if not x_absolute:
+        x = x / n_pos_docs
+
+    when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
+    y = fn[when_found]
+
+    return x.tolist(), y.tolist()
