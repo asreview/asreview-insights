@@ -15,7 +15,7 @@ def plot_recall(
     show_random=True,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot the recall@T for all thresholds T.
 
@@ -75,7 +75,7 @@ def plot_wss(
     y_absolute=False,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot the WSS@T for all thresholds T.
 
@@ -159,7 +159,7 @@ def plot_erf(
     y_absolute=False,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot the ERF@T for all thresholds T.
 
@@ -239,7 +239,7 @@ def _plot_recall(
     show_random=True,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot the recall.
 
@@ -273,7 +273,7 @@ def _plot_wss(
     y_absolute=False,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot for each threshold T in [0,1] the WSS@T.
 
@@ -304,7 +304,7 @@ def _plot_erf(
     y_absolute=False,
     show_legend=True,
     legend_values=None,
-    legend_kwargs={},
+    legend_kwargs=None,
 ):
     """Plot for each threshold T in [0,1] the ERF@T.
 
@@ -323,7 +323,10 @@ def _plot_erf(
     ax = _add_erf_info(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
-        ax.legend(**legend_kwargs)
+        if legend_kwargs is None:
+            ax.legend()
+        else:
+            ax.legend(**legend_kwargs)
 
     return ax
 
