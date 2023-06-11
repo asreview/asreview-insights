@@ -261,7 +261,10 @@ def _plot_recall(
         ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
-        ax.legend(**legend_kwargs)
+        if legend_kwargs is None:
+            ax.legend()
+        else:
+            ax.legend(**legend_kwargs)
 
     return ax
 
@@ -292,7 +295,10 @@ def _plot_wss(
     ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
-        ax.legend(**legend_kwargs)
+        if legend_kwargs is None:
+            ax.legend()
+        else:
+            ax.legend(**legend_kwargs)
 
     return ax
 

@@ -181,10 +181,14 @@ def get_metrics(
     y_absolute=False,
     version=None,
 ):
-    recall = [recall] if not isinstance(recall, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
-    wss = [wss] if not isinstance(wss, list) else [0.95]
-    erf = [erf] if not isinstance(erf, list) else [0.10]
-    cm = [cm] if not isinstance(cm, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
+    recall = (
+        [recall]
+        if recall and not isinstance(recall, list)
+        else [0.1, 0.25, 0.5, 0.75, 0.9]
+    )
+    wss = [wss] if wss and not isinstance(wss, list) else [0.95]
+    erf = [erf] if erf and not isinstance(erf, list) else [0.10]
+    cm = [cm] if cm and not isinstance(cm, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
