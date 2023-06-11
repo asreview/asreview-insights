@@ -6,6 +6,10 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
+from asreviewcontrib.insights.algorithms import _tp_values
+from asreviewcontrib.insights.algorithms import _fp_values
+from asreviewcontrib.insights.algorithms import _fn_values
+from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
@@ -132,10 +136,102 @@ def _average_time_to_discovery(td):
     return float(np.mean([v for i, v in td]))
 
 
+def tp(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _tp(labels, intercept, x_absolute=x_absolute)
+
+
+def _tp(labels, intercept, x_absolute=False):
+
+    x, y = _tp_values(labels, x_absolute=x_absolute) 
+   
+    return _slice_metric(x, y, intercept)
+
+
+def fp(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _fp(labels, intercept, x_absolute=x_absolute)
+
+
+def _fp(labels, intercept, x_absolute=False): 
+   
+    x, y = _fp_values(labels, x_absolute=x_absolute)
+
+    return _slice_metric(x, y, intercept)
+
+
+def tn(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _tn(labels, intercept, x_absolute=x_absolute)
+
+
+def _tn(labels, intercept, x_absolute=False): 
+
+    x, y = _tn_values(labels, x_absolute=x_absolute)
+        
+    return _slice_metric(x, y, intercept)
+
+
+def fn(state_obj,
+       intercept,
+       priors=False,
+       x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _fn(labels, intercept, x_absolute=x_absolute)
+
+
+def _fn(labels, intercept, x_absolute=False): 
+       
+    x, y = _fn_values(labels, x_absolute=x_absolute)  
+    
+    return _slice_metric(x, y, intercept)
+
+
+def tnr(state_obj,
+        intercept,
+        priors=False,
+        x_absolute=False):
+
+    labels = pad_simulation_labels(state_obj, priors=priors)  
+
+    return _tnr(labels, intercept, x_absolute=x_absolute)
+
+
+def _tnr(labels, intercept, x_absolute=False): 
+    
+    n_excludes = labels.count(0)       
+    x, y = _tn_values(labels, x_absolute=x_absolute)
+    y = [v / n_excludes for v in y]
+    y = np.round(y, 6)
+    
+    if intercept < x[0]:
+        return 0
+    
+    return _slice_metric(x, y, intercept)
+
+
 def get_metrics(state_obj,
                 recall=[0.1, 0.25, 0.5, 0.75, 0.9],
                 wss=[0.95],
                 erf=[0.10],
+                cm=[0.1, 0.25, 0.5, 0.75, 0.9],
                 priors=False,
                 x_absolute=False,
                 y_absolute=False,
@@ -144,7 +240,8 @@ def get_metrics(state_obj,
     recall = [recall] if not isinstance(recall, list) else recall
     wss = [wss] if not isinstance(wss, list) else wss
     erf = [erf] if not isinstance(erf, list) else erf
-
+    cm = [cm] if not isinstance(cm, list) else cm
+    
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
     td = time_to_discovery(state_obj)
@@ -160,6 +257,26 @@ def get_metrics(state_obj,
     erf_values = [
         _erf(labels, v, x_absolute=x_absolute, y_absolute=y_absolute)
         for v in erf
+    ]
+    tp_values = [
+        _tp(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    fp_values = [
+        _fp(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    tn_values = [
+        _tn(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    fn_values = [
+        _fn(labels, v, x_absolute=False)               
+        for v in cm
+    ]
+    tnr_values = [
+        _tnr(labels, v, x_absolute=x_absolute)
+        for v in cm 
     ]
 
     # based on https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -181,13 +298,33 @@ def get_metrics(state_obj,
                 "value": [(i, v) for i, v in zip(erf, erf_values)]
             }, {
                 "id": "atd",
-                "title": "Average time to discovery",
+                "title": "Average Time to Discovery",
                 "value": _average_time_to_discovery(td)
             }, {
                 "id": "td",
                 "title": "Time to discovery",
                 "value": td
-            }]
+            }, {
+                "id": "tp",
+                "title": "True Positives",
+                "value": [(i, v) for i, v in zip(cm, tp_values)]
+            }, {
+                "id": "fp",
+                "title": "False Positives",
+                "value": [(i, v) for i, v in zip(cm, fp_values)]
+            }, {
+                "id": "tn",
+                "title": "True Negatives",
+                "value": [(i, v) for i, v in zip(cm, tn_values)]
+            }, {
+                "id": "fn",
+                "title": "False Negatives",
+                "value": [(i, v) for i, v in zip(cm, fn_values)]                                        
+            }, {
+                "id": "tnr",
+                "title": "True Negative Rate (Specificity)",
+                "value": [(i, v) for i, v in zip(cm, tnr_values)]                                        
+               }] 
         }
     }
 
