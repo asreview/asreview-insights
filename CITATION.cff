@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: ASReview Insights
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: ASReview LAB developers
+    email: asreview@uu.nl
+    affiliation: Utrecht University
+identifiers:
+  - type: doi
+    value: 10.1038/s42256-020-00287-7
+    description: Journal paper on ASReview
+  - type: doi
+    value: 10.5281/zenodo.3345592
+    description: Persistent copy of the ASReview Software
+repository-code: 'https://github.com/asreview/asreview-insights'
+url: 'https://asreview.ai'
+repository-artifact: 'https://pypi.org/project/asreview-insights/'
+abstract: >-
+  ASReview Insights is an extension to ASReview LAB that
+  extends the software with tools for plotting and
+  extracting the statistical results of several performance
+  metrics. The extension is especially useful in combination
+  with the simulation functionality of ASReview LAB.
+keywords:
+  - systematic review
+  - active learning
+  - data
+  - statistics
+  - machine learning
+  - text data
+  - natural language processing
+license: Apache-2.0
