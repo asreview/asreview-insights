@@ -130,6 +130,12 @@ class MetricsEntryPoint(BaseEntryPoint):
                             nargs='+',
                             default=[0.10],
                             help='A (list of) values to compute the erf at.')
+        parser.add_argument('--cm', 
+                            metavar='cm',
+                            type=float,
+                            nargs='+',
+                            default=[0.1, 0.25, 0.5, 0.75, 0.8, 0.85, 0.9, 0.95, 1],
+                            help='A (list of) values to compute the cm at.')
         parser.add_argument('--priors',
                             action='store_true',
                             help='Include records used as prior knowledge '
@@ -164,6 +170,7 @@ class MetricsEntryPoint(BaseEntryPoint):
                                 recall=args.recall,
                                 wss=args.wss,
                                 erf=args.erf,
+                                cm=args.cm,
                                 priors=args.priors,
                                 x_absolute=args.x_absolute,
                                 y_absolute=args.y_absolute,
