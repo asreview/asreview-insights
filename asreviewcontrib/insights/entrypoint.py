@@ -1,5 +1,6 @@
 import argparse
 import json
+from pathlib import Path
 
 from asreview import open_state
 from asreview.entry_points import BaseEntryPoint
@@ -10,8 +11,8 @@ from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import print_metrics
+from asreviewcontrib.insights.utils import _iter_states
 
-PLOT_TYPES = ['recall']
 TYPE_TO_FUNC = {'recall': plot_recall, 'wss': plot_wss, 'erf': plot_erf}
 
 
@@ -69,24 +70,24 @@ class PlotEntryPoint(BaseEntryPoint):
             'formats.')
         args = parser.parse_args(argv)
 
-        if len(args.asreview_files) > 1:
-            raise ValueError("Plotting multiple project files"
-                             " via the CLI is not supported yet.")
+        fig, ax = plt.subplots()
+        plot_func = TYPE_TO_FUNC[args.plot_type]
+        show_legend = False if len(args.asreview_files) == 1 else True
+        state_obj = _iter_states(args.asreview_files)
+        legend_values = [Path(fp).stem for fp in args.asreview_files]
 
-        with open_state(args.asreview_files[0]) as s:
+        plot_func(ax,
+                  state_obj,
+                  priors=args.priors,
+                  x_absolute=args.x_absolute,
+                  y_absolute=args.y_absolute,
+                  show_legend=show_legend,
+                  legend_values=legend_values)
 
-            fig, ax = plt.subplots()
-            plot_func = TYPE_TO_FUNC[args.plot_type]
-            plot_func(ax,
-                      s,
-                      priors=args.priors,
-                      x_absolute=args.x_absolute,
-                      y_absolute=args.y_absolute)
-
-            if args.output:
-                fig.savefig(args.output)
-            else:
-                plt.show()
+        if args.output:
+            fig.savefig(args.output)
+        else:
+            plt.show()
 
 
 class MetricsEntryPoint(BaseEntryPoint):
@@ -104,7 +105,7 @@ class MetricsEntryPoint(BaseEntryPoint):
                             metavar='asreview_files',
                             type=str,
                             nargs='+',
-                            help='A combination of data directories or files.')
+                            help='A (list of) ASReview files.')
         parser.add_argument(
             "-V",
             "--version",
@@ -161,22 +162,25 @@ class MetricsEntryPoint(BaseEntryPoint):
             help='Save the metrics and results to a JSON file.')
         args = parser.parse_args(argv)
 
-        if len(args.asreview_files) > 1:
-            raise ValueError("Computing metrics for multiple project files"
-                             " via the CLI is not supported yet.")
-
-        with open_state(args.asreview_files[0]) as s:
-            stats = get_metrics(s,
-                                recall=args.recall,
-                                wss=args.wss,
-                                erf=args.erf,
-                                cm=args.cm,
-                                priors=args.priors,
-                                x_absolute=args.x_absolute,
-                                y_absolute=args.y_absolute,
-                                version=self.version)
-            print_metrics(stats)
+        output_dict = {}
+        for asreview_file in args.asreview_files:
+            with open_state(asreview_file) as s:
+                if len(args.asreview_files) > 1:
+                    print(f"Calculating metrics for {asreview_file}")
+                stats = get_metrics(s,
+                                    recall=args.recall,
+                                    wss=args.wss,
+                                    erf=args.erf,
+                                    cm=args.cm,
+                                    priors=args.priors,
+                                    x_absolute=args.x_absolute,
+                                    y_absolute=args.y_absolute,
+                                    version=self.version)
+                output_dict[asreview_file] = stats
+                print_metrics(stats)
 
         if args.output:
+            if len(args.asreview_files) == 1:
+                output_dict = output_dict[args.asreview_files[0]]
             with open(args.output, "w") as f:
-                json.dump(stats, f, indent=4)
+                json.dump(output_dict, f, indent=4)

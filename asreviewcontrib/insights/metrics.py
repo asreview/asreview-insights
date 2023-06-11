@@ -10,7 +10,7 @@ from asreviewcontrib.insights.algorithms import _tp_values
 from asreviewcontrib.insights.algorithms import _fp_values
 from asreviewcontrib.insights.algorithms import _fn_values
 from asreviewcontrib.insights.algorithms import _tn_values
-from asreviewcontrib.insights.utils import pad_simulation_labels
+from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
 def _slice_metric(x, y, intercept):
@@ -44,7 +44,7 @@ def recall(state_obj,
            x_absolute=False,
            y_absolute=False):
 
-    labels = pad_simulation_labels(state_obj, priors=priors)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _recall(labels,
                    intercept,
@@ -68,7 +68,7 @@ def wss(state_obj,
         x_absolute=False,
         y_absolute=False):
 
-    labels = pad_simulation_labels(state_obj, priors=priors)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _wss(labels,
                 intercept,
@@ -89,7 +89,7 @@ def erf(state_obj,
         x_absolute=False,
         y_absolute=False):
 
-    labels = pad_simulation_labels(state_obj, priors=priors)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     return _erf(labels,
                 intercept,
@@ -242,7 +242,7 @@ def get_metrics(state_obj,
     erf = [erf] if not isinstance(erf, list) else erf
     cm = [cm] if not isinstance(cm, list) else cm
     
-    labels = pad_simulation_labels(state_obj, priors=priors)
+    labels = _pad_simulation_labels(state_obj, priors=priors)
 
     td = time_to_discovery(state_obj)
 
