@@ -33,13 +33,13 @@ def _pad_simulation_labels(state_obj, priors=False):
 
         # if less labels than records, check if all labels available
         if len(labels) < n_used_records:
-
             labels = labels + np.zeros(n_used_records - len(labels)).tolist()
 
         return labels
     else:
-        return [_pad_simulation_labels(single_state, priors)
-                for single_state in state_obj]
+        return [
+            _pad_simulation_labels(single_state, priors) for single_state in state_obj
+        ]
 
 
 def _iter_states(file_paths):

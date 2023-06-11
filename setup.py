@@ -13,28 +13,28 @@ import versioneer
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name='asreview-insights',
+    name="asreview-insights",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    description='Insight tools for the ASReview project',
+    description="Insight tools for the ASReview project",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/asreview/asreview-insights',
-    author='ASReview LAB developers',
-    author_email='asreview@uu.nl',
+    long_description_content_type="text/markdown",
+    url="https://github.com/asreview/asreview-insights",
+    author="ASReview LAB developers",
+    author_email="asreview@uu.nl",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
+        "Development Status :: 5 - Production/Stable",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
-    keywords='asreview plot insights',
-    packages=find_namespace_packages(include=['asreviewcontrib.*']),
+    keywords="asreview plot insights",
+    packages=find_namespace_packages(include=["asreviewcontrib.*"]),
     install_requires=[
         "numpy",
         "matplotlib",
@@ -48,7 +48,7 @@ setup(
         ]
     },
     project_urls={
-        'Bug Reports': "https://github.com/asreview/asreview-insights/issues",
-        'Source': "https://github.com/asreview/asreview-insights",
+        "Bug Reports": "https://github.com/asreview/asreview-insights/issues",
+        "Source": "https://github.com/asreview/asreview-insights",
     },
 )

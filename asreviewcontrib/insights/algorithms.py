@@ -28,8 +28,7 @@ def _wss_values(labels, x_absolute=False, y_absolute=False):
 
     # Get the first occurrence of 1, 2, 3, ..., n_pos_docs in both arrays.
     when_found = np.searchsorted(docs_found, np.arange(1, n_pos_docs + 1))
-    when_found_random = np.searchsorted(docs_found_random,
-                                        np.arange(1, n_pos_docs + 1))
+    when_found_random = np.searchsorted(docs_found_random, np.arange(1, n_pos_docs + 1))
     n_found_earlier = when_found_random - when_found
 
     x = np.arange(1, n_pos_docs + 1)
@@ -45,7 +44,6 @@ def _wss_values(labels, x_absolute=False, y_absolute=False):
 
 
 def _erf_values(labels, x_absolute=False, y_absolute=False):
-
     n_docs = len(labels)
     n_pos_docs = sum(labels)
 
@@ -66,17 +64,17 @@ def _erf_values(labels, x_absolute=False, y_absolute=False):
     return x.tolist(), y.tolist()
 
 
-def _tp_values(labels, x_absolute=False):      
+def _tp_values(labels, x_absolute=False):
     n_pos_docs = sum(labels)
-    tp = np.cumsum(labels, dtype=int) 
+    tp = np.cumsum(labels, dtype=int)
 
     x = np.arange(1, n_pos_docs + 1)
-    
+
     if not x_absolute:
         x = x / n_pos_docs
 
     when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
-    y = tp[when_found]  
+    y = tp[when_found]
 
     return x.tolist(), y.tolist()
 
@@ -89,16 +87,17 @@ def _fp_values(labels, x_absolute=False):
     fp = x - tp
 
     x = np.arange(1, n_pos_docs + 1)
-    
+
     if not x_absolute:
         x = x / n_pos_docs
 
     when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
     y = fp[when_found]
-   
+
     return x.tolist(), y.tolist()
 
-def _tn_values(labels, x_absolute=False):    
+
+def _tn_values(labels, x_absolute=False):
     n_pos_docs = sum(labels)
     n_docs = len(labels)
     tp = np.cumsum(labels, dtype=int)
@@ -108,12 +107,12 @@ def _tn_values(labels, x_absolute=False):
     tn = n_excludes - fp
 
     x = np.arange(1, n_pos_docs + 1)
-    
+
     if not x_absolute:
         x = x / n_pos_docs
 
     when_found = np.searchsorted(tp, np.arange(1, n_pos_docs + 1))
-    y = tn[when_found]    
+    y = tn[when_found]
 
     return x.tolist(), y.tolist()
 
@@ -122,7 +121,7 @@ def _fn_values(labels, x_absolute=False):
     n_pos_docs = sum(labels)
     n_includes = int(sum(labels))
     tp = np.cumsum(labels, dtype=int)
-    fn = n_includes-tp
+    fn = n_includes - tp
 
     x = np.arange(1, n_pos_docs + 1)
 

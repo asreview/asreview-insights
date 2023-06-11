@@ -6,15 +6,17 @@ from asreviewcontrib.insights.algorithms import _wss_values
 from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
-def plot_recall(ax,
-                state_obj,
-                priors=False,
-                x_absolute=False,
-                y_absolute=False,
-                show_random=True,
-                show_legend=True,
-                legend_values=None,
-                legend_kwargs={}):
+def plot_recall(
+    ax,
+    state_obj,
+    priors=False,
+    x_absolute=False,
+    y_absolute=False,
+    show_random=True,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot the recall@T for all thresholds T.
 
     Arguments
@@ -53,24 +55,28 @@ def plot_recall(ax,
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
-    return _plot_recall(ax,
-                        labels,
-                        x_absolute=x_absolute,
-                        y_absolute=y_absolute,
-                        show_random=show_random,
-                        show_legend=show_legend,
-                        legend_values=legend_values,
-                        legend_kwargs=legend_kwargs)
+    return _plot_recall(
+        ax,
+        labels,
+        x_absolute=x_absolute,
+        y_absolute=y_absolute,
+        show_random=show_random,
+        show_legend=show_legend,
+        legend_values=legend_values,
+        legend_kwargs=legend_kwargs,
+    )
 
 
-def plot_wss(ax,
-             state_obj,
-             priors=False,
-             x_absolute=False,
-             y_absolute=False,
-             show_legend=True,
-             legend_values=None,
-             legend_kwargs={}):
+def plot_wss(
+    ax,
+    state_obj,
+    priors=False,
+    x_absolute=False,
+    y_absolute=False,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot the WSS@T for all thresholds T.
 
     Arguments
@@ -134,23 +140,27 @@ def plot_wss(ax,
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
-    return _plot_wss(ax,
-                     labels,
-                     x_absolute=x_absolute,
-                     y_absolute=y_absolute,
-                     show_legend=show_legend,
-                     legend_values=legend_values,
-                     legend_kwargs=legend_kwargs)
+    return _plot_wss(
+        ax,
+        labels,
+        x_absolute=x_absolute,
+        y_absolute=y_absolute,
+        show_legend=show_legend,
+        legend_values=legend_values,
+        legend_kwargs=legend_kwargs,
+    )
 
 
-def plot_erf(ax,
-             state_obj,
-             priors=False,
-             x_absolute=False,
-             y_absolute=False,
-             show_legend=True,
-             legend_values=None,
-             legend_kwargs={}):
+def plot_erf(
+    ax,
+    state_obj,
+    priors=False,
+    x_absolute=False,
+    y_absolute=False,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot the ERF@T for all thresholds T.
 
     Arguments
@@ -209,24 +219,28 @@ def plot_erf(ax,
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
-    return _plot_erf(ax,
-                     labels,
-                     x_absolute=x_absolute,
-                     y_absolute=y_absolute,
-                     show_legend=show_legend,
-                     legend_values=legend_values,
-                     legend_kwargs=legend_kwargs)
+    return _plot_erf(
+        ax,
+        labels,
+        x_absolute=x_absolute,
+        y_absolute=y_absolute,
+        show_legend=show_legend,
+        legend_values=legend_values,
+        legend_kwargs=legend_kwargs,
+    )
 
 
 # Plotting using labels.
-def _plot_recall(ax,
-                 labels,
-                 x_absolute=False,
-                 y_absolute=False,
-                 show_random=True,
-                 show_legend=True,
-                 legend_values=None,
-                 legend_kwargs={}):
+def _plot_recall(
+    ax,
+    labels,
+    x_absolute=False,
+    y_absolute=False,
+    show_random=True,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot the recall.
 
     labels : list
@@ -240,11 +254,7 @@ def _plot_recall(ax,
         legend_values = [None for _ in labels]
 
     for i, label_set in enumerate(labels):
-        ax = _add_recall_curve(ax,
-                               label_set,
-                               x_absolute,
-                               y_absolute,
-                               legend_values[i])
+        ax = _add_recall_curve(ax, label_set, x_absolute, y_absolute, legend_values[i])
     ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
 
     if show_random:
@@ -256,13 +266,15 @@ def _plot_recall(ax,
     return ax
 
 
-def _plot_wss(ax,
-              labels,
-              x_absolute=False,
-              y_absolute=False,
-              show_legend=True,
-              legend_values=None,
-              legend_kwargs={}):
+def _plot_wss(
+    ax,
+    labels,
+    x_absolute=False,
+    y_absolute=False,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot for each threshold T in [0,1] the WSS@T.
 
     labels : list
@@ -276,11 +288,7 @@ def _plot_wss(ax,
         legend_values = [None for _ in labels]
 
     for i, label_set in enumerate(labels):
-        ax = _add_wss_curve(ax,
-                            label_set,
-                            x_absolute,
-                            y_absolute,
-                            legend_values[i])
+        ax = _add_wss_curve(ax, label_set, x_absolute, y_absolute, legend_values[i])
     ax = _add_wss_info(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
@@ -289,13 +297,15 @@ def _plot_wss(ax,
     return ax
 
 
-def _plot_erf(ax,
-              labels,
-              x_absolute=False,
-              y_absolute=False,
-              show_legend=True,
-              legend_values=None,
-              legend_kwargs={}):
+def _plot_erf(
+    ax,
+    labels,
+    x_absolute=False,
+    y_absolute=False,
+    show_legend=True,
+    legend_values=None,
+    legend_kwargs={},
+):
     """Plot for each threshold T in [0,1] the ERF@T.
 
     labels : list
@@ -309,11 +319,7 @@ def _plot_erf(ax,
         legend_values = [None for _ in labels]
 
     for i, label_set in enumerate(labels):
-        ax = _add_erf_curve(ax,
-                            label_set,
-                            x_absolute,
-                            y_absolute,
-                            legend_values[i])
+        ax = _add_erf_curve(ax, label_set, x_absolute, y_absolute, legend_values[i])
     ax = _add_erf_info(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
@@ -347,7 +353,7 @@ def _add_recall_curve(ax, labels, x_absolute, y_absolute, legend_label=None):
         Axes with the recall curve added.
     """
     x, y = _recall_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
-    ax.step(x, y, where='post', label=legend_label)
+    ax.step(x, y, where="post", label=legend_label)
     return ax
 
 
@@ -378,28 +384,20 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
     else:
         y = recall_random / n_pos_docs
 
-    ax.step(x, y, color="black", where='post')
+    ax.step(x, y, color="black", where="post")
 
     return ax
 
 
-def _add_wss_curve(ax,
-                   labels,
-                   x_absolute=False,
-                   y_absolute=False,
-                   legend_label=None):
+def _add_wss_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):
     x, y = _wss_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
-    ax.step(x, y, where='post', label=legend_label)
+    ax.step(x, y, where="post", label=legend_label)
     return ax
 
 
-def _add_erf_curve(ax,
-                   labels,
-                   x_absolute=False,
-                   y_absolute=False,
-                   legend_label=None):
+def _add_erf_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):
     x, y = _erf_values(labels, x_absolute=x_absolute, y_absolute=y_absolute)
-    ax.step(x, y, where='post', label=legend_label)
+    ax.step(x, y, where="post", label=legend_label)
     return ax
 
 
@@ -430,7 +428,7 @@ def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
         xlabel = "Proportion of labeled records"
 
     ax.set_title("Recall")
-    ax.set(xlabel=xlabel, ylabel='Recall')
+    ax.set(xlabel=xlabel, ylabel="Recall")
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
@@ -463,7 +461,7 @@ def _add_wss_info(ax, labels, x_absolute=False, y_absolute=False):
         yticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     ax.set_title("Work Saved over Sampling (WSS) given Recall")
-    ax.set(xlabel='Recall', ylabel='WSS')
+    ax.set(xlabel="Recall", ylabel="WSS")
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
@@ -502,7 +500,7 @@ def _add_erf_info(ax, labels, x_absolute=False, y_absolute=False):
         xlabel = "Proportion of labeled records"
 
     ax.set_title("Extra Relevant Records Found (ERF)")
-    ax.set(xlabel=xlabel, ylabel='ERF')
+    ax.set(xlabel=xlabel, ylabel="ERF")
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
