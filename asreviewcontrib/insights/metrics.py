@@ -298,7 +298,7 @@ def get_metrics(state_obj,
                 "value": [(i, v) for i, v in zip(erf, erf_values)]
             }, {
                 "id": "atd",
-                "title": "Average time to discovery",
+                "title": "Average Time to Discovery",
                 "value": _average_time_to_discovery(td)
             }, {
                 "id": "td",
@@ -306,23 +306,23 @@ def get_metrics(state_obj,
                 "value": td
             }, {
                 "id": "tp",
-                "title": "True positives are the number of relevant records found at recall level",
+                "title": "True Positives",
                 "value": [(i, v) for i, v in zip(cm, tp_values)]
             }, {
                 "id": "fp",
-                "title": "False positives are the number of irrelevant records reviewed at recall level",
+                "title": "False Positives",
                 "value": [(i, v) for i, v in zip(cm, fp_values)]
             }, {
                 "id": "tn",
-                "title": "True negatives are the number of irrelevant records correctly not reviewed at recall level",
+                "title": "True Negatives",
                 "value": [(i, v) for i, v in zip(cm, tn_values)]
             }, {
                 "id": "fn",
-                "title": "False negatives are the number of relevant records not found at recall level",
+                "title": "False Negatives",
                 "value": [(i, v) for i, v in zip(cm, fn_values)]                                        
             }, {
                 "id": "tnr",
-                "title": "True negative rate (Specificity)",
+                "title": "True Negative Rate (Specificity)",
                 "value": [(i, v) for i, v in zip(cm, tnr_values)]                                        
                }] 
         }
