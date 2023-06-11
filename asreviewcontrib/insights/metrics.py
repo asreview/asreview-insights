@@ -172,19 +172,19 @@ def _tnr(labels, intercept, x_absolute=False):
 
 def get_metrics(
     state_obj,
-    recall=[0.1, 0.25, 0.5, 0.75, 0.9],
-    wss=[0.95],
-    erf=[0.10],
-    cm=[0.1, 0.25, 0.5, 0.75, 0.9],
+    recall=None,
+    wss=None,
+    erf=None,
+    cm=None,
     priors=False,
     x_absolute=False,
     y_absolute=False,
     version=None,
 ):
-    recall = [recall] if not isinstance(recall, list) else recall
-    wss = [wss] if not isinstance(wss, list) else wss
-    erf = [erf] if not isinstance(erf, list) else erf
-    cm = [cm] if not isinstance(cm, list) else cm
+    recall = [recall] if not isinstance(recall, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
+    wss = [wss] if not isinstance(wss, list) else [0.95]
+    erf = [erf] if not isinstance(erf, list) else [0.10]
+    cm = [cm] if not isinstance(cm, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
