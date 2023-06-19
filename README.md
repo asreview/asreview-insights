@@ -86,6 +86,40 @@ to screen to detect this record (TD); and (2) the Average Time to Discover
 (ATD) as an indicator of how many records need to be screened on average to
 find all relevant records in the dataset.
 
+Confusion matrix values consist of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN). 
+Most metrics (e.g., precision, False Positive Rate, F score) can be calculated from these values. 
+See [O'Mara-Eves et al. (2015)](https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/2046-4053-4-5) for a comprehensive overview of metrics.
+Similarly, various plots can be created from these values (e.g., ROC curve, recall vs precision)
+
+Values are retrieved at recall (r%).
+
+|                      | Definition                                                                             | Calculation                     |   
+|----------------------|----------------------------------------------------------------------------------------|---------------------------------|
+| True Positives (TP)  | The number of relevant records found at recall level.                                  | Relevant Records * r%           |      
+| False Positives (FP) | The number of irrelevant records reviewed at recall level.                             | Records Reviewed – TP           |
+| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level.               | Irrelevant Records – FP         |  
+| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
+
+
+Specificity / True Negative Rate (TNR). [Kusa et al. (2023)](https://www.sciencedirect.com/science/article/pii/S2667305323000182) propose to normalize the commonly used WSS measure for class imbalance (nWSS).
+Moreover, they showed that nWSS is equal to the True Negative Rate (TNR).
+The TNR is the proportion of irrelevant records that were correctly not reviewed at level of recall. 
+This metric is useful to compare performance in terms of work saved across datasets and models while controlling for dataset class imbalance. 
+
+Illustrating example at 95% recall:
+|Example             |                   |
+|--------------------|-------------------|
+| Total records 	 | 2000              |
+| Records Reviewed	 | 1100              |
+| Relevant Records 	 | 100               |
+| Irrelevant Records | 1900              |
+| Class imbalance 	 | 5%                |
+| TP	             | 95                |
+| FP	             | 1100 – 95 = 1005  |
+| TN	             | 1900 – 1005 = 895 |
+| FN	             | 100 – 95 = 5      |
+| TNR95%	         | 895 / 1900 = 0.47 |
+
 
 ## Basic usage
 
@@ -442,6 +476,76 @@ which results in
                         575
                     ]
                 ]
+            },
+            {
+                "id": "tp",
+                "title": "True Positives",
+                "value": [
+                    [
+                        0.95,
+                        39
+                    ],
+                    [
+                        1.0,
+                        42
+                    ]
+                ]
+            },
+            {
+                "id": "fp",
+                "title": "False Positives",
+                "value": [
+                    [
+                        0.95,
+                        122
+                    ],
+                    [
+                        1.0,
+                        517
+                    ]
+                ]
+            },
+            {
+                "id": "tn",
+                "title": "True Negatives",
+                "value": [
+                    [
+                        0.95,
+                        6023
+                    ],
+                    [
+                        1.0,
+                        5628
+                    ]
+                ]
+            },
+            {
+                "id": "fn",
+                "title": "False Negatives",
+                "value": [
+                    [
+                        0.95,
+                        3
+                    ],
+                    [
+                        1.0,
+                        0
+                    ]
+                ]
+            },
+            {
+                "id": "tnr",
+                "title": "True Negative Rate (Specificity)",
+                "value": [
+                    [
+                        0.95,
+                        0.980146
+                    ],
+                    [
+                        1.0,
+                        0.915867
+                    ]
+                ]
             }
         ]
     }
@@ -459,6 +563,7 @@ is the results of the metric. Some metrics are computed for multiple values.
 | `erf` | Labels | ERF | 0.10 |
 | `atd` | Average time to discovery (in label actions) | - | - |
 | `td` | Row number (starting at 0) | Number of records labeled | - |
+| `cm` | Recall  | Confusion matrix values at recall | 0.95, 1 |
 
 
 ### Override default values
