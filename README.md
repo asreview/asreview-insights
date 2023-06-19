@@ -551,7 +551,7 @@ which results in
             }
         ]
     }
-}       
+}
 ```
 
 Each available item has two values. The first value is the value at which the
