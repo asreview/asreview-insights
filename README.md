@@ -80,11 +80,14 @@ Both recall and WSS are sensitive to the position of the cutoff value and the
 distribution of the data. Moreover, the WSS makes assumptions about the
 acceptable recall level whereas this level might depend on the research
 question at hand. Therefore, [Ferdinands et al.
-(2020)](https://doi.org/10.1186/s13643-023-02257-7) proposed two new metrics: (1)
-the Time to Discover a relevant record as the fraction of records needed
+(2020)](https://doi.org/10.1186/s13643-023-02257-7) proposed two new metrics:
+(1) the Time to Discover a relevant record as the fraction of records needed
 to screen to detect this record (TD); and (2) the Average Time to Discover
 (ATD) as an indicator of how many records need to be screened on average to
-find all relevant records in the dataset.
+find all relevant records in the dataset. The TD metric enables you to
+pinpoint hard-to-find papers. The ATD, on the other hand, measures performance
+throughout the entire screening process, eliminating reliance on arbitrary
+cut-off values, and can be used to compare different models.
 
 Confusion matrix values consist of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN). 
 Most metrics (e.g., precision, False Positive Rate, F score) can be calculated from these values. 
