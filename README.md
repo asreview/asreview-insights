@@ -80,7 +80,7 @@ Both recall and WSS are sensitive to the position of the cutoff value and the
 distribution of the data. Moreover, the WSS makes assumptions about the
 acceptable recall level whereas this level might depend on the research
 question at hand. Therefore, [Ferdinands et al.
-(2020)](https://doi.org/10.31219/osf.io/w6qbg) proposed two new metrics: (1)
+(2020)](https://doi.org/10.1186/s13643-023-02257-7) proposed two new metrics: (1)
 the Time to Discover a relevant record as the fraction of records needed
 to screen to detect this record (TD); and (2) the Average Time to Discover
 (ATD) as an indicator of how many records need to be screened on average to
