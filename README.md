@@ -43,9 +43,14 @@ can be used after performing a simulation study that involves mimicking the
 screening process with a specific model. As it is already known which records
 are labeled relevant, the simulation can automatically reenact the screening
 process as if a screener were using active learning. The performance of one or
-multiple models can be measured by different metrics and the
-ASReview Insights extension can plot or compute the values for such metrics
-from ASReview project files.
+multiple models can be measured by different metrics and the ASReview Insights
+extension can plot or compute the values for such metrics from ASReview
+project files. [O'Mara-Eves et al.
+(2015)](https://doi.org/10.1186/2046-4053-4-5) provides a comprehensive
+overview of different metrics used in the field of actrive learning. Below we
+describe the metrics available in the software. 
+
+### Recall 
 
 The recall is the proportion of relevant records that have been found at a
 certain point during the screening phase. It is sometimes also called the
@@ -54,10 +59,20 @@ records. For example, the RRF@10 is the recall (i.e., the proportion of the
 total number of relevant records) at screening 10% of the total number of
 records available in the dataset.
 
-A variation is the Extra Relevant records Found (ERF), which is the proportion
-of relevant records found after correcting for the number of relevant records
-found via random screening (assuming a uniform distribution of relevant
-records).
+### Confusion matrix
+
+The confusion matrix consist of the True Positives (TP), False Positives (FP),
+True Negatives (TN), and False Negatives (FN). Definitions are provided in the
+following table retrieved at a certain recall (r%).
+
+|                      | Definition                                                                             | Calculation                     |   
+|----------------------|----------------------------------------------------------------------------------------|---------------------------------|
+| True Positives (TP)  | The number of relevant records found at recall level.                                  | Relevant Records * r%           |      
+| False Positives (FP) | The number of irrelevant records reviewed at recall level.                             | Records Reviewed – TP           |
+| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level.               | Irrelevant Records – FP         |  
+| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
+
+### Work saved over sampling
 
 The Work Saved over Sampling (WSS) is a measure of "the work saved over and
 above the work saved by simple sampling for a given level of recall" [(Cohen
@@ -66,7 +81,42 @@ proportion of records a screener does **not** have to screen compared to
 random reading after providing the prior knowledge used to train the first
 iteration of the model. The WSS is typically measured at a recall of .95
 (WSS@95), reflecting the proportion of records saved by using active learning
-at the cost of failing to identify .05 of relevant publications.
+at the cost of failing to identify .05 of relevant publications.\
+
+[Kusa et al. (2023)](https://doi.org/10.1016/j.iswa.2023.200193) propose to
+normalize the WSS for class imbalance (denoted as the nWSS). Moreover, Kusa et
+al. showed that nWSS is equal to the True Negative Rate (TNR). The TNR is the
+proportion of irrelevant records that were correctly not reviewed at level of
+recall. The nWSS is useful to compare performance in terms of work saved
+across datasets and models while controlling for dataset class imbalance. 
+
+The following table provides a hypothetical dataset example:
+
+| Dataset characteristics | Example value     |
+|-------------------------|-------------------|
+| Total records           | 2000              |
+| Records Reviewed        | 1100              |
+| Relevant Records        | 100               |
+| Irrelevant Records      | 1900              |
+| Class imbalance         | 5%                |
+
+With this information, the following metrics can be calculated:
+
+| Metric   | Example value     |
+|----------|-------------------|
+| TP       | 95                |
+| FP       | 1100 – 95 = 1005  |
+| TN       | 1900 – 1005 = 895 |
+| FN       | 100 – 95 = 5      |
+| TNR95%   | 895 / 1900 = 0.47 |
+
+
+### Extra relevant found
+
+A variation is the Extra Relevant records Found (ERF), which is the proportion
+of relevant records found after correcting for the number of relevant records
+found via random screening (assuming a uniform distribution of relevant
+records).
 
 The following plot illustrates the differences between the metrics Recall
 (y-axis), WSS (blue line), and ERF (red line). The dataset contains 1.000
@@ -75,6 +125,7 @@ naive labeling approach (screening randomly sorted records).
 
 ![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/main/docs/stats_explainer.png)
 
+### Time to discovery
 
 Both recall and WSS are sensitive to the position of the cutoff value and the
 distribution of the data. Moreover, the WSS makes assumptions about the
@@ -89,39 +140,6 @@ pinpoint hard-to-find papers. The ATD, on the other hand, measures performance
 throughout the entire screening process, eliminating reliance on arbitrary
 cut-off values, and can be used to compare different models.
 
-Confusion matrix values consist of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN). 
-Most metrics (e.g., precision, False Positive Rate, F score) can be calculated from these values. 
-See [O'Mara-Eves et al. (2015)](https://doi.org/10.1186/2046-4053-4-5) for a comprehensive overview of metrics.
-Similarly, various plots can be created from these values (e.g., ROC curve, recall vs precision)
-
-Values are retrieved at recall (r%).
-
-|                      | Definition                                                                             | Calculation                     |   
-|----------------------|----------------------------------------------------------------------------------------|---------------------------------|
-| True Positives (TP)  | The number of relevant records found at recall level.                                  | Relevant Records * r%           |      
-| False Positives (FP) | The number of irrelevant records reviewed at recall level.                             | Records Reviewed – TP           |
-| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level.               | Irrelevant Records – FP         |  
-| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
-
-
-Specificity / True Negative Rate (TNR). [Kusa et al. (2023)](https://doi.org/10.1016/j.iswa.2023.200193) propose to normalize the commonly used WSS measure for class imbalance (nWSS).
-Moreover, they showed that nWSS is equal to the True Negative Rate (TNR).
-The TNR is the proportion of irrelevant records that were correctly not reviewed at level of recall. 
-This metric is useful to compare performance in terms of work saved across datasets and models while controlling for dataset class imbalance. 
-
-Illustrating example at 95% recall:
-|Example             |                   |
-|--------------------|-------------------|
-| Total records 	 | 2000              |
-| Records Reviewed	 | 1100              |
-| Relevant Records 	 | 100               |
-| Irrelevant Records | 1900              |
-| Class imbalance 	 | 5%                |
-| TP	             | 95                |
-| FP	             | 1100 – 95 = 1005  |
-| TN	             | 1900 – 1005 = 895 |
-| FN	             | 100 – 95 = 5      |
-| TNR95%	         | 895 / 1900 = 0.47 |
 
 
 ## Basic usage
