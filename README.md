@@ -73,7 +73,7 @@ The following plot illustrates the differences between the metrics Recall
 hypothetical records with labels. The stepped line on the diagonal is the
 naive labeling approach (screening randomly sorted records).
 
-![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/docs/stats_explainer.png)
+![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/main/docs/stats_explainer.png)
 
 
 Both recall and WSS are sensitive to the position of the cutoff value and the
@@ -177,7 +177,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_recall_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the recall (i.e, the proportion of the relevant
 records) after every labeling decision. The horizontal axis shows the
@@ -210,7 +210,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis. As shown in the figure, the
@@ -237,7 +237,7 @@ The following plot is the result of simulating the [`van_de_schoot_2017`](https:
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the
@@ -310,7 +310,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_custom_title.png")
 ```
 
-![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/docs/example_custom_title.png)
+![WSS with custom title](https://github.com/asreview/asreview-insights/blob/main/docs/example_custom_title.png)
 
 #### Example: Prior knowledge
 
@@ -349,7 +349,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/docs/example_absolute_axes.png)
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
 
 
 #### Example: Legend for multiple curves in one plot
@@ -376,7 +376,7 @@ with open_state("tests/asreview_files/sim_van_de_schoot_2017_1.asreview") as s1:
 fig.savefig("docs/example_multiple_lines.png")
 
 ```
-![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
+![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/main/docs/example_multiple_lines.png)
 
 ## `metrics`
 
