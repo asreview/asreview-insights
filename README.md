@@ -173,7 +173,7 @@ your ASReview file name.):
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
@@ -206,7 +206,7 @@ ASReview file name.):
 asreview plot wss YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
@@ -232,8 +232,7 @@ ASReview file name.):
 ```bash
 asreview plot erf YOUR_ASREVIEW_FILE.asreview
 ```
-
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
