@@ -79,9 +79,9 @@ following table retrieved at a certain recall (r%).
 
 |                      | Definition                                                                             | Calculation                     |   
 |----------------------|----------------------------------------------------------------------------------------|---------------------------------|
-| True Positives (TP)  | The number of relevant records found at recall level.                                  | Relevant Records * r%           |      
-| False Positives (FP) | The number of irrelevant records reviewed at recall level.                             | Records Reviewed – TP           |
-| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level.               | Irrelevant Records – FP         |  
+| True Positives (TP)  | The number of relevant records found at recall level                                   | Relevant Records * r%           |      
+| False Positives (FP) | The number of irrelevant records reviewed at recall level                              | Records Reviewed – TP           |
+| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level                | Irrelevant Records – FP         |  
 | False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
 
 ### Work saved over sampling
@@ -93,7 +93,7 @@ proportion of records a screener does **not** have to screen compared to
 random reading after providing the prior knowledge used to train the first
 iteration of the model. The WSS is typically measured at a recall of .95
 (WSS@95), reflecting the proportion of records saved by using active learning
-at the cost of failing to identify .05 of relevant publications.\
+at the cost of failing to identify .05 of relevant publications.
 
 [Kusa et al. (2023)](https://doi.org/10.1016/j.iswa.2023.200193) propose to
 normalize the WSS for class imbalance (denoted as the nWSS). Moreover, Kusa et
