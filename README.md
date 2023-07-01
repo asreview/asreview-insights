@@ -43,9 +43,14 @@ can be used after performing a simulation study that involves mimicking the
 screening process with a specific model. As it is already known which records
 are labeled relevant, the simulation can automatically reenact the screening
 process as if a screener were using active learning. The performance of one or
-multiple models can be measured by different metrics and the
-ASReview Insights extension can plot or compute the values for such metrics
-from ASReview project files.
+multiple models can be measured by different metrics and the ASReview Insights
+extension can plot or compute the values for such metrics from ASReview
+project files. [O'Mara-Eves et al.
+(2015)](https://doi.org/10.1186/2046-4053-4-5) provides a comprehensive
+overview of different metrics used in the field of actrive learning. Below we
+describe the metrics available in the software. 
+
+### Recall 
 
 The recall is the proportion of relevant records that have been found at a
 certain point during the screening phase. It is sometimes also called the
@@ -54,10 +59,20 @@ records. For example, the RRF@10 is the recall (i.e., the proportion of the
 total number of relevant records) at screening 10% of the total number of
 records available in the dataset.
 
-A variation is the Extra Relevant records Found (ERF), which is the proportion
-of relevant records found after correcting for the number of relevant records
-found via random screening (assuming a uniform distribution of relevant
-records).
+### Confusion matrix
+
+The confusion matrix consist of the True Positives (TP), False Positives (FP),
+True Negatives (TN), and False Negatives (FN). Definitions are provided in the
+following table retrieved at a certain recall (r%).
+
+|                      | Definition                                                                             | Calculation                     |   
+|----------------------|----------------------------------------------------------------------------------------|---------------------------------|
+| True Positives (TP)  | The number of relevant records found at recall level                                   | Relevant Records * r%           |      
+| False Positives (FP) | The number of irrelevant records reviewed at recall level                              | Records Reviewed – TP           |
+| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level                | Irrelevant Records – FP         |  
+| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
+
+### Work saved over sampling
 
 The Work Saved over Sampling (WSS) is a measure of "the work saved over and
 above the work saved by simple sampling for a given level of recall" [(Cohen
@@ -68,57 +83,63 @@ iteration of the model. The WSS is typically measured at a recall of .95
 (WSS@95), reflecting the proportion of records saved by using active learning
 at the cost of failing to identify .05 of relevant publications.
 
+[Kusa et al. (2023)](https://doi.org/10.1016/j.iswa.2023.200193) propose to
+normalize the WSS for class imbalance (denoted as the nWSS). Moreover, Kusa et
+al. showed that nWSS is equal to the True Negative Rate (TNR). The TNR is the
+proportion of irrelevant records that were correctly not reviewed at level of
+recall. The nWSS is useful to compare performance in terms of work saved
+across datasets and models while controlling for dataset class imbalance. 
+
+The following table provides a hypothetical dataset example:
+
+| Dataset characteristics | Example value     |
+|-------------------------|-------------------|
+| Total records           | 2000              |
+| Records Reviewed        | 1100              |
+| Relevant Records        | 100               |
+| Irrelevant Records      | 1900              |
+| Class imbalance         | 5%                |
+
+With this information, the following metrics can be calculated:
+
+| Metric   | Example value     |
+|----------|-------------------|
+| TP       | 95                |
+| FP       | 1100 – 95 = 1005  |
+| TN       | 1900 – 1005 = 895 |
+| FN       | 100 – 95 = 5      |
+| TNR95%   | 895 / 1900 = 0.47 |
+
+
+### Extra relevant found
+
+A variation is the Extra Relevant records Found (ERF), which is the proportion
+of relevant records found after correcting for the number of relevant records
+found via random screening (assuming a uniform distribution of relevant
+records).
+
 The following plot illustrates the differences between the metrics Recall
 (y-axis), WSS (blue line), and ERF (red line). The dataset contains 1.000
 hypothetical records with labels. The stepped line on the diagonal is the
 naive labeling approach (screening randomly sorted records).
 
-![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/master/docs/stats_explainer.png)
+![ASReview metrics explained](https://github.com/asreview/asreview-insights/blob/main/docs/stats_explainer.png)
 
+### Time to discovery
 
 Both recall and WSS are sensitive to the position of the cutoff value and the
 distribution of the data. Moreover, the WSS makes assumptions about the
 acceptable recall level whereas this level might depend on the research
 question at hand. Therefore, [Ferdinands et al.
-(2020)](https://doi.org/10.31219/osf.io/w6qbg) proposed two new metrics: (1)
-the Time to Discover a relevant record as the fraction of records needed
+(2020)](https://doi.org/10.1186/s13643-023-02257-7) proposed two new metrics:
+(1) the Time to Discover a relevant record as the fraction of records needed
 to screen to detect this record (TD); and (2) the Average Time to Discover
 (ATD) as an indicator of how many records need to be screened on average to
-find all relevant records in the dataset.
+find all relevant records in the dataset. The TD metric enables you to
+pinpoint hard-to-find papers. The ATD, on the other hand, measures performance
+throughout the entire screening process, eliminating reliance on arbitrary
+cut-off values, and can be used to compare different models.
 
-Confusion matrix values consist of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN). 
-Most metrics (e.g., precision, False Positive Rate, F score) can be calculated from these values. 
-See [O'Mara-Eves et al. (2015)](https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/2046-4053-4-5) for a comprehensive overview of metrics.
-Similarly, various plots can be created from these values (e.g., ROC curve, recall vs precision)
-
-Values are retrieved at recall (r%).
-
-|                      | Definition                                                                             | Calculation                     |   
-|----------------------|----------------------------------------------------------------------------------------|---------------------------------|
-| True Positives (TP)  | The number of relevant records found at recall level.                                  | Relevant Records * r%           |      
-| False Positives (FP) | The number of irrelevant records reviewed at recall level.                             | Records Reviewed – TP           |
-| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level.               | Irrelevant Records – FP         |  
-| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
-
-
-Specificity / True Negative Rate (TNR). [Kusa et al. (2023)](https://www.sciencedirect.com/science/article/pii/S2667305323000182) propose to normalize the commonly used WSS measure for class imbalance (nWSS).
-Moreover, they showed that nWSS is equal to the True Negative Rate (TNR).
-The TNR is the proportion of irrelevant records that were correctly not reviewed at level of recall. 
-This metric is useful to compare performance in terms of work saved across datasets and models while controlling for dataset class imbalance. 
-
-Illustrating example at 95% recall:
-|Example             |                   |
-|--------------------|-------------------|
-| Total records 	 | 2000              |
-| Records Reviewed	 | 1100              |
-| Relevant Records 	 | 100               |
-| Irrelevant Records | 1900              |
-| Class imbalance 	 | 5%                |
-| TP	             | 95                |
-| FP	             | 1100 – 95 = 1005  |
-| TN	             | 1900 – 1005 = 895 |
-| FN	             | 100 – 95 = 5      |
-| TNR95%	         | 895 / 1900 = 0.47 |
 
 
 ## Basic usage
@@ -173,11 +194,11 @@ your ASReview file name.):
 asreview plot recall YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_recall_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_recall_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the recall (i.e, the proportion of the relevant
 records) after every labeling decision. The horizontal axis shows the
@@ -206,11 +227,11 @@ ASReview file name.):
 asreview plot wss YOUR_ASREVIEW_FILE.asreview
 ```
 
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the WSS after every labeling decision. The
 recall is displayed on the horizontal axis. As shown in the figure, the
@@ -232,12 +253,11 @@ ASReview file name.):
 ```bash
 asreview plot erf YOUR_ASREVIEW_FILE.asreview
 ```
-
-The following plot is the result of simulating the [`van_de_schoot_2017`](https://github.com/asreview/systematic-review-datasets/tree/master/datasets/van_de_Schoot_2017) in
+The following plot is the result of simulating the [`PTSD data`](https://doi.org/10.1038/s42256-020-00287-7) via
 the benchmark platform (command `asreview simulate
 benchmark:van_de_schoot_2017 -s sim_van_de_schoot_2017.asreview`).
 
-![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/master/figures/tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png)
+![Recall plot of Van de Schoot 2017](https://github.com/asreview/asreview-insights/blob/main/figures/tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png)
 
 On the vertical axis, you find the ERF after every labeling decision. The
 horizontal axis shows the proportion of  total number of records in the
@@ -310,7 +330,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_custom_title.png")
 ```
 
-![WSS with custom title](https://github.com/asreview/asreview-insights/blob/master/docs/example_custom_title.png)
+![WSS with custom title](https://github.com/asreview/asreview-insights/blob/main/docs/example_custom_title.png)
 
 #### Example: Prior knowledge
 
@@ -349,7 +369,7 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/master/docs/example_absolute_axes.png)
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
 
 
 #### Example: Legend for multiple curves in one plot
@@ -376,7 +396,7 @@ with open_state("tests/asreview_files/sim_van_de_schoot_2017_1.asreview") as s1:
 fig.savefig("docs/example_multiple_lines.png")
 
 ```
-![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/master/docs/example_multiple_lines.png)
+![Recall with multiple lines](https://github.com/asreview/asreview-insights/blob/main/docs/example_multiple_lines.png)
 
 ## `metrics`
 
