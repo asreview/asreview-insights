@@ -18,18 +18,6 @@ ASReview insights is available for [ASReview
 LAB](https://github.com/asreview/asreview/discussions/975) version 1 or later.
 Use ASReview visualization for versions 0.x.
 
-
-## Table of Contents for ASReview Insights Repository
-
-- [Installation](#installation)
-- [Performance metrics](#performance-metrics): [Recall](#recall), [Confusion matrix](#confusion-matrix), [Work saved over sampling](#work-saved-over-sampling), [Extra relevant found](#extra-relevant-found), [Time to discovery](#time-to-discovery)
-- [Basic usage](#basic-usage)
-- Usage for[`Plot`](#plot), with the following plot types: [`recall`](#recall-plot), [`wss`](#wss-plot), [`erf`](#erf-plot); the [Plotting CLI](#plotting-cli) and the [Plotting API](#plotting-api)
--  Usage for [`metrics`](#metrics): [Override default values](#override-default-values) and [Save metrics to file](#save-metrics-to-file); the [Metrics CLI](#metrics-cli) and the [Metrics API](#metrics-api)
-- [License](#license)
-- [Contact](#contact)
-
-
 ## Installation
 
 ASReview Insights can be installed from PyPI:
