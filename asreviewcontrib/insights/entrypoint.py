@@ -1,5 +1,7 @@
 import argparse
+import glob
 import json
+import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -80,11 +82,17 @@ class PlotEntryPoint(BaseEntryPoint):
         )
         args = parser.parse_args(argv)
 
+        asreview_files = [
+            file
+            for path in args.asreview_files
+            for file in (glob.glob(os.path.join(path, "*.asreview")) if os.path.isdir(path) else [path])  # noqa
+        ]
+
         fig, ax = plt.subplots()
         plot_func = TYPE_TO_FUNC[args.plot_type]
-        show_legend = False if len(args.asreview_files) == 1 else True
-        state_obj = _iter_states(args.asreview_files)
-        legend_values = [Path(fp).stem for fp in args.asreview_files]
+        show_legend = False if len(asreview_files) == 1 else True
+        state_obj = _iter_states(asreview_files)
+        legend_values = [Path(fp).stem for fp in asreview_files]
 
         plot_func(
             ax,
