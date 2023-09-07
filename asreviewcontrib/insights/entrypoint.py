@@ -1,7 +1,5 @@
 import argparse
-import glob
 import json
-import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -83,9 +81,9 @@ class PlotEntryPoint(BaseEntryPoint):
         args = parser.parse_args(argv)
 
         asreview_files = [
-            file
+            str(file)
             for path in args.asreview_files
-            for file in (glob.glob(os.path.join(path, "*.asreview")) if os.path.isdir(path) else [path])  # noqa
+            for file in (Path(path).glob("*.asreview") if Path(path).is_dir() else [Path(path)])  # noqa
         ]
 
         fig, ax = plt.subplots()
