@@ -11,7 +11,9 @@ from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import print_metrics
+from asreviewcontrib.insights.utils import _get_files
 from asreviewcontrib.insights.utils import _iter_states
+from asreviewcontrib.insights.utils import _legend_values
 
 TYPE_TO_FUNC = {"recall": plot_recall, "wss": plot_wss, "erf": plot_erf}
 
@@ -77,20 +79,27 @@ class PlotEntryPoint(BaseEntryPoint):
             help="Save the plot to a file. File formats are detected "
             " by the matplotlib library, check there to see available "
             "formats.",
+        )        
+        parser.add_argument(
+            "-l",
+            "--legend",
+            type=str,
+            choices=["filename", "model", "feature_extraction", "balance_strategy", "query_strategy", "classifier"],
+            default=None,
+            help="Specify the type of legend to be used."
         )
         args = parser.parse_args(argv)
 
-        asreview_files = [
-            str(file)
-            for path in args.asreview_files
-            for file in (Path(path).glob("*.asreview") if Path(path).is_dir() else [Path(path)])  # noqa
-        ]
+        asreview_files = _get_files(args.asreview_files)
 
         fig, ax = plt.subplots()
         plot_func = TYPE_TO_FUNC[args.plot_type]
-        show_legend = False if len(asreview_files) == 1 else True
+        show_legend = False if args.legend is None else True
         state_obj = _iter_states(asreview_files)
-        legend_values = [Path(fp).stem for fp in asreview_files]
+        legend_values = None
+        if show_legend:
+            legend_values = _legend_values(asreview_files, state_obj, args.legend)
+            state_obj = _iter_states(asreview_files)
 
         plot_func(
             ax,
