@@ -17,7 +17,7 @@ TEST_FIGURES = Path("figures")
 SMALL_DATA = [1, 0, 1, 1, 0]
 
 
-def setup():
+def setup_module():
     TEST_FIGURES.mkdir(exist_ok=True)
 
 
