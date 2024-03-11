@@ -11,13 +11,6 @@ especially useful in combination with the [simulation
 functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.html)
 of ASReview LAB.
 
-
-❣️ ASReview Insights is the successor to
-[ASReview-visualization](https://pypi.org/project/asreview-visualization/).
-ASReview insights is available for [ASReview
-LAB](https://github.com/asreview/asreview/discussions/975) version 1 or later.
-Use ASReview visualization for versions 0.x.
-
 ## Installation
 
 ASReview Insights can be installed from PyPI:
