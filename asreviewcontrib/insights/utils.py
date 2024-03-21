@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 from asreview import open_state
 from asreview.state import SQLiteState
@@ -58,3 +60,36 @@ def _iter_states(file_paths):
     for fp in file_paths:
         with open_state(fp) as s:
             yield s
+
+
+def _get_files(asreview_files):
+    return [
+        str(file)
+        for path in asreview_files
+        for file in (Path(path).glob("*.asreview") if Path(path).is_dir() else [Path(path)])  # noqa
+    ]
+
+
+def _legend_values(asreview_files, state_obj, legend_option):
+    legend_values = []
+
+    for state_file_path, state in zip(asreview_files, state_obj):
+        metadata = state.settings_metadata
+        label = None
+
+        if legend_option == "filename":
+            label = Path(state_file_path).stem
+        elif legend_option == "model":
+            label = " - ".join(
+                [metadata["settings"]["model"],
+                 metadata["settings"]["feature_extraction"],
+                 metadata["settings"]["balance_strategy"],
+                 metadata["settings"]["query_strategy"]])
+        elif legend_option == "classifier":
+            label = metadata["settings"]["model"]
+        else:
+            raise ValueError(f"Invalid legend setting: '{legend_option}'")
+
+        legend_values.append(label)
+
+    return legend_values
