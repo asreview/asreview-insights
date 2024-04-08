@@ -13,6 +13,7 @@ def plot_recall(
     x_absolute=False,
     y_absolute=False,
     show_random=True,
+    show_perfect=True,
     show_legend=True,
     legend_values=None,
     legend_kwargs=None,
@@ -61,6 +62,7 @@ def plot_recall(
         x_absolute=x_absolute,
         y_absolute=y_absolute,
         show_random=show_random,
+        show_perfect=True,
         show_legend=show_legend,
         legend_values=legend_values,
         legend_kwargs=legend_kwargs,
@@ -237,6 +239,7 @@ def _plot_recall(
     x_absolute=False,
     y_absolute=False,
     show_random=True,
+    show_perfect=True,
     show_legend=True,
     legend_values=None,
     legend_kwargs=None,
@@ -258,7 +261,10 @@ def _plot_recall(
     ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
 
     if show_random:
-        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)    
+
+    if show_perfect:
+        ax = _add_perfect_curve(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
         if legend_kwargs is None:
@@ -395,6 +401,35 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
 
     ax.step(x, y, color="black", where="post")
 
+    return ax
+
+def _add_perfect_curve(ax, labels, x_absolute, y_absolute):
+    """Add a perfect curve to a plot.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with perfect curve added.
+    """
+
+    # get total amount of positive labels
+    if isinstance(labels[0], list):
+        n_pos_docs = max(sum(label_set) for label_set in labels)
+        n_docs = max(len(label_set) for label_set in labels)
+    else:
+        n_pos_docs = sum(labels)
+        n_docs = len(labels)
+
+    x = [0, n_pos_docs/n_docs]
+    y = [0, 1]
+
+    if x_absolute:
+        x = [0, n_pos_docs]
+    
+    if y_absolute:
+        y = [0, n_pos_docs]
+
+    ax.plot(x, y, color="black", linestyle="--")
     return ax
 
 
