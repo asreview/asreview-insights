@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
@@ -396,6 +397,47 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
     ax.step(x, y, color="black", where="post")
 
     return ax
+
+def add_perfect_curve(ax: plt.Axes, num_steps: int, x_absolute: bool = False, y_absolute: bool = False) -> plt.Axes:
+    """
+    Adds a ladder-like plot with increasing values to the given matplotlib axis.
+
+    Parameters:
+        ax (plt.Axes): The matplotlib axis to which the plot will be added.
+        num_steps (int): The number of steps in the ladder plot.
+        x_absolute (bool): If True, absolute x coordinates are provided. Default is False.
+        y_absolute (bool): If True, absolute y coordinates are provided. Default is False.
+
+    Returns:
+        plt.Axes: The matplotlib axis with the added plot.
+    """
+    # Generate coordinates for a ladder-like plot
+    x_coords = list(range(num_steps))
+    y_coords = list(range(num_steps))
+
+    # Extend coordinates for the ladder pattern
+    x_offset = 1
+    y_offset = 0
+    x_coords.extend(i + x_offset for i in range(num_steps))
+    y_coords.extend(i + y_offset for i in range(num_steps))
+
+    # Sort coordinates
+    coordinates = sorted(zip(x_coords, y_coords), key=lambda x: (x[1], x[0]))
+    x_coords, y_coords = zip(*coordinates)
+
+    # Plot and label points
+    labels = [str(i + 1) for i in range(num_steps)]
+    ax.plot(x_coords, y_coords, marker='o')
+    for label, x, y in zip(labels, x_coords, y_coords):
+        ax.text(x, y, label, ha='right')
+
+    # Set plot title and labels
+    ax.set_title('Increasing Ladder Plot')
+    ax.set_xlabel('X Axis')
+    ax.set_ylabel('Y Axis')
+
+    return ax  # Return the plot object
+
 
 
 def _add_wss_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):
