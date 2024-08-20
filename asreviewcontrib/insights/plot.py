@@ -476,8 +476,8 @@ def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
-    #if x_absolute:
-        #ax.xaxis.get_major_locator().set_params(integer=True)
+    if x_absolute:
+        ax.xaxis.get_major_locator().set_params(integer=True)
 
     _fix_start_tick(ax)
 
