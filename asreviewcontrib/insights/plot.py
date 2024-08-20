@@ -405,15 +405,15 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
 
     return ax
 
+
 def _add_perfect_curve(ax, labels, x_absolute, y_absolute):
-    """Add a perfect curve to a plot.
+    """Add a perfect curve to a plot using step-wise increments.
 
     Returns
     -------
     plt.axes.Axes
         Axes with perfect curve added.
     """
-
     # get total amount of positive labels
     if isinstance(labels[0], list):
         n_pos_docs = max(sum(label_set) for label_set in labels)
@@ -422,17 +422,15 @@ def _add_perfect_curve(ax, labels, x_absolute, y_absolute):
         n_pos_docs = sum(labels)
         n_docs = len(labels)
 
-    x = [0, n_pos_docs/n_docs]
-    y = [0, 1]
+    # Create x and y arrays for step plot
+    x = np.arange(0, n_pos_docs + 1) if x_absolute else np.arange(0, n_pos_docs + 1) / n_docs  # noqa: E501
+    y = np.arange(0, n_pos_docs + 1) if y_absolute else np.arange(0, n_pos_docs + 1) / n_pos_docs  # noqa: E501
 
-    if x_absolute:
-        x = [0, n_pos_docs]
-    
-    if y_absolute:
-        y = [0, n_pos_docs]
+    # Plot the stepwise perfect curve
+    ax.step(x, y, color="grey", where="post")
 
-    ax.plot(x, y, color="black", linestyle="--")
     return ax
+
 
 
 def _add_wss_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):
@@ -478,8 +476,8 @@ def _add_recall_info(ax, labels, x_absolute=False, y_absolute=False):
     ax.set_ylim(y_lim)
     ax.set_yticks(yticks)
 
-    if x_absolute:
-        ax.xaxis.get_major_locator().set_params(integer=True)
+    #if x_absolute:
+        #ax.xaxis.get_major_locator().set_params(integer=True)
 
     _fix_start_tick(ax)
 
