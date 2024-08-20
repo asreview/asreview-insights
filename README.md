@@ -287,8 +287,8 @@ result. The plot is saved using the matplotlib API.
 
 ```python
 import matplotlib.pyplot as plt
-
 from asreview import open_state
+
 from asreviewcontrib.insights.plot import plot_recall
 
 with open_state("example.asreview") as s:
@@ -309,8 +309,8 @@ It's straightforward to customize the plots if you are familiar with
 
 ```python
 import matplotlib.pyplot as plt
-
 from asreview import open_state
+
 from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
@@ -332,8 +332,8 @@ knowledge is excluded from the plot.
 
 ```python
 import matplotlib.pyplot as plt
-
 from asreview import open_state
+
 from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
@@ -350,8 +350,8 @@ change this behavior. The arguments are identical for each plot function.
 
 ```python
 import matplotlib.pyplot as plt
-
 from asreview import open_state
+
 from asreviewcontrib.insights.plot import plot_wss
 
 with open_state("example.asreview") as s:
@@ -362,7 +362,30 @@ with open_state("example.asreview") as s:
     fig.savefig("example_absolute_axis.png")
 ```
 
-![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
+![Recall with absolute
+axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
+
+#### Example: Adjusting the Random and Perfect curves
+
+By default, each plot will have a curve representing perfect performance, and a
+curve representing random sampling performance. Both curves can be removed from
+the graph.
+
+```python
+import matplotlib.pyplot as plt
+from asreview import open_state
+
+from asreviewcontrib.insights.plot import plot_recall
+
+with open_state("example.asreview") as s:
+
+    fig, ax = plt.subplots()
+    plot_recall(ax, s, show_random=False, show_perfect=False)
+
+    fig.savefig("example_without_curves.png")
+```
+
+![Recall with absolute axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_without_curves.png)
 
 
 #### Example: Legend for multiple curves in one plot
