@@ -10,6 +10,7 @@ from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.algorithms import _tp_values
 from asreviewcontrib.insights.algorithms import _wss_values
+from asreviewcontrib.insights.algorithms import _loss_value
 from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
@@ -168,6 +169,24 @@ def _tnr(labels, intercept, x_absolute=False):
         return 0
 
     return _slice_metric(x, y, intercept)
+
+def loss(state_obj, priors=False):
+    """
+    Computes a loss value that represents how far the recall curve is from
+    perfect recall.
+
+    The function calculates a value based on the area over the recall curve and
+    under the perfect recall (i.e., an impossible area for recall values).
+
+    Returns:
+        float: The loss value representing the distance from perfect recall.
+    """
+    labels = _pad_simulation_labels(state_obj, priors=priors)
+
+    return _loss(labels)
+
+def _loss(labels):
+    return _loss_value(labels)
 
 
 def get_metrics(
