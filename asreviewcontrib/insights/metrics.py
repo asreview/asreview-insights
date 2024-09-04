@@ -6,11 +6,11 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _fn_values
 from asreviewcontrib.insights.algorithms import _fp_values
+from asreviewcontrib.insights.algorithms import _loss_value
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.algorithms import _tp_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.algorithms import _loss_value
 from asreviewcontrib.insights.utils import _pad_simulation_labels
 
 
