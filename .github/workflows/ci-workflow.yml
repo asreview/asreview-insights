@@ -18,6 +18,9 @@ jobs:
   test-asreview:
     name: Test Insights for ASReview LAB versions
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        asr_versions: ['1.0', '1.2', '1.4', '1.6']
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -26,6 +29,6 @@ jobs:
     - name: Install packages and run tests
       run: |
         pip install pytest tf-keras
-        pip install asreview[all]
+        pip install asreview[all]==${{ matrix.asr_versions }}
         pip install .
         pytest tests
