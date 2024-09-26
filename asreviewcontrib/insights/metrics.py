@@ -188,7 +188,7 @@ def get_metrics(
     )
     wss = [wss] if wss and not isinstance(wss, list) else [0.95]
     erf = [erf] if erf and not isinstance(erf, list) else [0.10]
-    cm = [cm] if cm and not isinstance(cm, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
+    cm = [cm] if cm and not isinstance(cm, list) else [0.95]
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
