@@ -29,6 +29,6 @@ jobs:
     - name: Install packages and run tests
       run: |
         pip install pytest
-        pip install asreview[all]==${{ matrix.asr_versions }}
+        pip install asreview==${{ matrix.asr_versions }}
         pip install .
         pytest tests
