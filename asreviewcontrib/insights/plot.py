@@ -13,6 +13,7 @@ def plot_recall(
     x_absolute=False,
     y_absolute=False,
     show_random=True,
+    show_perfect=True,
     show_legend=True,
     legend_values=None,
     legend_kwargs=None,
@@ -34,6 +35,8 @@ def plot_recall(
         If False, the fraction of all included records found is on the y-axis.
     show_random: bool
         Show the random curve in the plot.
+    show_perfect: bool
+        Show the perfect curve in the plot.
     show_legend: bool
         If state_obj contains multiple states, show a legend in the plot.
     legend_values: list[str]
@@ -61,6 +64,7 @@ def plot_recall(
         x_absolute=x_absolute,
         y_absolute=y_absolute,
         show_random=show_random,
+        show_perfect=show_perfect,
         show_legend=show_legend,
         legend_values=legend_values,
         legend_kwargs=legend_kwargs,
@@ -237,6 +241,7 @@ def _plot_recall(
     x_absolute=False,
     y_absolute=False,
     show_random=True,
+    show_perfect=True,
     show_legend=True,
     legend_values=None,
     legend_kwargs=None,
@@ -258,7 +263,10 @@ def _plot_recall(
     ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
 
     if show_random:
-        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)    
+
+    if show_perfect:
+        ax = _add_perfect_curve(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
         if legend_kwargs is None:
@@ -396,6 +404,33 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
     ax.step(x, y, color="black", where="post")
 
     return ax
+
+
+def _add_perfect_curve(ax, labels, x_absolute, y_absolute):
+    """Add a perfect curve to a plot using step-wise increments.
+
+    Returns
+    -------
+    plt.axes.Axes
+        Axes with perfect curve added.
+    """
+    # get total amount of positive labels
+    if isinstance(labels[0], list):
+        n_pos_docs = max(sum(label_set) for label_set in labels)
+        n_docs = max(len(label_set) for label_set in labels)
+    else:
+        n_pos_docs = sum(labels)
+        n_docs = len(labels)
+
+    # Create x and y arrays for step plot
+    x = np.arange(0, n_pos_docs + 1) if x_absolute else np.arange(0, n_pos_docs + 1) / n_docs  # noqa: E501
+    y = np.arange(0, n_pos_docs + 1) if y_absolute else np.arange(0, n_pos_docs + 1) / n_pos_docs  # noqa: E501
+
+    # Plot the stepwise perfect curve
+    ax.step(x, y, color="grey", where="post")
+
+    return ax
+
 
 
 def _add_wss_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):
