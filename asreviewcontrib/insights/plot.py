@@ -266,7 +266,7 @@ def _plot_recall(
         ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
 
     if show_optimal:
-        ax = _add_optimal_curve(ax, labels, x_absolute, y_absolute)
+        ax = _add_optimal_recall(ax, labels, x_absolute, y_absolute)
 
     if show_legend:
         if legend_kwargs is None:
@@ -406,7 +406,7 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
     return ax
 
 
-def _add_optimal_curve(ax, labels, x_absolute, y_absolute):
+def _add_optimal_recall(ax, labels, x_absolute, y_absolute):
     """Add a optimal recall to a plot using step-wise increments.
 
     Returns
