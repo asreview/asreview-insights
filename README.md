@@ -365,7 +365,7 @@ with open_state("example.asreview") as s:
 ![Recall with absolute
 axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
 
-#### Example: Adjusting the random and optimal curves
+#### Example: Adjusting the random and optimal recalls
 
 By default, each plot will have a curve representing optimal performance, and a
 curve representing random sampling performance. Both curves can be removed from

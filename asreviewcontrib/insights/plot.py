@@ -36,7 +36,7 @@ def plot_recall(
     show_random: bool
         Show the random curve in the plot.
     show_optimal: bool
-        Show the optimal curve in the plot.
+        Show the optimal recall in the plot.
     show_legend: bool
         If state_obj contains multiple states, show a legend in the plot.
     legend_values: list[str]
@@ -407,12 +407,12 @@ def _add_random_curve(ax, labels, x_absolute, y_absolute):
 
 
 def _add_optimal_curve(ax, labels, x_absolute, y_absolute):
-    """Add a optimal curve to a plot using step-wise increments.
+    """Add a optimal recall to a plot using step-wise increments.
 
     Returns
     -------
     plt.axes.Axes
-        Axes with optimal curve added.
+        Axes with optimal recall added.
     """
     # get total amount of positive labels
     if isinstance(labels[0], list):
@@ -434,7 +434,7 @@ def _add_optimal_curve(ax, labels, x_absolute, y_absolute):
         else np.arange(0, n_pos_docs + 1) / n_pos_docs
     )
 
-    # Plot the stepwise optimal curve
+    # Plot the stepwise optimal recall
     ax.step(x, y, color="grey", where="post")
 
     return ax

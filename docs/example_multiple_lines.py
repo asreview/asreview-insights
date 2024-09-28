@@ -19,7 +19,7 @@ with open_state(
     plot_recall(ax, s2)
 
 # Set the labels for the legend. Both plots add the recall line, the random
-# curve, and the optimal curve. Hence the recall lines are the 0th and 3nd line.
+# curve, and the optimal recall. Hence the recall lines are the 0th and 3nd line.
 ax.lines[0].set_label("Naive Bayes")
 ax.lines[3].set_label("Logistic")
 ax.legend()
