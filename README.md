@@ -365,9 +365,9 @@ with open_state("example.asreview") as s:
 ![Recall with absolute
 axes](https://github.com/asreview/asreview-insights/blob/main/docs/example_absolute_axes.png)
 
-#### Example: Adjusting the Random and Perfect curves
+#### Example: Adjusting the random and optimal recalls
 
-By default, each plot will have a curve representing perfect performance, and a
+By default, each plot will have a curve representing optimal performance, and a
 curve representing random sampling performance. Both curves can be removed from
 the graph.
 
@@ -380,7 +380,7 @@ from asreviewcontrib.insights.plot import plot_recall
 with open_state("example.asreview") as s:
 
     fig, ax = plt.subplots()
-    plot_recall(ax, s, show_random=False, show_perfect=False)
+    plot_recall(ax, s, show_random=False, show_optimal=False)
 
     fig.savefig("example_without_curves.png")
 ```
