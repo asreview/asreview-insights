@@ -263,7 +263,7 @@ def _plot_recall(
     ax = _add_recall_info(ax, labels, x_absolute, y_absolute)
 
     if show_random:
-        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)    
+        ax = _add_random_curve(ax, labels, x_absolute, y_absolute)
 
     if show_perfect:
         ax = _add_perfect_curve(ax, labels, x_absolute, y_absolute)
@@ -423,14 +423,21 @@ def _add_perfect_curve(ax, labels, x_absolute, y_absolute):
         n_docs = len(labels)
 
     # Create x and y arrays for step plot
-    x = np.arange(0, n_pos_docs + 1) if x_absolute else np.arange(0, n_pos_docs + 1) / n_docs  # noqa: E501
-    y = np.arange(0, n_pos_docs + 1) if y_absolute else np.arange(0, n_pos_docs + 1) / n_pos_docs  # noqa: E501
+    x = (
+        np.arange(0, n_pos_docs + 1)
+        if x_absolute
+        else np.arange(0, n_pos_docs + 1) / n_docs
+    )
+    y = (
+        np.arange(0, n_pos_docs + 1)
+        if y_absolute
+        else np.arange(0, n_pos_docs + 1) / n_pos_docs
+    )
 
     # Plot the stepwise perfect curve
     ax.step(x, y, color="grey", where="post")
 
     return ax
-
 
 
 def _add_wss_curve(ax, labels, x_absolute=False, y_absolute=False, legend_label=None):

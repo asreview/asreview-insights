@@ -6,7 +6,6 @@ Example
 python docs/stats_explainer.py
 """
 
-
 import matplotlib.pyplot as plt
 import numpy as np
 

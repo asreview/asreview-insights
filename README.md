@@ -41,9 +41,9 @@ extension can plot or compute the values for such metrics from ASReview
 project files. [O'Mara-Eves et al.
 (2015)](https://doi.org/10.1186/2046-4053-4-5) provides a comprehensive
 overview of different metrics used in the field of actrive learning. Below we
-describe the metrics available in the software. 
+describe the metrics available in the software.
 
-### Recall 
+### Recall
 
 The recall is the proportion of relevant records that have been found at a
 certain point during the screening phase. It is sometimes also called the
@@ -58,12 +58,12 @@ The confusion matrix consist of the True Positives (TP), False Positives (FP),
 True Negatives (TN), and False Negatives (FN). Definitions are provided in the
 following table retrieved at a certain recall (r%).
 
-|                      | Definition                                                                             | Calculation                     |   
+|                      | Definition                                                                             | Calculation                     |
 |----------------------|----------------------------------------------------------------------------------------|---------------------------------|
-| True Positives (TP)  | The number of relevant records found at recall level                                   | Relevant Records * r%           |      
+| True Positives (TP)  | The number of relevant records found at recall level                                   | Relevant Records * r%           |
 | False Positives (FP) | The number of irrelevant records reviewed at recall level                              | Records Reviewed – TP           |
-| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level                | Irrelevant Records – FP         |  
-| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           | 
+| True Negatives (TN)  | The number of irrelevant records correctly not reviewed at recall level                | Irrelevant Records – FP         |
+| False Negatives (FN) | The number of relevant records not reviewed at recall level (missing relevant records) | Relevant Records – TP           |
 
 ### Work saved over sampling
 
@@ -81,7 +81,7 @@ normalize the WSS for class imbalance (denoted as the nWSS). Moreover, Kusa et
 al. showed that nWSS is equal to the True Negative Rate (TNR). The TNR is the
 proportion of irrelevant records that were correctly not reviewed at level of
 recall. The nWSS is useful to compare performance in terms of work saved
-across datasets and models while controlling for dataset class imbalance. 
+across datasets and models while controlling for dataset class imbalance.
 
 The following table provides a hypothetical dataset example:
 
@@ -262,11 +262,11 @@ related to the steep recall curve.
 Optional arguments for the command line are `--priors` to include prior
 knowledge, `--x_absolute` and `--y_absolute` to use absolute axes.
 
-See `asreview plot -h` for all command line arguments. 
+See `asreview plot -h` for all command line arguments.
 
 ### Plotting multiple files
-It is possible to show the curves of multiple files in one plot. Use this 
-syntax (replace `YOUR_ASREVIEW_FILE_1` and `YOUR_ASREVIEW_FILE_2` by the 
+It is possible to show the curves of multiple files in one plot. Use this
+syntax (replace `YOUR_ASREVIEW_FILE_1` and `YOUR_ASREVIEW_FILE_2` by the
 asreview_files that you want to include in the plot):
 
 ```bash
