@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn import metrics
 
 
 def _recall_values(labels, x_absolute=False, y_absolute=False):
@@ -17,6 +18,14 @@ def _recall_values(labels, x_absolute=False, y_absolute=False):
         y = recall / n_pos_docs
 
     return x.tolist(), y.tolist()
+
+
+def _loss_value(labels):
+    positive_doc_ratio = sum(labels) / len(labels)
+    triangle_before_perfect_recall = positive_doc_ratio * 0.5
+    aera_under_recall_curve = metrics.auc(*_recall_values(labels))
+
+    return 1 - (triangle_before_perfect_recall + aera_under_recall_curve)
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):
