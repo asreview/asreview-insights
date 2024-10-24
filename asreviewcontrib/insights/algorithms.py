@@ -21,11 +21,21 @@ def _recall_values(labels, x_absolute=False, y_absolute=False):
 
 
 def _loss_value(labels):
-    positive_doc_ratio = sum(labels) / len(labels)
-    triangle_before_perfect_recall = positive_doc_ratio * 0.5
-    aera_under_recall_curve = metrics.auc(*_recall_values(labels))
+    def _auc_trapezoidal(x, y):
+        x = np.array(x)
+        y = np.array(y)
+        return np.sum((y[1:] + y[:-1]) / 2 * np.diff(x))
+    
+    Ny = sum(labels)
+    Nx = len(labels)
 
-    return 1 - (triangle_before_perfect_recall + aera_under_recall_curve)
+    best_auc = Nx * Ny - 0.5 - ((Ny * Ny) / 2)
+    actual_auc = _auc_trapezoidal(*_recall_values(labels, x_absolute=True, y_absolute=True))
+    worst_auc = ((Ny * Ny) / 2)
+
+    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc) if best_auc != worst_auc else 0
+
+    return normalized_loss
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):
