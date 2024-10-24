@@ -1,6 +1,4 @@
 import numpy as np
-from sklearn import metrics
-
 
 def _recall_values(labels, x_absolute=False, y_absolute=False):
     n_docs = len(labels)
