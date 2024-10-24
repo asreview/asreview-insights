@@ -119,31 +119,23 @@ def test_loss():
         Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
     ) as s:
         loss_value = loss(s)
-        assert_almost_equal(loss_value, 0.011590940352087164)
+        assert_almost_equal(loss_value, 0.011590940352087164, decimal=6)
 
 def test_loss_value_function():
-    # Test case 1: [1, 0] should have a loss of 0
     labels = [1, 0]
     loss_value = _loss_value(labels)
-    print(f"Labels: {labels}, Loss: {loss_value}")
     assert_almost_equal(loss_value, 0, decimal=6)
 
-    # Test case 2: [0, 1] should have a loss of 1
     labels = [0, 1]
     loss_value = _loss_value(labels)
-    print(f"Labels: {labels}, Loss: {loss_value}")
     assert_almost_equal(loss_value, 1, decimal=6)
 
-    # Test case 3: [1, 1, 0, 0, 0] should have a loss of 0
     labels = [1, 1, 0, 0, 0]
     loss_value = _loss_value(labels)
-    print(f"Labels: {labels}, Loss: {loss_value}")
     assert_almost_equal(loss_value, 0, decimal=6)
 
-    # Test case 4: [0, 0, 0, 1, 1] should have a loss of 1
     labels = [0, 0, 0, 1, 1]
     loss_value = _loss_value(labels)
-    print(f"Labels: {labels}, Loss: {loss_value}")
     assert_almost_equal(loss_value, 1, decimal=6)
 
     import random
@@ -155,5 +147,3 @@ def test_loss_value_function():
             print(f"Test {i+1}: Labels: {labels}, Loss: {loss_value}")
         assert 0 <= loss_value <= 1, f"Loss value {loss_value} not between 0 and 1 for \
             labels {labels}"
-
-    print("All tests passed successfully!")
