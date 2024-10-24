@@ -20,20 +20,31 @@ def _recall_values(labels, x_absolute=False, y_absolute=False):
 
 
 def _loss_value(labels):
-    def _auc_trapezoidal(x, y):
-        x = np.array(x)
-        y = np.array(y)
-        return np.sum((y[1:] + y[:-1]) / 2 * np.diff(x))
-    
     Ny = sum(labels)
     Nx = len(labels)
 
-    best_auc = Nx * Ny - 0.5 - ((Ny * Ny) / 2)
-    actual_auc = _auc_trapezoidal(*_recall_values(labels, 
-                                                  x_absolute=True, 
-                                                  y_absolute=True))
+    # The best AUC represents the entire area under the perfect curve, which is
+    # the total area Nx * Ny, minus the area above the perfect curve (which is
+    # the sum of a series with a formula (Ny * Ny) / 2) plus 0.5 to account for
+    # the boundary.
+    best_auc = Nx * Ny - (((Ny * Ny) / 2) + 0.5)
+
+    # Compute recall values (y) based on the provided labels. We don't need x
+    # values because the points are uniformly spaced.
+    y = np.array(_recall_values(labels, x_absolute=True, y_absolute=True)[1])
+
+    # The actual AUC is calculated by approximating the area under the curve
+    # using the trapezoidal rule. (y[1:] + y[:-1]) / 2 takes the average height
+    # between consecutive y values, and we sum them up.
+    actual_auc = np.sum((y[1:] + y[:-1]) / 2)
+
+    # The worst AUC represents the area under the worst-case step curve, which
+    # is simply the area under the recall curve where all positive labels are
+    # clumped at the end, calculated as (Ny * Ny) / 2.
     worst_auc = ((Ny * Ny) / 2)
 
+    # The normalized loss is the difference between the best AUC and the actual
+    # AUC, normalized by the range between the best and worst AUCs.
     normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc) if best_auc != worst_auc else 0  # noqa: E501
 
     return normalized_loss
