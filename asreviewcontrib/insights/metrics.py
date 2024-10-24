@@ -183,11 +183,7 @@ def loss(state_obj, priors=False):
     """
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
-    return _loss(labels)
-
-def _loss(labels):
     return _loss_value(labels)
-
 
 def get_metrics(
     state_obj,
