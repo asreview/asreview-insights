@@ -8,6 +8,8 @@ from asreviewcontrib.insights.metrics import _recall
 from asreviewcontrib.insights.metrics import _time_to_discovery
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import recall
+from asreviewcontrib.insights.metrics import loss
+from asreviewcontrib.insights.algorithms import _loss_value
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 
@@ -111,3 +113,46 @@ def test_label_padding():
         stop_if_full = get_metrics(s)
 
     assert stop_if_min == stop_if_full
+
+def test_loss():
+    with open_state(
+        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    ) as s:
+        loss_value = loss(s)
+        assert_almost_equal(loss_value, 0.011590940352087164)
+
+def test_loss_value_function():
+    # Test case 1: [1, 0] should have a loss of 0
+    labels = [1, 0]
+    loss_value = _loss_value(labels)
+    print(f"Labels: {labels}, Loss: {loss_value}")
+    assert_almost_equal(loss_value, 0, decimal=6)
+
+    # Test case 2: [0, 1] should have a loss of 1
+    labels = [0, 1]
+    loss_value = _loss_value(labels)
+    print(f"Labels: {labels}, Loss: {loss_value}")
+    assert_almost_equal(loss_value, 1, decimal=6)
+
+    # Test case 3: [1, 1, 0, 0, 0] should have a loss of 0
+    labels = [1, 1, 0, 0, 0]
+    loss_value = _loss_value(labels)
+    print(f"Labels: {labels}, Loss: {loss_value}")
+    assert_almost_equal(loss_value, 0, decimal=6)
+
+    # Test case 4: [0, 0, 0, 1, 1] should have a loss of 1
+    labels = [0, 0, 0, 1, 1]
+    loss_value = _loss_value(labels)
+    print(f"Labels: {labels}, Loss: {loss_value}")
+    assert_almost_equal(loss_value, 1, decimal=6)
+
+    import random
+    for i in range(100):
+        length = random.randint(2, 100)
+        labels = [random.randint(0, 1) for _ in range(length)]
+        loss_value = _loss_value(labels)
+        if not (0 <= loss_value <= 1):
+            print(f"Test {i+1}: Labels: {labels}, Loss: {loss_value}")
+        assert 0 <= loss_value <= 1, f"Loss value {loss_value} not between 0 and 1 for labels {labels}"
+
+    print("All tests passed successfully!")
