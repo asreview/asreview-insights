@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11"
 ]
 license = {text = "Apache-2.0"}
-dependencies = ["numpy", "matplotlib", "asreview>=1,<2", "scikit-learn"]
+dependencies = ["numpy", "matplotlib", "asreview>=1,<2"]
 dynamic = ["version"]
 requires-python = ">=3.7"
 
