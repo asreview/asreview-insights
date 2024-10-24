@@ -29,10 +29,11 @@ def _loss_value(labels):
     Nx = len(labels)
 
     best_auc = Nx * Ny - 0.5 - ((Ny * Ny) / 2)
-    actual_auc = _auc_trapezoidal(*_recall_values(labels, x_absolute=True, y_absolute=True))
+    actual_auc = _auc_trapezoidal(*_recall_values(labels, x_absolute=True, 
+                                                  y_absolute=True))
     worst_auc = ((Ny * Ny) / 2)
 
-    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc) if best_auc != worst_auc else 0
+    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc) if best_auc != worst_auc else 0  # noqa: E501
 
     return normalized_loss
 
