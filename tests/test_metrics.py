@@ -132,7 +132,7 @@ def test_loss_value_function():
 
     labels = [1, 1, 0, 0, 0]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0, decimal=6), f"{loss_value} is {int(loss_value)}"
+    assert_almost_equal(loss_value, 0, decimal=6)
 
     labels = [0, 0, 0, 1, 1]
     loss_value = _loss_value(labels)
