@@ -119,28 +119,28 @@ def test_loss():
         Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
     ) as s:
         loss_value = loss(s)
-        assert_almost_equal(loss_value, 0.011592855205548452, decimal=6)
+        assert_almost_equal(loss_value, 0.011592855205548452)
 
 def test_loss_value_function():
     labels = [1, 0]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0, decimal=6)
+    assert_almost_equal(loss_value, 0)
 
     labels = [0, 1]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 1, decimal=6)
+    assert_almost_equal(loss_value, 1)
 
     labels = [1, 1, 0, 0, 0]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0, decimal=6)
+    assert_almost_equal(loss_value, 0)
 
     labels = [0, 0, 0, 1, 1]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 1, decimal=6)   
+    assert_almost_equal(loss_value, 1)   
     
     labels = [1, 0, 1]
     loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0.5, decimal=6)
+    assert_almost_equal(loss_value, 0.5)
 
     import random
     for i in range(100):
