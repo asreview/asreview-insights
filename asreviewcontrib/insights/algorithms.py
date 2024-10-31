@@ -31,18 +31,17 @@ def _loss_value(labels):
     # of +1 as a result of the stepwise curve.
     best_auc = Nx * Ny - ((Ny * (Ny - 1)) / 2)
 
-    # Compute recall values (y) based on the provided labels.
     # The actual AUC is the sum of the recall curve.
     actual_auc = np.cumsum(labels).sum()
 
     # The worst AUC represents the area under the worst-case step curve, which
     # is the area under the recall curve where all positive labels are clumped
-    # at the end.
-    worst_auc = (Ny * (Ny + 1)) / 2
+    # at the end. (Ny * (Ny + 1)) / 2. This is simplified together with the best
+    # auc in the normalized loss.
 
     # The normalized loss is the difference between the best AUC and the actual
     # AUC, normalized by the range between the best and worst AUCs.
-    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc)
+    normalized_loss = (best_auc - actual_auc) / (Ny * (Nx - Ny))
 
     return normalized_loss
 
