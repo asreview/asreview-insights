@@ -1,8 +1,10 @@
+import random
 from pathlib import Path
 
 from asreview import open_state
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
+from numpy.testing import assert_raises
 
 from asreviewcontrib.insights.algorithms import _loss_value
 from asreviewcontrib.insights.metrics import _recall
@@ -12,6 +14,7 @@ from asreviewcontrib.insights.metrics import loss
 from asreviewcontrib.insights.metrics import recall
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
+
 
 
 def test_metric_recall_small_data():
@@ -122,32 +125,28 @@ def test_loss():
         assert_almost_equal(loss_value, 0.011592855205548452)
 
 def test_loss_value_function():
-    labels = [1, 0]
-    loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0)
+    test_cases = [
+        ([1, 0], 0),
+        ([0, 1], 1),
+        ([1, 1, 0, 0, 0], 0),
+        ([0, 0, 0, 1, 1], 1),
+        ([1, 0, 1], 0.5)
+    ]
 
-    labels = [0, 1]
-    loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 1)
+    for labels, expected_value in test_cases:
+        loss_value = _loss_value(labels)
+        assert_almost_equal(loss_value, expected_value)
 
-    labels = [1, 1, 0, 0, 0]
-    loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0)
+    error_cases = [[0, 0, 0], [0], [1]]
+    for labels in error_cases:
+        with assert_raises(ValueError):
+            _loss_value(labels)
 
-    labels = [0, 0, 0, 1, 1]
-    loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 1)   
-    
-    labels = [1, 0, 1]
-    loss_value = _loss_value(labels)
-    assert_almost_equal(loss_value, 0.5)
-
-    import random
-    for i in range(100):
+    for _ in range(100):
         length = random.randint(2, 100)
         labels = [random.randint(0, 1) for _ in range(length)]
+        if all(label == 0 for label in labels) or all(label == 1 for label in labels):
+            labels[random.randint(0, length - 1)] = 1 - labels[0]
         loss_value = _loss_value(labels)
-        if not (0 <= loss_value <= 1):
-            print(f"Test {i+1}: Labels: {labels}, Loss: {loss_value}")
         assert 0 <= loss_value <= 1, f"Loss value {loss_value} not between 0 and 1 for \
             labels {labels}"
