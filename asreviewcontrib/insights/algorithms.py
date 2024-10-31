@@ -30,7 +30,7 @@ def _loss_value(labels):
     #
     # 1. The "optimal" possible AUC, representing the area under an optimal recall
     #    curve, is the total area, Nx * Ny, minus the area above the stepwise
-    #    curve, (Ny * (Ny - 1)) / 2.
+    #    curve, (Ny * (Ny - 1)) / 2. Combined to Ny * (Nx - (Ny - 1)) / 2.
     #
     # 2. The "actual" AUC is the cumulative recall sum, calculated with
     #    np.cumsum(labels).sum().
