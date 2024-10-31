@@ -170,7 +170,7 @@ indicating higher performance.
 
 ![Recall plot illustrating loss metric](https://github.com/asreview/asreview-insights/blob/main/figures/loss_metric_example.png?raw=true)
 
-In this figure, the green area between the recall curve and the perfect recall line is the lossed performance, which is then normalized for the total area (green and red combined).
+In this figure, the green area between the recall curve and the perfect recall line is the lost performance, which is then normalized for the total area (green and red combined).
 
 ## Basic usage
 
