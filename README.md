@@ -139,7 +139,9 @@ quantifying how closely it approximates the ideal screening process. This
 quantification is then normalized between the ideal curve and the worst possible
 curve.
 
-While metrics like WSS, Recall, and ERF evaluate the performance at specific points on the recall curve, the Loss metric provides an overall measure of performance across the entire screening process.
+While metrics like WSS, Recall, and ERF evaluate the performance at specific
+points on the recall curve, the Loss metric provides an overall measure of
+performance.
 
 To compute the loss, we start with three key concepts:
 
