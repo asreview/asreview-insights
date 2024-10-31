@@ -23,8 +23,12 @@ def _loss_value(labels):
     Ny = sum(labels)
     Nx = len(labels)
 
+    if Ny == 0 or Nx==1:
+        raise ValueError("Need both 0 and 1 labels")
+
     # The best AUC represents the entire area under the perfect curve, which is
-    # the total area Nx * Ny, minus the area above the perfect curve.
+    # the total area Nx * Ny, minus the area above the perfect curve. -1 instead
+    # of +1 as a result of the stepwise curve.
     best_auc = Nx * Ny - ((Ny * (Ny - 1)) / 2)
 
     # Compute recall values (y) based on the provided labels.
@@ -40,7 +44,7 @@ def _loss_value(labels):
 
     # The normalized loss is the difference between the best AUC and the actual
     # AUC, normalized by the range between the best and worst AUCs.
-    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc) if best_auc != worst_auc else 0  # noqa: E501
+    normalized_loss = (best_auc - actual_auc) / (best_auc - worst_auc)
 
     return normalized_loss
 
