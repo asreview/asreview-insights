@@ -43,7 +43,7 @@ def _loss_value(labels):
     # AUC, normalized by the range between the best and worst AUCs.
     normalized_loss = (best_auc - actual_auc) / (Ny * (Nx - Ny))
 
-    return normalized_loss
+    return (Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny))
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):
