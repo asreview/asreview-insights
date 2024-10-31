@@ -23,7 +23,7 @@ def _loss_value(labels):
     Ny = sum(labels)
     Nx = len(labels)
 
-    if Ny == 0 or Nx==1:
+    if Ny == 0 or Nx == Ny:
         raise ValueError("Need both 0 and 1 labels")
 
     # The normalized loss is computed based on:
@@ -46,7 +46,7 @@ def _loss_value(labels):
     #
     # Finally, we compute the normalized loss as: 
     # (optimal - actual) / (optimal - worst).
-    return (Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny))
+    return float((Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny)))
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):
