@@ -168,7 +168,7 @@ $$\text{Normalized Loss} = \frac{Ny \times \left(Nx - \frac{Ny - 1}{2}\right) -
 The lower the loss, the closer the model is to the perfect recall curve,
 indicating higher performance.
 
-![Recall plot illustrating loss metric](https://github.com/jteijema/asreview-insights/blob/loss-metric/figures/loss_metric_example.png?raw=true)
+![Recall plot illustrating loss metric](https://github.com/asreview/asreview-insights/blob/main/figures/loss_metric_example.png?raw=true)
 
 In this figure, the green area between the recall curve and the perfect recall line is the lossed performance, which is then normalized for the total area (green and red combined).
 
