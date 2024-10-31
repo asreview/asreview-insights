@@ -133,7 +133,44 @@ pinpoint hard-to-find papers. The ATD, on the other hand, measures performance
 throughout the entire screening process, eliminating reliance on arbitrary
 cut-off values, and can be used to compare different models.
 
+### Loss
+The Loss metric evaluates the performance of an active learning model by
+quantifying how closely it approximates the ideal screening process. This
+quantification is then normalized between the ideal curve and the worst possible
+curve.
 
+While metrics like WSS, Recall, and ERF evaluate the performance at specific
+points on the recall curve, the Loss metric provides an overall measure of
+performance.
+
+To compute the loss, we start with three key concepts:
+
+1. **Optimal AUC**: This is the area under a "perfect recall curve," where
+   relevant records are identified as early as possible. Mathematically, it is
+   computed as $Nx \times Ny - \frac{Ny \times (Ny - 1)}{2}$, where $Nx$ is the
+   total number of records, and $Ny$ is the number of relevant records.
+
+2. **Worst AUC**: This represents the area under a worst-case recall curve,
+   where all relevant records appear at the end of the screening process. This
+   is calculated as $\frac{Ny \times (Ny + 1)}{2}$.
+
+3. **Actual AUC**: This is the area under the recall curve produced by the model
+   during the screening process. It can be obtained by summing up the cumulative
+   recall values for the labeled records.
+
+The normalized loss is calculated by taking the difference between the optimal
+AUC and the actual AUC, divided by the difference between the optimal AUC and
+the worst AUC.
+
+$$\text{Normalized Loss} = \frac{Ny \times \left(Nx - \frac{Ny - 1}{2}\right) -
+\sum \text{Cumulative Recall}}{Ny \times (Nx - Ny)}$$
+
+The lower the loss, the closer the model is to the perfect recall curve,
+indicating higher performance.
+
+![Recall plot illustrating loss metric](https://github.com/jteijema/asreview-insights/blob/loss-metric/figures/loss_metric_example.png?raw=true)
+
+In this figure, the green area between the recall curve and the perfect recall line is the lossed performance, which is then normalized for the total area (green and red combined).
 
 ## Basic usage
 
@@ -466,6 +503,11 @@ which results in
                         0.8913851624373686
                     ]
                 ]
+            },
+            {
+                "id": "loss",
+                "title": "Loss",
+                "value": 0.01707543880041846
             },
             {
                 "id": "erf",

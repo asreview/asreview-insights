@@ -6,6 +6,7 @@ import numpy as np
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _fn_values
 from asreviewcontrib.insights.algorithms import _fp_values
+from asreviewcontrib.insights.algorithms import _loss_value
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.algorithms import _tp_values
@@ -169,6 +170,20 @@ def _tnr(labels, intercept, x_absolute=False):
 
     return _slice_metric(x, y, intercept)
 
+def loss(state_obj, priors=False):
+    """Compute the loss for active learning problem.
+
+    Computes the loss for active learning problem where all relevant records
+    have to be seen by a human.
+
+    See the inline documentation for detailed description of loss calculation.
+
+    Returns:
+        float: The loss value.
+    """
+    labels = _pad_simulation_labels(state_obj, priors=priors)
+
+    return _loss_value(labels)
 
 def get_metrics(
     state_obj,
@@ -224,6 +239,11 @@ def get_metrics(
                     "id": "wss",
                     "title": "Work Saved over Sampling",
                     "value": [(i, v) for i, v in zip(wss, wss_values)],
+                },
+                {
+                    "id": "loss",
+                    "title": "Loss",
+                    "value": _loss_value(labels),
                 },
                 {
                     "id": "erf",

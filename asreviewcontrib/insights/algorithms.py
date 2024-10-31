@@ -19,6 +19,36 @@ def _recall_values(labels, x_absolute=False, y_absolute=False):
     return x.tolist(), y.tolist()
 
 
+def _loss_value(labels):
+    Ny = sum(labels)
+    Nx = len(labels)
+
+    if Ny == 0 or Nx == Ny:
+        raise ValueError("Need both 0 and 1 labels")
+
+    # The normalized loss is computed based on:
+    #
+    # 1. The "optimal" possible AUC, representing the area under an optimal recall
+    #    curve, is the total area, Nx * Ny, minus the area above the stepwise
+    #    curve, (Ny * (Ny - 1)) / 2. Combined to Ny * (Nx - (Ny - 1)) / 2.
+    #
+    # 2. The "actual" AUC is the cumulative recall sum, calculated with
+    #    np.cumsum(labels).sum().
+    #
+    # 3. The "worst" AUC, where all positive labels are clustered at the end, is
+    #    calculated as (Ny * (Ny + 1)) / 2. To normalize, we need the difference
+    #    between the optimal and worst AUCs. We simplify this difference:
+    #
+    #        (Nx * Ny - ((Ny * (Ny - 1)) / 2)) - ((Ny * (Ny + 1)) / 2)
+    #
+    #    This simplifies to the hyperbolic paraboloid Ny * (Nx - Ny), which is
+    #    the denominator in our normalized loss.
+    #
+    # Finally, we compute the normalized loss as: 
+    # (optimal - actual) / (optimal - worst).
+    return float((Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny)))  # noqa: E501
+
+
 def _wss_values(labels, x_absolute=False, y_absolute=False):
     n_docs = len(labels)
     n_pos_docs = sum(labels)
