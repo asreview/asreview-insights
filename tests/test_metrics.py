@@ -7,8 +7,10 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_raises
 
 from asreviewcontrib.insights.algorithms import _loss_value
+from asreviewcontrib.insights.metrics import _erf
 from asreviewcontrib.insights.metrics import _recall
 from asreviewcontrib.insights.metrics import _time_to_discovery
+from asreviewcontrib.insights.metrics import _wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import loss
 from asreviewcontrib.insights.metrics import recall
@@ -155,3 +157,8 @@ def test_loss_value_function(seed=None):
         
         loss_value = _loss_value(labels)
         assert 0 <= loss_value <= 1
+    
+def test_single_value_formats():
+    assert isinstance(_wss([1,1,0,0], 0.5), float)
+    assert isinstance(_loss_value([1,1,0,0]), float)
+    assert isinstance(_erf([1,1,0,0], 0.5), float)
