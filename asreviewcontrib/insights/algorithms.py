@@ -46,7 +46,7 @@ def _loss_value(labels):
     #
     # Finally, we compute the normalized loss as: 
     # (optimal - actual) / (optimal - worst).
-    return float((Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny)))
+    return float((Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny)))  # noqa: E501
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):
