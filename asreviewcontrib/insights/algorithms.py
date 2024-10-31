@@ -26,22 +26,26 @@ def _loss_value(labels):
     if Ny == 0 or Nx==1:
         raise ValueError("Need both 0 and 1 labels")
 
-    # The best AUC represents the entire area under the perfect curve, which is
-    # the total area Nx * Ny, minus the area above the perfect curve. -1 instead
-    # of +1 as a result of the stepwise curve.
-    best_auc = Nx * Ny - ((Ny * (Ny - 1)) / 2)
-
-    # The actual AUC is the sum of the recall curve.
-    actual_auc = np.cumsum(labels).sum()
-
-    # The worst AUC represents the area under the worst-case step curve, which
-    # is the area under the recall curve where all positive labels are clumped
-    # at the end. (Ny * (Ny + 1)) / 2. This is simplified together with the best
-    # auc in the normalized loss.
-
-    # The normalized loss is the difference between the best AUC and the actual
-    # AUC, normalized by the range between the best and worst AUCs.
-    normalized_loss = (best_auc - actual_auc) / (Ny * (Nx - Ny))
+    # The normalized loss is computed based on:
+    #
+    # 1. The "best" possible AUC, representing the area under a perfect recall
+    #    curve, is the total area, Nx * Ny, minus the area above the stepwise
+    #    curve, (Ny * (Ny - 1)) / 2.
+    #
+    # 2. The "actual" AUC is the cumulative recall sum, calculated with
+    #    np.cumsum(labels).sum().
+    #
+    # 3. The "worst" AUC, where all positive labels are clustered at the end, is
+    #    calculated as (Ny * (Ny + 1)) / 2. To normalize, we need the difference
+    #    between the best and worst AUCs. We simplify this difference:
+    #
+    #        (Nx * Ny - ((Ny * (Ny - 1)) / 2)) - ((Ny * (Ny + 1)) / 2)
+    #
+    #    This simplifies to the hyperbolic paraboloid Ny * (Nx - Ny), which is
+    #    the denominator in our normalized loss.
+    #
+    # Finally, we compute the normalized loss as: 
+    # (best - actual) / (best - worst).
 
     return (Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny))
 
