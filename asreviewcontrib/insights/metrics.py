@@ -171,9 +171,7 @@ def _tnr(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 def loss(state_obj, priors=False):
-    """
-    Computes a loss value that represents how far the recall curve is from
-    perfect recall.
+    """Compute the loss value.
 
     The function calculates a value based on the area over the recall curve and
     under the perfect recall (i.e., an impossible area for recall values).
