@@ -241,6 +241,11 @@ def get_metrics(
                     "value": [(i, v) for i, v in zip(wss, wss_values)],
                 },
                 {
+                    "id": "loss",
+                    "title": "Loss",
+                    "value": _loss_value(labels),
+                },
+                {
                     "id": "erf",
                     "title": "Extra Relevant record Found",
                     "value": [(i, v) for i, v in zip(erf, erf_values)],
