@@ -28,7 +28,7 @@ def _loss_value(labels):
 
     # The normalized loss is computed based on:
     #
-    # 1. The "best" possible AUC, representing the area under a perfect recall
+    # 1. The "optimal" possible AUC, representing the area under an optimal recall
     #    curve, is the total area, Nx * Ny, minus the area above the stepwise
     #    curve, (Ny * (Ny - 1)) / 2.
     #
@@ -37,7 +37,7 @@ def _loss_value(labels):
     #
     # 3. The "worst" AUC, where all positive labels are clustered at the end, is
     #    calculated as (Ny * (Ny + 1)) / 2. To normalize, we need the difference
-    #    between the best and worst AUCs. We simplify this difference:
+    #    between the optimal and worst AUCs. We simplify this difference:
     #
     #        (Nx * Ny - ((Ny * (Ny - 1)) / 2)) - ((Ny * (Ny + 1)) / 2)
     #
@@ -45,8 +45,7 @@ def _loss_value(labels):
     #    the denominator in our normalized loss.
     #
     # Finally, we compute the normalized loss as: 
-    # (best - actual) / (best - worst).
-
+    # (optimal - actual) / (optimal - worst).
     return (Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny))
 
 
