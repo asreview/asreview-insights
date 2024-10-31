@@ -139,26 +139,36 @@ quantifying how closely it approximates the ideal screening process. This
 quantification is then normalized between the ideal curve and the worst possible
 curve.
 
+While metrics like WSS, Recall, and ERF evaluate the performance at specific points on the recall curve, the Loss metric provides an overall measure of performance across the entire screening process.
+
 To compute the loss, we start with three key concepts:
 
-1. **Optimal AUC**: This is the area under a "perfect recall curve," where relevant records are identified as early as possible. Mathematically, it is computed as \( Nx \times Ny - \frac{Ny \times (Ny - 1)}{2} \), where \(Nx\) is the total number of records, and \(Ny\) is the number of relevant records.
+1. **Optimal AUC**: This is the area under a "perfect recall curve," where
+   relevant records are identified as early as possible. Mathematically, it is
+   computed as $Nx \times Ny - \frac{Ny \times (Ny - 1)}{2}$, where $Nx$ is the
+   total number of records, and $Ny$ is the number of relevant records.
 
-2. **Worst AUC**: This represents the area under a worst-case recall curve, where all relevant records appear at the end of the screening process. This is calculated as \( \frac{Ny \times (Ny + 1)}{2} \).
+2. **Worst AUC**: This represents the area under a worst-case recall curve,
+   where all relevant records appear at the end of the screening process. This
+   is calculated as $\frac{Ny \times (Ny + 1)}{2}$.
 
-3. **Actual AUC**: This is the area under the recall curve produced by the model during the screening process. It can be obtained by summing up the cumulative recall values for the labeled records.
+3. **Actual AUC**: This is the area under the recall curve produced by the model
+   during the screening process. It can be obtained by summing up the cumulative
+   recall values for the labeled records.
 
-The normalized loss is then calculated by taking the difference between the Best AUC and the Actual AUC, normalized by the difference between the Best AUC and the Worst AUC. After simplification, the formula for normalized loss is:
+The normalized loss is calculated by taking the difference between the optimal
+AUC and the actual AUC, divided by the difference between the optimal AUC and
+the worst AUC.
 
-\[\text{Normalized Loss} = \frac{Ny \times (Nx - \frac{Ny - 1}{2}) - \sum \text{Cumulative Recall}}{Ny \times (Nx - Ny)}\]
+$$\text{Normalized Loss} = \frac{Ny \times \left(Nx - \frac{Ny - 1}{2}\right) -
+\sum \text{Cumulative Recall}}{Ny \times (Nx - Ny)}$$
 
 The lower the loss, the closer the model is to the perfect recall curve,
 indicating higher performance.
 
-![Recall plot showing loss metric.](https://github.com/asreview/asreview-insights/blob/main/figures/loss_metric_example.png)
+![Recall plot illustrating loss metric](https://github.com/asreview/asreview-insights/blob/main/figures/loss_metric_example.png)
 
-This plot illustrates the green area (between the recall curve and the perfect
-recall line) which represents the loss in the model’s performance, normalized
-for the total area (green and red combined).
+In this figure, the green area between the recall curve and the perfect recall line, represents the model's performance loss. This loss is normalized relative to the total area (green and red combined).
 
 ## Basic usage
 
