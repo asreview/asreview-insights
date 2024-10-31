@@ -32,10 +32,8 @@ def _loss_value(labels):
     best_auc = Nx * Ny - ((Ny * (Ny - 1)) / 2)
 
     # Compute recall values (y) based on the provided labels.
-    y = np.array(_recall_values(labels, x_absolute=True, y_absolute=True)[1])
-
     # The actual AUC is the sum of the recall curve.
-    actual_auc = np.sum(y)
+    actual_auc = np.cumsum(labels).sum()
 
     # The worst AUC represents the area under the worst-case step curve, which
     # is the area under the recall curve where all positive labels are clumped
