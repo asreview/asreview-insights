@@ -1,6 +1,6 @@
-import random
 from pathlib import Path
 
+import numpy as np
 from asreview import open_state
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
@@ -124,7 +124,7 @@ def test_loss():
         loss_value = loss(s)
         assert_almost_equal(loss_value, 0.011592855205548452)
 
-def test_loss_value_function():
+def test_loss_value_function(seed=None):
     test_cases = [
         ([1, 0], 0),
         ([0, 1], 1),
@@ -142,11 +142,16 @@ def test_loss_value_function():
         with assert_raises(ValueError):
             _loss_value(labels)
 
+    if seed is not None:
+        np.random.seed(seed)
+
     for _ in range(100):
-        length = random.randint(2, 100)
-        labels = [random.randint(0, 1) for _ in range(length)]
-        if all(label == 0 for label in labels) or all(label == 1 for label in labels):
-            labels[random.randint(0, length - 1)] = 1 - labels[0]
+        length = np.random.randint(2, 100)
+        labels = np.random.randint(0, 2, length)
+        
+        # Ensure labels are not all 0 or all 1
+        if np.all(labels == 0) or np.all(labels == 1):
+            labels[np.random.randint(0, length)] = 1 - labels[0]
+        
         loss_value = _loss_value(labels)
-        assert 0 <= loss_value <= 1, f"Loss value {loss_value} not between 0 and 1 for \
-            labels {labels}"
+        assert 0 <= loss_value <= 1
