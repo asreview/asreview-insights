@@ -150,11 +150,13 @@ To compute the loss, we start with three key concepts:
    computed as $Nx \times Ny - \frac{Ny \times (Ny - 1)}{2}$, where $Nx$ is the
    total number of records, and $Ny$ is the number of relevant records.
 
-2. **Worst AUC**: This represents the area under a worst-case recall curve,
-   where all relevant records appear at the end of the screening process. This
-   is calculated as $\frac{Ny \times (Ny + 1)}{2}$.
+   The Optimal AUC is calculated as the entire area, minus the triangle with impossible performance. As recall is a grid (stepwise curve), we remove the cells on the diagonal of this triangle (hence $Ny - 1$).
 
-3. **Actual AUC**: This is the area under the recall curve produced by the model
+3. **Worst AUC**: This represents the area under a worst-case recall curve,
+   where all relevant records appear at the end of the screening process. This
+   is calculated as $\frac{Ny \times (Ny + 1)}{2}$. Here, same as before, we need to account for the cells on the diagonal. Here we add the cells on the diagonal.
+
+4. **Actual AUC**: This is the area under the recall curve produced by the model
    during the screening process. It can be obtained by summing up the cumulative
    recall values for the labeled records.
 
@@ -164,6 +166,8 @@ the worst AUC.
 
 $$\text{Normalized Loss} = \frac{Ny \times \left(Nx - \frac{Ny - 1}{2}\right) -
 \sum \text{Cumulative Recall}}{Ny \times (Nx - Ny)}$$
+
+> Note: This formula uses the absolute recall values, not the normalized ratio found in the graph below.
 
 The lower the loss, the closer the model is to the perfect recall curve,
 indicating higher performance.
