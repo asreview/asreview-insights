@@ -219,3 +219,5 @@ class MetricsEntryPoint(BaseEntryPoint):
                 output_dict = output_dict[args.asreview_files[0]]
             with open(args.output, "w") as f:
                 json.dump(output_dict, f, indent=4)
+            if args.quiet:
+                print(f"Metrics successfully saved to {args.output}")
