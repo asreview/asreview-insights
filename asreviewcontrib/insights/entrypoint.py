@@ -187,6 +187,11 @@ class MetricsEntryPoint(BaseEntryPoint):
             default=None,
             help="Save the metrics and results to a JSON file.",
         )
+        parser.add_argument(
+            "--quiet",
+            action="store_true",
+            help="Suppress printed output of metrics."
+        )
         args = parser.parse_args(argv)
 
         output_dict = {}
@@ -206,7 +211,8 @@ class MetricsEntryPoint(BaseEntryPoint):
                     version=self.version,
                 )
                 output_dict[asreview_file] = stats
-                print_metrics(stats)
+                if not args.quiet:
+                    print_metrics(stats)
 
         if args.output:
             if len(args.asreview_files) == 1:
