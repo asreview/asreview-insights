@@ -170,6 +170,7 @@ def _tnr(labels, intercept, x_absolute=False):
 
     return _slice_metric(x, y, intercept)
 
+
 def loss(state_obj, priors=False):
     """Compute the loss for active learning problem.
 
@@ -185,6 +186,7 @@ def loss(state_obj, priors=False):
 
     return _loss_value(labels)
 
+
 def get_metrics(
     state_obj,
     recall=None,
@@ -196,14 +198,21 @@ def get_metrics(
     y_absolute=False,
     version=None,
 ):
-    recall = (
-        [recall]
-        if recall and not isinstance(recall, list)
-        else [0.1, 0.25, 0.5, 0.75, 0.9]
-    )
-    wss = [wss] if wss and not isinstance(wss, list) else [0.95]
-    erf = [erf] if erf and not isinstance(erf, list) else [0.10]
-    cm = [cm] if cm and not isinstance(cm, list) else [0.1, 0.25, 0.5, 0.75, 0.9]
+    def ensure_list_of_floats(value, default):
+        if value is None:
+            return default
+        if isinstance(value, float):
+            return [value]
+        if isinstance(value, list) and all(isinstance(i, float) for i in value):
+            return value
+        raise ValueError(
+            f"Invalid input: {value}. Must be a float or a list of floats."
+        )
+
+    recall = ensure_list_of_floats(recall, [0.1, 0.25, 0.5, 0.75, 0.9])
+    wss = ensure_list_of_floats(wss, [0.95])
+    erf = ensure_list_of_floats(erf, [0.10])
+    cm = ensure_list_of_floats(cm, [0.1, 0.25, 0.5, 0.75, 0.9])
 
     labels = _pad_simulation_labels(state_obj, priors=priors)
 
