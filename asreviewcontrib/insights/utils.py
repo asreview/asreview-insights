@@ -1,6 +1,6 @@
 import numpy as np
+from asreview import SQLiteState
 from asreview import open_state
-from asreview.state import SQLiteState
 
 
 def _pad_simulation_labels(state_obj, priors=False):
@@ -21,13 +21,15 @@ def _pad_simulation_labels(state_obj, priors=False):
     """
     if isinstance(state_obj, SQLiteState):
         # get the number of records
-        n_records = state_obj.n_records
+        n_records = len(state_obj.get_last_ranking_table())
 
         # get the labels
-        labels = state_obj.get_labels(priors=priors).to_list()
+        labels = state_obj.get_results_table(columns="label", priors=priors)[
+            "label"
+        ].to_list()
 
         if not priors:
-            n_used_records = n_records - state_obj.n_priors
+            n_used_records = n_records - len(state_obj.get_priors())
         else:
             n_used_records = n_records
 

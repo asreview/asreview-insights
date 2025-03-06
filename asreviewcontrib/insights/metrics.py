@@ -79,7 +79,7 @@ def _erf(labels, intercept, x_absolute=False, y_absolute=False):
 
 
 def time_to_discovery(state_obj, priors=False):
-    labels = state_obj.get_dataset(["record_id", "label"], priors=priors)
+    labels = state_obj.get_results_table(columns=["record_id", "label"], priors=priors)
 
     return _time_to_discovery(labels["record_id"], labels["label"])
 
