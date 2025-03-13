@@ -31,9 +31,9 @@ def get_simulation_labels(asreview_file, priors=False):
             "label"
         ].to_list()
         if priors:
-            n_priors_to_skip = len(state_obj.get_priors())
-        else:
             n_priors_to_skip = 0
+        else:
+            n_priors_to_skip = len(state_obj.get_priors())
 
     n_used_records = n_records - n_priors_to_skip
 
