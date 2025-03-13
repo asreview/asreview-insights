@@ -43,24 +43,24 @@ class PlotEntryPoint(BaseEntryPoint):
         parser.add_argument(
             "--priors",
             action="store_true",
-            help="Include records used as prior knowledge " "in the plot.",
+            help="Include records used as prior knowledge in the plot.",
         )
         parser.add_argument(
             "--no-priors",
             dest="priors",
             action="store_false",
-            help="Exclude records used as prior knowledge " "in the plot. Default.",
+            help="Exclude records used as prior knowledge in the plot. Default.",
         )
         parser.set_defaults(priors=False)
         parser.add_argument(
             "--x_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the x-axis.",
+            help="Make use of absolute coordinates on the x-axis.",
         )
         parser.add_argument(
             "--y_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the y-axis.",
+            help="Make use of absolute coordinates on the y-axis.",
         )
         parser.add_argument(
             "-V",
@@ -156,24 +156,24 @@ class MetricsEntryPoint(BaseEntryPoint):
         parser.add_argument(
             "--priors",
             action="store_true",
-            help="Include records used as prior knowledge " "in the metrics.",
+            help="Include records used as prior knowledge in the metrics.",
         )
         parser.add_argument(
             "--no-priors",
             dest="priors",
             action="store_false",
-            help="Exclude records used as prior knowledge " "in the metrics. Default.",
+            help="Exclude records used as prior knowledge in the metrics. Default.",
         )
         parser.set_defaults(priors=False)
         parser.add_argument(
             "--x_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the x-axis.",
+            help="Make use of absolute coordinates on the x-axis.",
         )
         parser.add_argument(
             "--y_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the y-axis.",
+            help="Make use of absolute coordinates on the y-axis.",
         )
         parser.add_argument(
             "-o",
@@ -182,9 +182,7 @@ class MetricsEntryPoint(BaseEntryPoint):
             help="Save the metrics and results to a JSON file.",
         )
         parser.add_argument(
-            "--quiet",
-            action="store_true",
-            help="Suppress printed output of metrics."
+            "--quiet", action="store_true", help="Suppress printed output of metrics."
         )
         args = parser.parse_args(argv)
 
