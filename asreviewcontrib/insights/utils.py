@@ -1,62 +1,44 @@
+import tempfile
+
 import numpy as np
-from asreview import SQLiteState
+from asreview import Project
 from asreview import open_state
 
 
-def _pad_simulation_labels(state_obj, priors=False):
-    """Get the labels from state file(s).
+def get_simulation_labels(asreview_file, priors=False):
+    """Get the list of labels from an asreview file.
 
     Parameters
     ----------
-    state_obj : (list of) asreview.state.SQLiteState
-        Single state object, or list of multiple state objects.
+    asreview_file : str | Path
+        Path to an asreview file.
     priors : bool, optional
         Include the prior labels, by default False
 
     Returns
     -------
-    list or list of lists
-        List of labels if state_obj is a single state. List of lists of labels
-        if state_obj is a list of states.
+    list[0 | 1]
+        List of labels (0 or 1) from an asreview file. If `priors=False`, the labels of
+        the prior records are skipped.
     """
-    if isinstance(state_obj, SQLiteState):
-        # get the number of records
-        n_records = len(state_obj.get_last_ranking_table())
+    with tempfile.TemporaryDirectory() as tmpdir:
+        project = Project.load(asreview_file=asreview_file, project_path=tmpdir)
+        n_records = len(project.data_store)
 
+    with open_state(asreview_file) as state_obj:
         # get the labels
         labels = state_obj.get_results_table(columns="label", priors=priors)[
             "label"
         ].to_list()
-
-        if not priors:
-            n_used_records = n_records - len(state_obj.get_priors())
+        if priors:
+            n_priors_to_skip = len(state_obj.get_priors())
         else:
-            n_used_records = n_records
+            n_priors_to_skip = 0
 
-        # if less labels than records, check if all labels available
-        if len(labels) < n_used_records:
-            labels = labels + np.zeros(n_used_records - len(labels)).tolist()
+    n_used_records = n_records - n_priors_to_skip
 
-        return labels
-    else:
-        return [
-            _pad_simulation_labels(single_state, priors) for single_state in state_obj
-        ]
+    # if less labels than records, check if all labels available
+    if len(labels) < n_used_records:
+        labels = labels + np.zeros(n_used_records - len(labels)).tolist()
 
-
-def _iter_states(file_paths):
-    """Get a generator of state objects from their filepaths.
-
-    Parameters
-    ----------
-    file_paths : list[Path]
-        List of filepaths of states.
-
-    Yields
-    ------
-    asreview.state.BaseState
-        State at given filepath.
-    """
-    for fp in file_paths:
-        with open_state(fp) as s:
-            yield s
+    return labels

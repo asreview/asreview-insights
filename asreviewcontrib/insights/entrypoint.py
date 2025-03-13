@@ -1,6 +1,5 @@
 import argparse
 import json
-from pathlib import Path
 
 import matplotlib.pyplot as plt
 from asreview import open_state
@@ -11,7 +10,6 @@ from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import print_metrics
-from asreviewcontrib.insights.utils import _iter_states
 
 TYPE_TO_FUNC = {"recall": plot_recall, "wss": plot_wss, "erf": plot_erf}
 
@@ -83,17 +81,13 @@ class PlotEntryPoint(BaseEntryPoint):
         fig, ax = plt.subplots()
         plot_func = TYPE_TO_FUNC[args.plot_type]
         show_legend = False if len(args.asreview_files) == 1 else True
-        state_obj = _iter_states(args.asreview_files)
-        legend_values = [Path(fp).stem for fp in args.asreview_files]
-
         plot_func(
             ax,
-            state_obj,
+            args.asreview_files,
             priors=args.priors,
             x_absolute=args.x_absolute,
             y_absolute=args.y_absolute,
             show_legend=show_legend,
-            legend_values=legend_values,
         )
 
         if args.output:

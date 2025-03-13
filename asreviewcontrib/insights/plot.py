@@ -1,14 +1,16 @@
+from pathlib import Path
+
 import numpy as np
 
 from asreviewcontrib.insights.algorithms import _erf_values
 from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.utils import _pad_simulation_labels
+from asreviewcontrib.insights.utils import get_simulation_labels
 
 
 def plot_recall(
     ax,
-    state_obj,
+    asreview_files,
     priors=False,
     x_absolute=False,
     y_absolute=False,
@@ -22,9 +24,8 @@ def plot_recall(
 
     Arguments
     ---------
-    state_obj: (list of) asreview.state.SQLiteState
-        State object from which to get the labels for the plot, or a list of
-        state objects.
+    asreview_files: str | Path | list[str | Path]
+        (List of) asreview files.
     priors: bool
         Include the prior in plot or not.
     x_absolute: bool
@@ -38,10 +39,11 @@ def plot_recall(
     show_optimal: bool
         Show the optimal recall in the plot.
     show_legend: bool
-        If state_obj contains multiple states, show a legend in the plot.
-    legend_values: list[str]
-        List of values to show in the legend if state_obj contains multiple
-        states and show_legend=True.
+        If `asreview_files` contains multiple files, show a legend in the plot.
+    legend_values: list[str] | None
+        List of values to show in the legend if `asreview_files` contains multiple
+        files and show_legend=True. If `show_legend=True` and this value is `None`,
+        then the names of the asreview files will be used as values in the legend.
     legend_kwargs: dict
         Dictionary of keyword arguments that are passed to the legend. See
         https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
@@ -55,8 +57,13 @@ def plot_recall(
     The recall at T statistic is defined as the number of relevant records
     found after reviewing T records.
     """
-
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+    if not isinstance(asreview_files, list):
+        asreview_files = [asreview_files]
+    labels = []
+    for asreview_file in asreview_files:
+        labels.append(get_simulation_labels(asreview_file=asreview_file, priors=priors))
+    if show_legend and legend_values is None:
+        legend_values = [Path(fp).stem for fp in asreview_files]
 
     return _plot_recall(
         ax,
@@ -73,7 +80,7 @@ def plot_recall(
 
 def plot_wss(
     ax,
-    state_obj,
+    asreview_files,
     priors=False,
     x_absolute=False,
     y_absolute=False,
@@ -85,9 +92,8 @@ def plot_wss(
 
     Arguments
     ---------
-    state_obj: (list of) asreview.state.SQLiteState
-        State object from which to get the labels for the plot, or a list of
-        state objects.
+    asreview_files: str | Path | list[str | Path]
+        (List of) asreview files.
     priors: bool
         Include the prior in plot or not.
     x_absolute: bool
@@ -97,10 +103,11 @@ def plot_wss(
         If True, the number of records reviewed less is on the y-axis.
         If False, the fraction of all records reviewed less is on the y-axis.
     show_legend: bool
-        If state_obj contains multiple states, show a legend in the plot.
-    legend_values: list[str]
-        List of values to show in the legend if state_obj contains multiple
-        states and show_legend=True.
+        If `asreview_files` contains multiple files, show a legend in the plot.
+    legend_values: list[str] | None
+        List of values to show in the legend if `asreview_files` contains multiple
+        files and show_legend=True. If `show_legend=True` and this value is `None`,
+        then the names of the asreview files will be used as values in the legend.
     legend_kwargs: dict
         Dictionary of keyword arguments that are passed to the legend. See
         https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
@@ -141,8 +148,13 @@ def plot_wss(
     -------
     [Can we include the stats_explainer picture in the docs?]
     """
-
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+    if not isinstance(asreview_files, list):
+        asreview_files = [asreview_files]
+    labels = []
+    for asreview_file in asreview_files:
+        labels.append(get_simulation_labels(asreview_file=asreview_file, priors=priors))
+    if show_legend and legend_values is None:
+        legend_values = [Path(fp).stem for fp in asreview_files]
 
     return _plot_wss(
         ax,
@@ -157,7 +169,7 @@ def plot_wss(
 
 def plot_erf(
     ax,
-    state_obj,
+    asreview_files,
     priors=False,
     x_absolute=False,
     y_absolute=False,
@@ -169,9 +181,8 @@ def plot_erf(
 
     Arguments
     ---------
-    state_obj: (list of) asreview.state.SQLiteState
-        State object from which to get the labels for the plot, or a list of
-        state objects.
+    asreview_files: str | Path | list[str | Path]
+        (List of) asreview files.
     priors: bool
         Include the prior in plot or not.
     x_absolute: bool
@@ -181,10 +192,11 @@ def plot_erf(
         If True, the number of included records found is on the y-axis.
         If False, the fraction of all included records found is on the y-axis.
     show_legend: bool
-        If state_obj contains multiple states, show a legend in the plot.
-    legend_values: list[str]
-        List of values to show in the legend if state_obj contains multiple
-        states and show_legend=True.
+        If `asreview_files` contains multiple files, show a legend in the plot.
+    legend_values: list[str] | None
+        List of values to show in the legend if `asreview_files` contains multiple
+        files and show_legend=True. If `show_legend=True` and this value is `None`,
+        then the names of the asreview files will be used as values in the legend.
     legend_kwargs: dict
         Dictionary of keyword arguments that are passed to the legend. See
         https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
@@ -220,8 +232,13 @@ def plot_erf(
     -------
     [Can we include the stats_explainer picture in the docs?]
     """
-
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+    if not isinstance(asreview_files, list):
+        asreview_files = [asreview_files]
+    labels = []
+    for asreview_file in asreview_files:
+        labels.append(get_simulation_labels(asreview_file=asreview_file, priors=priors))
+    if show_legend and legend_values is None:
+        legend_values = [Path(fp).stem for fp in asreview_files]
 
     return _plot_erf(
         ax,
