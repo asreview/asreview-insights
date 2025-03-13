@@ -64,17 +64,13 @@ def test_plot_wss():
     fig, ax = plt.subplots()
     plot_wss(ax, fp)
     fig.savefig(
-        Path(
-            TEST_FIGURES, "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png"
-        )
+        Path(TEST_FIGURES, "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png")
     )
 
     fig, ax = plt.subplots()
     plot_wss(ax, fp)
     fig.savefig(
-        Path(
-            TEST_FIGURES, "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png"
-        )
+        Path(TEST_FIGURES, "tests_wss_default_sim_van_de_schoot_2017_stop_if_min.png")
     )
 
     fig, ax = plt.subplots()
@@ -113,17 +109,13 @@ def test_plot_erf():
     fig, ax = plt.subplots()
     plot_erf(ax, fp)
     fig.savefig(
-        Path(
-            TEST_FIGURES, "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png"
-        )
+        Path(TEST_FIGURES, "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png")
     )
 
     fig, ax = plt.subplots()
     plot_erf(ax, fp)
     fig.savefig(
-        Path(
-            TEST_FIGURES, "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png"
-        )
+        Path(TEST_FIGURES, "tests_erf_default_sim_van_de_schoot_2017_stop_if_min.png")
     )
 
     fig, ax = plt.subplots()

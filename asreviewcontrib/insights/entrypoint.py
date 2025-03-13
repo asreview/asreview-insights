@@ -2,7 +2,6 @@ import argparse
 import json
 
 import matplotlib.pyplot as plt
-from asreview import open_state
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.insights import plot_erf

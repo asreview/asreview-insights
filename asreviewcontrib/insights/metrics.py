@@ -94,7 +94,7 @@ def _time_to_discovery(record_ids, labels):
     v_rel = record_ids[labels == 1]
     i_rel = np.arange(len(labels))[labels == 1] + 1
 
-    return list(zip(v_rel.tolist(), i_rel.tolist()))
+    return list(zip(v_rel.tolist(), i_rel.tolist(), strict=True))
 
 
 def average_time_to_discovery(asreview_file, priors=False):
@@ -246,12 +246,14 @@ def get_metrics(
                 {
                     "id": "recall",
                     "title": "Recall",
-                    "value": [(i, v) for i, v in zip(recall, recall_values)],
+                    "value": [
+                        (i, v) for i, v in zip(recall, recall_values, strict=True)
+                    ],
                 },
                 {
                     "id": "wss",
                     "title": "Work Saved over Sampling",
-                    "value": [(i, v) for i, v in zip(wss, wss_values)],
+                    "value": [(i, v) for i, v in zip(wss, wss_values, strict=True)],
                 },
                 {
                     "id": "loss",
@@ -261,7 +263,7 @@ def get_metrics(
                 {
                     "id": "erf",
                     "title": "Extra Relevant record Found",
-                    "value": [(i, v) for i, v in zip(erf, erf_values)],
+                    "value": [(i, v) for i, v in zip(erf, erf_values, strict=True)],
                 },
                 {
                     "id": "atd",
@@ -272,27 +274,27 @@ def get_metrics(
                 {
                     "id": "tp",
                     "title": "True Positives",
-                    "value": [(i, v) for i, v in zip(cm, tp_values)],
+                    "value": [(i, v) for i, v in zip(cm, tp_values, strict=True)],
                 },
                 {
                     "id": "fp",
                     "title": "False Positives",
-                    "value": [(i, v) for i, v in zip(cm, fp_values)],
+                    "value": [(i, v) for i, v in zip(cm, fp_values, strict=True)],
                 },
                 {
                     "id": "tn",
                     "title": "True Negatives",
-                    "value": [(i, v) for i, v in zip(cm, tn_values)],
+                    "value": [(i, v) for i, v in zip(cm, tn_values, strict=True)],
                 },
                 {
                     "id": "fn",
                     "title": "False Negatives",
-                    "value": [(i, v) for i, v in zip(cm, fn_values)],
+                    "value": [(i, v) for i, v in zip(cm, fn_values, strict=True)],
                 },
                 {
                     "id": "tnr",
                     "title": "True Negative Rate (Specificity)",
-                    "value": [(i, v) for i, v in zip(cm, tnr_values)],
+                    "value": [(i, v) for i, v in zip(cm, tnr_values, strict=True)],
                 },
             ]
         },

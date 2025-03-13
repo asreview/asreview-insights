@@ -17,7 +17,6 @@ from asreviewcontrib.insights.metrics import recall
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
 
 
-
 def test_metric_recall_small_data():
     labels = [1, 1, 1, 0]
     r = _recall(labels, 0.5)
@@ -110,10 +109,12 @@ def test_label_padding():
 
     assert stop_if_min == stop_if_full
 
+
 def test_loss():
     fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
     loss_value = loss(fp)
     assert_almost_equal(loss_value, 0.011592855205548452)
+
 
 def test_loss_value_function(seed=None):
     test_cases = [
@@ -121,7 +122,7 @@ def test_loss_value_function(seed=None):
         ([0, 1], 1),
         ([1, 1, 0, 0, 0], 0),
         ([0, 0, 0, 1, 1], 1),
-        ([1, 0, 1], 0.5)
+        ([1, 0, 1], 0.5),
     ]
 
     for labels, expected_value in test_cases:
@@ -139,18 +140,20 @@ def test_loss_value_function(seed=None):
     for _ in range(100):
         length = np.random.randint(2, 100)
         labels = np.random.randint(0, 2, length)
-        
+
         # Ensure labels are not all 0 or all 1
         if np.all(labels == 0) or np.all(labels == 1):
             labels[np.random.randint(0, length)] = 1 - labels[0]
-        
+
         loss_value = _loss_value(labels)
         assert 0 <= loss_value <= 1
-    
+
+
 def test_single_value_formats():
-    assert isinstance(_wss([1,1,0,0], 0.5), float)
-    assert isinstance(_loss_value([1,1,0,0]), float)
-    assert isinstance(_erf([1,1,0,0], 0.5), float)
+    assert isinstance(_wss([1, 1, 0, 0], 0.5), float)
+    assert isinstance(_loss_value([1, 1, 0, 0]), float)
+    assert isinstance(_erf([1, 1, 0, 0], 0.5), float)
+
 
 def test_get_metrics():
     fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
@@ -158,13 +161,13 @@ def test_get_metrics():
 
     wss_data = next(
         (item["value"] for item in metrics["data"]["items"] if item["id"] == "wss"),
-        None
+        None,
     )
     assert wss_data is not None, "WSS key missing in metrics"
 
     erf_data = next(
         (item["value"] for item in metrics["data"]["items"] if item["id"] == "erf"),
-        None
+        None,
     )
     assert erf_data is not None, "ERF key missing in metrics"
 
