@@ -190,23 +190,22 @@ class MetricsEntryPoint(BaseEntryPoint):
 
         output_dict = {}
         for asreview_file in args.asreview_files:
-            with open_state(asreview_file) as s:
-                if len(args.asreview_files) > 1:
-                    print(f"Calculating metrics for {asreview_file}")
-                stats = get_metrics(
-                    s,
-                    recall=args.recall,
-                    wss=args.wss,
-                    erf=args.erf,
-                    cm=args.cm,
-                    priors=args.priors,
-                    x_absolute=args.x_absolute,
-                    y_absolute=args.y_absolute,
-                    version=self.version,
-                )
-                output_dict[asreview_file] = stats
-                if not args.quiet:
-                    print_metrics(stats)
+            if len(args.asreview_files) > 1:
+                print(f"Calculating metrics for {asreview_file}")
+            stats = get_metrics(
+                asreview_file,
+                recall=args.recall,
+                wss=args.wss,
+                erf=args.erf,
+                cm=args.cm,
+                priors=args.priors,
+                x_absolute=args.x_absolute,
+                y_absolute=args.y_absolute,
+                version=self.version,
+            )
+            output_dict[asreview_file] = stats
+            if not args.quiet:
+                print_metrics(stats)
 
         if args.output:
             if len(args.asreview_files) == 1:

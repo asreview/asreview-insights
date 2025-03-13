@@ -11,7 +11,7 @@ from asreviewcontrib.insights.algorithms import _recall_values
 from asreviewcontrib.insights.algorithms import _tn_values
 from asreviewcontrib.insights.algorithms import _tp_values
 from asreviewcontrib.insights.algorithms import _wss_values
-from asreviewcontrib.insights.utils import _pad_simulation_labels
+from asreviewcontrib.insights.utils import get_simulation_labels
 
 
 def _slice_metric(x, y, intercept):
@@ -39,8 +39,8 @@ def _slice_metric(x, y, intercept):
     return y[i - 1]
 
 
-def recall(state_obj, intercept, priors=False, x_absolute=False, y_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def recall(asreview_file, intercept, priors=False, x_absolute=False, y_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _recall(labels, intercept, x_absolute=x_absolute, y_absolute=y_absolute)
 
@@ -54,8 +54,8 @@ def _recall(labels, intercept, x_absolute=False, y_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def wss(state_obj, intercept, priors=False, x_absolute=False, y_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def wss(asreview_file, intercept, priors=False, x_absolute=False, y_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _wss(labels, intercept, x_absolute=x_absolute, y_absolute=y_absolute)
 
@@ -66,8 +66,8 @@ def _wss(labels, intercept, x_absolute=False, y_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def erf(state_obj, intercept, priors=False, x_absolute=False, y_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def erf(asreview_file, intercept, priors=False, x_absolute=False, y_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _erf(labels, intercept, x_absolute=x_absolute, y_absolute=y_absolute)
 
@@ -78,10 +78,13 @@ def _erf(labels, intercept, x_absolute=False, y_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def time_to_discovery(state_obj, priors=False):
-    labels = state_obj.get_results_table(columns=["record_id", "label"], priors=priors)
+def time_to_discovery(asreview_file, priors=False):
+    with asreview.open_state(asreview_file) as state_obj:
+        data = state_obj.get_results_table(
+            columns=["record_id", "label"], priors=priors
+        )
 
-    return _time_to_discovery(labels["record_id"], labels["label"])
+    return _time_to_discovery(data["record_id"], data["label"])
 
 
 def _time_to_discovery(record_ids, labels):
@@ -94,10 +97,11 @@ def _time_to_discovery(record_ids, labels):
     return list(zip(v_rel.tolist(), i_rel.tolist()))
 
 
-def average_time_to_discovery(state_obj, priors=False):
-    labels = state_obj.get_dataset(["record_id", "label"], priors=priors)
+def average_time_to_discovery(asreview_file, priors=False):
+    with asreview.open_state(asreview_file) as state_obj:
+        data = state_obj.get_dataset(["record_id", "label"], priors=priors)
 
-    td = _time_to_discovery(labels["record_id"], labels["label"])
+    td = _time_to_discovery(data["record_id"], data["label"])
     return _average_time_to_discovery(td)
 
 
@@ -105,8 +109,8 @@ def _average_time_to_discovery(td):
     return float(np.mean([v for i, v in td]))
 
 
-def tp(state_obj, intercept, priors=False, x_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def tp(asreview_file, intercept, priors=False, x_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _tp(labels, intercept, x_absolute=x_absolute)
 
@@ -117,8 +121,8 @@ def _tp(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def fp(state_obj, intercept, priors=False, x_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def fp(asreview_file, intercept, priors=False, x_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _fp(labels, intercept, x_absolute=x_absolute)
 
@@ -129,8 +133,8 @@ def _fp(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def tn(state_obj, intercept, priors=False, x_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def tn(asreview_file, intercept, priors=False, x_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _tn(labels, intercept, x_absolute=x_absolute)
 
@@ -141,8 +145,8 @@ def _tn(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def fn(state_obj, intercept, priors=False, x_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def fn(asreview_file, intercept, priors=False, x_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _fn(labels, intercept, x_absolute=x_absolute)
 
@@ -153,8 +157,8 @@ def _fn(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def tnr(state_obj, intercept, priors=False, x_absolute=False):
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+def tnr(asreview_file, intercept, priors=False, x_absolute=False):
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _tnr(labels, intercept, x_absolute=x_absolute)
 
@@ -171,7 +175,7 @@ def _tnr(labels, intercept, x_absolute=False):
     return _slice_metric(x, y, intercept)
 
 
-def loss(state_obj, priors=False):
+def loss(asreview_file, priors=False):
     """Compute the loss for active learning problem.
 
     Computes the loss for active learning problem where all relevant records
@@ -182,13 +186,13 @@ def loss(state_obj, priors=False):
     Returns:
         float: The loss value.
     """
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+    labels = get_simulation_labels(asreview_file=asreview_file, priors=priors)
 
     return _loss_value(labels)
 
 
 def get_metrics(
-    state_obj,
+    asreview_file,
     recall=None,
     wss=None,
     erf=None,
@@ -214,9 +218,9 @@ def get_metrics(
     erf = ensure_list_of_floats(erf, [0.10])
     cm = ensure_list_of_floats(cm, [0.1, 0.25, 0.5, 0.75, 0.9])
 
-    labels = _pad_simulation_labels(state_obj, priors=priors)
+    labels = get_simulation_labels(asreview_file, priors=priors)
 
-    td = time_to_discovery(state_obj)
+    td = time_to_discovery(asreview_file)
 
     recall_values = [
         _recall(labels, v, x_absolute=x_absolute, y_absolute=y_absolute) for v in recall
