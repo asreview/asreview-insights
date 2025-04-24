@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        asr_versions: ['2.0b']
+        asr_versions: ['2.0b5']
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -29,6 +29,6 @@ jobs:
     - name: Install packages and run tests
       run: |
         pip install pytest
-        pip install asreview==${{ matrix.asr_versions }}
+        pip install asreview~=${{ matrix.asr_versions }}
         pip install .
         pytest tests
