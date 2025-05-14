@@ -11,6 +11,11 @@ especially useful in combination with the [simulation
 functionality](https://asreview.readthedocs.io/en/latest/simulation_overview.html)
 of ASReview LAB.
 
+Compatibility:
+
+- **ASReview Insights 1.0-1.5** requires asreview version 1
+- **ASReview Insights 1.6 and later** requires asreview version 2
+
 ## Installation
 
 ASReview Insights can be installed from PyPI:
