@@ -44,9 +44,11 @@ def _loss_value(labels):
     #    This simplifies to the hyperbolic paraboloid Ny * (Nx - Ny), which is
     #    the denominator in our normalized loss.
     #
-    # Finally, we compute the normalized loss as: 
+    # Finally, we compute the normalized loss as:
     # (optimal - actual) / (optimal - worst).
-    return float((Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny)))  # noqa: E501
+    return float(
+        (Ny * (Nx - (Ny - 1) / 2) - np.cumsum(labels).sum()) / (Ny * (Nx - Ny))
+    )  # noqa: E501
 
 
 def _wss_values(labels, x_absolute=False, y_absolute=False):

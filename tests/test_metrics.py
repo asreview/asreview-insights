@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-from asreview import open_state
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_raises
@@ -16,7 +15,6 @@ from asreviewcontrib.insights.metrics import loss
 from asreviewcontrib.insights.metrics import recall
 
 TEST_ASREVIEW_FILES = Path(Path(__file__).parent, "asreview_files")
-
 
 
 def test_metric_recall_small_data():
@@ -90,41 +88,33 @@ def test_time_to_disc():
 
 
 def test_metric_recall():
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
-    ) as s:
-        assert_almost_equal(recall(s, 0.25), 1)
+    fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    assert_almost_equal(recall(fp, 0.25), 1)
 
 
 def test_metric_priors():
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
-    ) as s:
-        r_priors = recall(s, 0.01, priors=True)
-        r_no_priors = recall(s, 0.01, priors=False)
+    fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    r_priors = recall(fp, 0.01, priors=True)
+    r_no_priors = recall(fp, 0.01, priors=False)
 
-        assert not array_equal(r_priors, r_no_priors)
+    assert not array_equal(r_priors, r_no_priors)
 
 
 def test_label_padding():
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
-    ) as s:
-        stop_if_min = get_metrics(s)
+    fp1 = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    stop_if_min = get_metrics(fp1)
 
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_full.asreview")
-    ) as s:
-        stop_if_full = get_metrics(s)
+    fp2 = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_full.asreview")
+    stop_if_full = get_metrics(fp2)
 
     assert stop_if_min == stop_if_full
 
+
 def test_loss():
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
-    ) as s:
-        loss_value = loss(s)
-        assert_almost_equal(loss_value, 0.011592855205548452)
+    fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    loss_value = loss(fp)
+    assert_almost_equal(loss_value, 0.011592855205548452)
+
 
 def test_loss_value_function(seed=None):
     test_cases = [
@@ -132,7 +122,7 @@ def test_loss_value_function(seed=None):
         ([0, 1], 1),
         ([1, 1, 0, 0, 0], 0),
         ([0, 0, 0, 1, 1], 1),
-        ([1, 0, 1], 0.5)
+        ([1, 0, 1], 0.5),
     ]
 
     for labels, expected_value in test_cases:
@@ -150,34 +140,34 @@ def test_loss_value_function(seed=None):
     for _ in range(100):
         length = np.random.randint(2, 100)
         labels = np.random.randint(0, 2, length)
-        
+
         # Ensure labels are not all 0 or all 1
         if np.all(labels == 0) or np.all(labels == 1):
             labels[np.random.randint(0, length)] = 1 - labels[0]
-        
+
         loss_value = _loss_value(labels)
         assert 0 <= loss_value <= 1
-    
+
+
 def test_single_value_formats():
-    assert isinstance(_wss([1,1,0,0], 0.5), float)
-    assert isinstance(_loss_value([1,1,0,0]), float)
-    assert isinstance(_erf([1,1,0,0], 0.5), float)
+    assert isinstance(_wss([1, 1, 0, 0], 0.5), float)
+    assert isinstance(_loss_value([1, 1, 0, 0]), float)
+    assert isinstance(_erf([1, 1, 0, 0], 0.5), float)
+
 
 def test_get_metrics():
-    with open_state(
-        Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
-    ) as s:
-        metrics = get_metrics(s, wss=[0.75, 0.85, 0.95], erf=[0.75, 0.85, 0.95])
+    fp = Path(TEST_ASREVIEW_FILES, "sim_van_de_schoot_2017_stop_if_min.asreview")
+    metrics = get_metrics(fp, wss=[0.75, 0.85, 0.95], erf=[0.75, 0.85, 0.95])
 
     wss_data = next(
         (item["value"] for item in metrics["data"]["items"] if item["id"] == "wss"),
-        None
+        None,
     )
     assert wss_data is not None, "WSS key missing in metrics"
 
     erf_data = next(
         (item["value"] for item in metrics["data"]["items"] if item["id"] == "erf"),
-        None
+        None,
     )
     assert erf_data is not None, "ERF key missing in metrics"
 

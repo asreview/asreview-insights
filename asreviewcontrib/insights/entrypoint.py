@@ -1,9 +1,7 @@
 import argparse
 import json
-from pathlib import Path
 
 import matplotlib.pyplot as plt
-from asreview import open_state
 from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.insights import plot_erf
@@ -11,7 +9,6 @@ from asreviewcontrib.insights import plot_recall
 from asreviewcontrib.insights import plot_wss
 from asreviewcontrib.insights.metrics import get_metrics
 from asreviewcontrib.insights.metrics import print_metrics
-from asreviewcontrib.insights.utils import _iter_states
 
 TYPE_TO_FUNC = {"recall": plot_recall, "wss": plot_wss, "erf": plot_erf}
 
@@ -45,24 +42,24 @@ class PlotEntryPoint(BaseEntryPoint):
         parser.add_argument(
             "--priors",
             action="store_true",
-            help="Include records used as prior knowledge " "in the plot.",
+            help="Include records used as prior knowledge in the plot.",
         )
         parser.add_argument(
             "--no-priors",
             dest="priors",
             action="store_false",
-            help="Exclude records used as prior knowledge " "in the plot. Default.",
+            help="Exclude records used as prior knowledge in the plot. Default.",
         )
         parser.set_defaults(priors=False)
         parser.add_argument(
             "--x_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the x-axis.",
+            help="Make use of absolute coordinates on the x-axis.",
         )
         parser.add_argument(
             "--y_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the y-axis.",
+            help="Make use of absolute coordinates on the y-axis.",
         )
         parser.add_argument(
             "-V",
@@ -83,17 +80,13 @@ class PlotEntryPoint(BaseEntryPoint):
         fig, ax = plt.subplots()
         plot_func = TYPE_TO_FUNC[args.plot_type]
         show_legend = False if len(args.asreview_files) == 1 else True
-        state_obj = _iter_states(args.asreview_files)
-        legend_values = [Path(fp).stem for fp in args.asreview_files]
-
         plot_func(
             ax,
-            state_obj,
+            args.asreview_files,
             priors=args.priors,
             x_absolute=args.x_absolute,
             y_absolute=args.y_absolute,
             show_legend=show_legend,
-            legend_values=legend_values,
         )
 
         if args.output:
@@ -162,24 +155,24 @@ class MetricsEntryPoint(BaseEntryPoint):
         parser.add_argument(
             "--priors",
             action="store_true",
-            help="Include records used as prior knowledge " "in the metrics.",
+            help="Include records used as prior knowledge in the metrics.",
         )
         parser.add_argument(
             "--no-priors",
             dest="priors",
             action="store_false",
-            help="Exclude records used as prior knowledge " "in the metrics. Default.",
+            help="Exclude records used as prior knowledge in the metrics. Default.",
         )
         parser.set_defaults(priors=False)
         parser.add_argument(
             "--x_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the x-axis.",
+            help="Make use of absolute coordinates on the x-axis.",
         )
         parser.add_argument(
             "--y_absolute",
             action="store_true",
-            help="Make use of absolute coordinates on" " the y-axis.",
+            help="Make use of absolute coordinates on the y-axis.",
         )
         parser.add_argument(
             "-o",
@@ -188,31 +181,28 @@ class MetricsEntryPoint(BaseEntryPoint):
             help="Save the metrics and results to a JSON file.",
         )
         parser.add_argument(
-            "--quiet",
-            action="store_true",
-            help="Suppress printed output of metrics."
+            "--quiet", action="store_true", help="Suppress printed output of metrics."
         )
         args = parser.parse_args(argv)
 
         output_dict = {}
         for asreview_file in args.asreview_files:
-            with open_state(asreview_file) as s:
-                if len(args.asreview_files) > 1:
-                    print(f"Calculating metrics for {asreview_file}")
-                stats = get_metrics(
-                    s,
-                    recall=args.recall,
-                    wss=args.wss,
-                    erf=args.erf,
-                    cm=args.cm,
-                    priors=args.priors,
-                    x_absolute=args.x_absolute,
-                    y_absolute=args.y_absolute,
-                    version=self.version,
-                )
-                output_dict[asreview_file] = stats
-                if not args.quiet:
-                    print_metrics(stats)
+            if len(args.asreview_files) > 1:
+                print(f"Calculating metrics for {asreview_file}")
+            stats = get_metrics(
+                asreview_file,
+                recall=args.recall,
+                wss=args.wss,
+                erf=args.erf,
+                cm=args.cm,
+                priors=args.priors,
+                x_absolute=args.x_absolute,
+                y_absolute=args.y_absolute,
+                version=self.version,
+            )
+            output_dict[asreview_file] = stats
+            if not args.quiet:
+                print_metrics(stats)
 
         if args.output:
             if len(args.asreview_files) == 1:
