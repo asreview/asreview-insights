@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        asr_versions: ['2.0b5']
+        asr_versions: ['2.0']
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
