@@ -2,7 +2,6 @@ import argparse
 import json
 
 import matplotlib.pyplot as plt
-from asreview.entry_points import BaseEntryPoint
 
 from asreviewcontrib.insights import plot_erf
 from asreviewcontrib.insights import plot_recall
@@ -13,10 +12,7 @@ from asreviewcontrib.insights.metrics import print_metrics
 TYPE_TO_FUNC = {"recall": plot_recall, "wss": plot_wss, "erf": plot_erf}
 
 
-class PlotEntryPoint(BaseEntryPoint):
-    description = "Plotting functionality for ASReview files."
-    extension_name = "asreview-insights"
-
+class PlotEntryPoint:
     @property
     def version(self):
         from asreviewcontrib.insights.__init__ import __version__
@@ -95,10 +91,7 @@ class PlotEntryPoint(BaseEntryPoint):
             plt.show()
 
 
-class MetricsEntryPoint(BaseEntryPoint):
-    description = "Metrics entry point."
-    extension_name = "asreview-insights"
-
+class MetricsEntryPoint:
     @property
     def version(self):
         from asreviewcontrib.insights.__init__ import __version__
